@@ -2,10 +2,11 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, Lightbulb, Wrench, Target, Heart, Sparkles } from 'lucide-react';
+import { Zap, Lightbulb, Wrench, Target, Heart, Sparkles, Code } from 'lucide-react';
 import CircuitSimulator from '../components/CircuitSimulator';
 import LearningModules from '../components/LearningModules';
 import ProgressTracker from '../components/ProgressTracker';
+import EmbeddedSystemsChallenges from '../components/EmbeddedSystemsChallenges';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -18,6 +19,8 @@ const Index = () => {
         return <LearningModules />;
       case 'progress':
         return <ProgressTracker />;
+      case 'embedded':
+        return <EmbeddedSystemsChallenges />;
       default:
         return <HomeSection setActiveSection={setActiveSection} />;
     }
@@ -46,6 +49,7 @@ const Index = () => {
               { id: 'home', label: 'Home', icon: Heart },
               { id: 'simulator', label: 'Simulator', icon: Zap },
               { id: 'learn', label: 'Learn', icon: Lightbulb },
+              { id: 'embedded', label: 'Embedded', icon: Code },
               { id: 'progress', label: 'Progress', icon: Target }
             ].map(({ id, label, icon: Icon }) => (
               <Button
@@ -115,11 +119,19 @@ const HomeSection = ({ setActiveSection }: { setActiveSection: (section: string)
             <Lightbulb className="mr-2 h-5 w-5" />
             Learn Concepts
           </Button>
+          <Button 
+            size="lg" 
+            onClick={() => setActiveSection('embedded')}
+            className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-8 py-3 text-lg"
+          >
+            <Code className="mr-2 h-5 w-5" />
+            Code Challenges!
+          </Button>
         </div>
       </div>
 
       {/* Feature Cards */}
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-4 gap-6">
         <Card className="border-blue-200 hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2 text-blue-600">
@@ -160,6 +172,28 @@ const HomeSection = ({ setActiveSection }: { setActiveSection: (section: string)
               className="w-full border-green-300 text-green-600 hover:bg-green-50"
             >
               Start Learning!
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="border-orange-200 hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2 text-orange-600">
+              <Code className="h-6 w-6" />
+              <span>Code Challenges</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 mb-4">
+              Master embedded systems with real Arduino challenges! Code, simulate, and solve 
+              practical engineering problems. Ready to level up? 🚀
+            </p>
+            <Button 
+              variant="outline"
+              onClick={() => setActiveSection('embedded')}
+              className="w-full border-orange-300 text-orange-600 hover:bg-orange-50"
+            >
+              Start Coding!
             </Button>
           </CardContent>
         </Card>
