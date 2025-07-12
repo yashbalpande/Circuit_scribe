@@ -2,93 +2,56 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { 
-  BookOpen, 
-  Clock, 
-  User, 
-  ArrowRight, 
-  Zap, 
-  Code, 
-  Lightbulb, 
-  Wrench,
-  Cpu,
-  Battery,
-  Gauge
-} from 'lucide-react';
+import { BookOpen, Clock, User, ArrowRight, Zap } from 'lucide-react';
 
 const Blog = () => {
   const articles = [
     {
       id: 1,
-      title: "Getting Started with Arduino: Your First LED Blink",
-      excerpt: "Learn the fundamentals of Arduino programming by creating your first circuit - a blinking LED. This beginner-friendly guide covers everything from setting up your Arduino IDE to understanding basic programming concepts.",
-      author: "Circuit Scribe Team",
+      title: "Building an LED Blinker Circuit with Arduino",
+      excerpt: `Light Emitting Diodes (LEDs) are semiconductor devices that emit light when current flows through them. To control an LED with a microcontroller like Arduino, we need to understand a few key concepts:
+
+1. **Forward Voltage**: LEDs have a forward voltage drop (typically 1.8-3.3V depending on color)
+2. **Current Limiting**: LEDs require current limiting resistors to prevent damage
+3. **Digital I/O**: Arduino pins can source/sink current to drive LEDs
+4. **PWM (Pulse Width Modulation)**: Technique to control LED brightness by rapidly switching the pin on/off
+
+For a basic LED circuit, we calculate the resistor value using Ohm's law:
+R = (Vsupply - Vled) / Iled
+
+Where:
+- Vsupply = 5V (Arduino supply)
+- Vled = 2.0V (typical red LED)
+- Iled = 20mA (desired current)
+
+Therefore: R = (5-2)/0.02 = 150Ω (use 220Ω for safety margin)
+
+---
+
+**Arduino LED Blinker Code**
+
+void setup() {
+  pinMode(13, OUTPUT);
+}
+void loop() {
+  digitalWrite(13, HIGH);
+  delay(1000);
+  digitalWrite(13, LOW);
+  delay(1000);
+}
+
+---
+
+**Circuit Simulation**
+
+This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω current-limiting resistor. The LED will blink on and off every second.`,
+      author: "Circuit Scribe",
       date: "2024-01-15",
       readTime: "8 min read",
       category: "Beginner",
-      tags: ["Arduino", "LED", "Basics"],
+      tags: ["Arduino", "LED", "Beginner", "PWM"],
       icon: Zap,
       featured: true
-    },
-    {
-      id: 2,
-      title: "Understanding PWM: Pulse Width Modulation Explained",
-      excerpt: "Dive deep into PWM technology and learn how to control LED brightness, servo motors, and create smooth analog-like outputs using digital signals. Perfect for intermediate Arduino users.",
-      author: "Circuit Scribe Team",
-      date: "2024-01-10",
-      readTime: "12 min read",
-      category: "Intermediate",
-      tags: ["PWM", "Analog", "Control"],
-      icon: Gauge,
-      featured: false
-    },
-    {
-      id: 3,
-      title: "Building a Smart Home Sensor Network",
-      excerpt: "Create a network of sensors to monitor your home environment. Learn about I2C communication, sensor interfacing, and data logging with Arduino and various sensors.",
-      author: "Circuit Scribe Team",
-      date: "2024-01-08",
-      readTime: "15 min read",
-      category: "Advanced",
-      tags: ["IoT", "Sensors", "Networking"],
-      icon: Cpu,
-      featured: false
-    },
-    {
-      id: 4,
-      title: "Debugging Arduino Code: Common Mistakes and Solutions",
-      excerpt: "Master the art of debugging Arduino projects. Learn about common programming errors, how to use the Serial Monitor effectively, and troubleshooting techniques for hardware issues.",
-      author: "Circuit Scribe Team",
-      date: "2024-01-05",
-      readTime: "10 min read",
-      category: "Beginner",
-      tags: ["Debugging", "Troubleshooting", "Tips"],
-      icon: Wrench,
-      featured: false
-    },
-    {
-      id: 5,
-      title: "Power Management in Embedded Systems",
-      excerpt: "Explore efficient power management techniques for battery-powered Arduino projects. Learn about sleep modes, power consumption optimization, and extending battery life.",
-      author: "Circuit Scribe Team",
-      date: "2024-01-03",
-      readTime: "14 min read",
-      category: "Intermediate",
-      tags: ["Power", "Battery", "Optimization"],
-      icon: Battery,
-      featured: false
-    },
-    {
-      id: 6,
-      title: "Advanced Arduino Libraries: Beyond the Basics",
-      excerpt: "Discover powerful Arduino libraries that can take your projects to the next level. From display libraries to advanced communication protocols, expand your Arduino capabilities.",
-      author: "Circuit Scribe Team",
-      date: "2024-01-01",
-      readTime: "11 min read",
-      category: "Intermediate",
-      tags: ["Libraries", "Advanced", "Programming"],
-      icon: Code,
-      featured: false
     }
   ];
 
@@ -147,10 +110,72 @@ const Blog = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-700 dark:text-gray-300 mb-6 text-lg leading-relaxed">
-                {article.excerpt}
-              </p>
-              <div className="flex items-center justify-between">
+              {/* Section: Understanding LED Control */}
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-blue-700 dark:text-blue-300">
+                  <span>💡</span> Understanding LED Control
+                </h3>
+                <div className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-900">
+                  <p className="mb-3 text-gray-800 dark:text-gray-200">
+                    Light Emitting Diodes (LEDs) are semiconductor devices that emit light when current flows through them. To control an LED with a microcontroller like Arduino, we need to understand a few key concepts:
+                  </p>
+                  <ul className="list-disc pl-6 mb-3 text-gray-800 dark:text-gray-200">
+                    <li><b>Forward Voltage</b>: LEDs have a forward voltage drop (typically 1.8-3.3V depending on color)</li>
+                    <li><b>Current Limiting</b>: LEDs require current limiting resistors to prevent damage</li>
+                    <li><b>Digital I/O</b>: Arduino pins can source/sink current to drive LEDs</li>
+                    <li><b>PWM (Pulse Width Modulation)</b>: Technique to control LED brightness by rapidly switching the pin on/off</li>
+                  </ul>
+                  <p className="mb-1 text-gray-800 dark:text-gray-200">For a basic LED circuit, we calculate the resistor value using Ohm's law:</p>
+                  <pre className="bg-gray-100 dark:bg-gray-800 rounded p-2 text-sm mb-1">R = (Vsupply - Vled) / Iled</pre>
+                  <ul className="list-none pl-0 mb-1 text-gray-800 dark:text-gray-200">
+                    <li>- Vsupply = 5V (Arduino supply)</li>
+                    <li>- Vled = 2.0V (typical red LED)</li>
+                    <li>- Iled = 20mA (desired current)</li>
+                  </ul>
+                  <p className="mb-0 text-gray-800 dark:text-gray-200">Therefore: <b>R = (5-2)/0.02 = 150Ω</b> (use 220Ω for safety margin)</p>
+                </div>
+              </div>
+
+              {/* Section: Code Implementation */}
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-green-700 dark:text-green-300">
+                  <span>🧑‍💻</span> Code Implementation
+                </h3>
+                <div className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-900">
+                  <div className="mb-2 font-semibold text-gray-800 dark:text-gray-200">Arduino LED Blinker Code</div>
+                  <pre className="bg-black text-green-400 rounded p-4 overflow-x-auto text-sm mb-0">
+{`void setup() {
+  pinMode(13, OUTPUT);
+}
+void loop() {
+  digitalWrite(13, HIGH);
+  delay(1000);
+  digitalWrite(13, LOW);
+  delay(1000);
+}`}
+                  </pre>
+                </div>
+              </div>
+
+              {/* Section: Circuit Simulation */}
+              <div className="mb-4">
+                <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-purple-700 dark:text-purple-300">
+                  <span>🔬</span> Circuit Simulation
+                </h3>
+                <div className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-900 flex flex-col items-center">
+                  <img
+                    src="/circuit-20250713-0003.png"
+                    alt="LED Blinker Circuit Schematic"
+                    className="w-full max-w-xl h-auto border bg-white rounded mb-2"
+                  />
+                  <p className="text-sm text-gray-600 dark:text-gray-400 text-center mt-2">
+                    This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω current-limiting resistor. The LED will blink on and off every second.
+                  </p>
+                </div>
+              </div>
+
+              {/* Tags and Read Article Button */}
+              <div className="flex items-center justify-between mt-8">
                 <div className="flex flex-wrap gap-2">
                   {article.tags.map(tag => (
                     <Badge key={tag} variant="outline" className="text-xs">
@@ -158,7 +183,7 @@ const Blog = () => {
                     </Badge>
                   ))}
                 </div>
-                <Button className="flex items-center space-x-2">
+                <Button className="flex items-center space-x-2" disabled>
                   <span>Read Article</span>
                   <ArrowRight className="h-4 w-4" />
                 </Button>
@@ -167,56 +192,6 @@ const Blog = () => {
           </Card>
         );
       })}
-
-      {/* Article Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {articles.filter(article => !article.featured).map(article => {
-          const Icon = article.icon;
-          return (
-            <Card key={article.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-3">
-                  <Badge className={getCategoryColor(article.category)}>
-                    {article.category}
-                  </Badge>
-                  <div className="flex items-center space-x-1 text-sm text-gray-500 dark:text-gray-400">
-                    <Clock className="h-3 w-3" />
-                    <span>{article.readTime}</span>
-                  </div>
-                </div>
-                <CardTitle className="text-lg flex items-center space-x-2">
-                  <Icon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                  <span>{article.title}</span>
-                </CardTitle>
-                <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                  <User className="h-3 w-3" />
-                  <span>{article.author}</span>
-                  <span>•</span>
-                  <span>{new Date(article.date).toLocaleDateString()}</span>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
-                  {article.excerpt}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-wrap gap-1">
-                    {article.tags.slice(0, 2).map(tag => (
-                      <Badge key={tag} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                  <Button variant="ghost" size="sm" className="flex items-center space-x-1">
-                    <span>Read</span>
-                    <ArrowRight className="h-3 w-3" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
 
       {/* Newsletter Signup */}
       <Card className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border-purple-200 dark:border-purple-700">
