@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Zap, Lightbulb, Wrench, Target, Heart, Sparkles } from 'lucide-react';
 import CircuitSimulator from '../components/CircuitSimulator';
 import LearningModules from '../components/LearningModules';
