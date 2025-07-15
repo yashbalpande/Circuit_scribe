@@ -1,11 +1,46 @@
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import ReactSyntaxHighlighter from 'react-syntax-highlighter';
+import { atomOneDark, atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Clock, User, ArrowRight, Zap } from 'lucide-react';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+
+// Helper to render HTML with syntax highlighting for code blocks
+const renderExcerptWithCode = (excerpt: string) => {
+  // Replace triple backtick code blocks with syntax highlighted components
+  const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
+  let lastIndex = 0;
+  const elements: React.ReactNode[] = [];
+  let match;
+  let key = 0;
+  while ((match = codeBlockRegex.exec(excerpt)) !== null) {
+    // Text before code block
+    if (match.index > lastIndex) {
+      const text = excerpt.slice(lastIndex, match.index);
+      elements.push(<span key={key++} dangerouslySetInnerHTML={{ __html: text.replace(/\n/g, '<br/>') }} />);
+    }
+    // Code block
+    const lang = match[1] || 'cpp';
+    const code = match[2];
+    elements.push(
+      <div key={key++} className="my-4">
+        <ReactSyntaxHighlighter language={lang} style={atomOneLight} className="rounded-lg text-sm" showLineNumbers>
+          {code}
+        </ReactSyntaxHighlighter>
+      </div>
+    );
+    lastIndex = codeBlockRegex.lastIndex;
+  }
+  // Remaining text after last code block
+  if (lastIndex < excerpt.length) {
+    elements.push(<span key={key++} dangerouslySetInnerHTML={{ __html: excerpt.slice(lastIndex).replace(/\n/g, '<br/>') }} />);
+  }
+  return elements;
+};
 
 const Blog = () => {
   const [articles, setArticles] = useState([
@@ -99,7 +134,7 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
         "---<br/><br/>" +
         "**Power Line Noise Removal**<br/>" +
         "*Case: Removing 50Hz or 60Hz noise from analog sensor readings.*<br/><br/>" +
-        "```cpp\nconst int sensorPin = A1;\nint rawData;\nint cleanData;\nvoid setup() {\nSerial.begin(9600);\n}\nvoid loop() {\nrawData = analogRead(sensorPin);\n// Simulate a software-based notch filter by ignoring specific ranges\nif (rawData > 480 && rawData < 520) {\ncleanData = 500; // Suppressing the noisy band\n} else {\ncleanData = rawData;\n}\nSerial.println(cleanData);\ndelay(10);\n}\n```<br/>" +
+        "```cpp\n const int sensorPin = A1;\n int rawData;\nint cleanData;\nvoid setup() {\nSerial.begin(9600);\n}\nvoid loop() {\nrawData = analogRead(sensorPin);\n// Simulate a software-based notch filter by ignoring specific ranges\nif (rawData > 480 && rawData < 520) {\ncleanData = 500; // Suppressing the noisy band\n} else {\ncleanData = rawData;\n}\nSerial.println(cleanData);\ndelay(10);\n}\n```<br/>" +
         "_Real Life Case: Improves reliability of analog sensors in industrial environments._<br/><br/>" +
         "---<br/><br/>" +
         "**RF Communication Tuning**<br/>" +
@@ -179,11 +214,11 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12 max-w-4xl mx-auto px-2 sm:px-4">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Engineering Blog 📚
+        <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          Engineering Blog <span role="img" aria-label="books">📚</span>
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
           Explore tutorials, tips, and insights from real projects! Learn Arduino programming, 
@@ -198,7 +233,7 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
         </Button>
       </div>
       {showForm && (
-        <form onSubmit={handleFormSubmit} className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 mb-8 space-y-4 max-w-2xl mx-auto">
+        <form onSubmit={handleFormSubmit} className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 mb-8 space-y-4 max-w-2xl mx-auto border border-gray-200 dark:border-gray-800">
           <div className="flex flex-col gap-2">
             <label className="font-semibold">Title</label>
             <input name="title" value={form.title} onChange={handleFormChange} className="border rounded px-3 py-2 dark:bg-gray-800" required />
@@ -223,15 +258,15 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-semibold">Read Time</label>
-            <input name="readTime" value={form.readTime} onChange={handleFormChange} className="border rounded px-3 py-2 dark:bg-gray-800" placeholder="e.g. 5 min read" />
+            <input name="readTime" value={form.readTime} onChange={handleFormChange} className="border rounded px-3 py-2 dark:bg-gray-800" />
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-semibold">Category</label>
-            <input name="category" value={form.category} onChange={handleFormChange} className="border rounded px-3 py-2 dark:bg-gray-800" placeholder="e.g. Beginner, Intermediate" />
+            <input name="category" value={form.category} onChange={handleFormChange} className="border rounded px-3 py-2 dark:bg-gray-800" />
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-semibold">Tags (comma separated)</label>
-            <input name="tags" value={form.tags} onChange={handleFormChange} className="border rounded px-3 py-2 dark:bg-gray-800" placeholder="e.g. Arduino, PWM, Audio" />
+            <input name="tags" value={form.tags} onChange={handleFormChange} className="border rounded px-3 py-2 dark:bg-gray-800" />
           </div>
           <div className="flex items-center gap-2">
             <input name="featured" type="checkbox" checked={form.featured} onChange={handleFormChange} />
@@ -239,67 +274,42 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-semibold">Image URL (optional)</label>
-            <input name="imageUrl" value={form.imageUrl} onChange={handleFormChange} className="border rounded px-3 py-2 dark:bg-gray-800" placeholder="https://..." />
+            <input name="imageUrl" value={form.imageUrl} onChange={handleFormChange} className="border rounded px-3 py-2 dark:bg-gray-800" />
           </div>
-          <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">Add Blog</Button>
+          <Button type="submit" className="w-full">Submit</Button>
         </form>
       )}
 
-      {/* Blog Accordion */}
-      <Accordion type="single" collapsible className="w-full max-w-2xl mx-auto">
-        {articles.map((article, idx) => {
-          const Icon = article.icon;
-          const isFeatured = article.featured;
-          return (
-            <AccordionItem key={article.id} value={String(article.id)}>
-              <AccordionTrigger
-                className={
-                  isFeatured
-                    ? "bg-gradient-to-r from-blue-400/20 to-purple-400/20 dark:from-blue-900/40 dark:to-purple-900/40 border-4 border-blue-400 dark:border-blue-700 shadow-xl ring-2 ring-blue-300 dark:ring-blue-800 scale-[1.01] transition-all duration-300 rounded-xl px-6 py-4 flex items-center justify-between gap-4 relative"
-                    : "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border-2 border-blue-200 dark:border-blue-700 rounded-lg px-4 py-3 flex items-center justify-between gap-4"
-                }
-              >
-                <div className="flex items-center gap-3">
-                  <Icon className={isFeatured ? "h-9 w-9 text-blue-700 dark:text-blue-300" : "h-8 w-8 text-blue-600 dark:text-blue-400"} />
-                  <span className={isFeatured ? "text-xl font-bold" : "text-lg font-semibold"}>{article.title}</span>
-                  <Badge className={getCategoryColor(article.category)}>{article.category}</Badge>
-                  {isFeatured && (
-                    <span className="ml-2 px-2 py-0.5 rounded bg-yellow-300 text-yellow-900 text-xs font-bold animate-pulse">Featured</span>
-                  )}
+      {/* Blog Articles */}
+      <div className="space-y-10">
+        {articles.map(article => (
+          <Card key={article.id} className={`relative group transition-shadow duration-200 shadow-md hover:shadow-xl border-2 ${article.featured ? 'border-blue-500 dark:border-blue-400' : 'border-gray-200 dark:border-gray-800'} bg-white dark:bg-gray-950`}>  
+            {article.featured && (
+              <span className="absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg z-10">Featured</span>
+            )}
+            <CardHeader className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+              <div className="flex-1">
+                <CardTitle className="text-2xl font-bold mb-1 text-gray-900 dark:text-white">{article.title}</CardTitle>
+                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  <span className="flex items-center gap-1"><User className="w-4 h-4" /> {article.author || 'Anonymous'}</span>
+                  <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {article.date}</span>
+                  <span className="flex items-center gap-1"><ArrowRight className="w-4 h-4" /> {article.readTime}</span>
+                  <span className={`ml-2 px-2 py-0.5 rounded text-xs font-semibold ${getCategoryColor(article.category)}`}>{article.category}</span>
                 </div>
-                <div className={isFeatured ? "flex items-center gap-2 text-base text-blue-700 dark:text-blue-200 font-medium" : "flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400"}>
-                  <User className="h-4 w-4" />
-                  <span>{article.author}</span>
-                  <span>•</span>
-                  <Clock className="h-4 w-4" />
-                  <span>{article.readTime}</span>
-                  <span>•</span>
-                  <span>{new Date(article.date).toLocaleDateString()}</span>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {article.tags && article.tags.map((tag: string, idx: number) => (
+                    <Badge key={idx} className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-200 px-2 py-0.5 text-xs font-medium">{tag}</Badge>
+                  ))}
                 </div>
-              </AccordionTrigger>
-              <AccordionContent className={isFeatured ? "bg-white/80 dark:bg-blue-950/60 rounded-b-xl shadow-lg animate-fade-in" : undefined}>
-                {article.imageUrl && (
-                  <img src={article.imageUrl} alt="Blog visual" className="rounded-lg mb-4 max-h-64 w-full object-cover" />
-                )}
-                <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: article.excerpt }} />
-                <div className="flex items-center justify-between mt-8">
-                  <div className="flex flex-wrap gap-2">
-                    {article.tags.map(tag => (
-                      <Badge key={tag} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                  <Button className="flex items-center space-x-2" disabled>
-                    <span>Read Article</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          );
-        })}
-      </Accordion>
+              </div>
+            </CardHeader>
+            <CardContent className="prose prose-base dark:prose-invert max-w-none text-gray-800 dark:text-gray-100 leading-relaxed">
+              {/* Render excerpt/content as HTML for formatting and highlight code blocks */}
+              {renderExcerptWithCode(article.excerpt)}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
       {/* Newsletter Signup */}
       <Card className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border-purple-200 dark:border-purple-700">
