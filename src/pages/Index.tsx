@@ -8,6 +8,7 @@ import LearningModules from '../components/LearningModules';
 import ProgressTracker from '../components/ProgressTracker';
 import EmbeddedSystemsChallenges from '../components/EmbeddedSystemsChallenges';
 import Blog from '../components/Blog';
+import CircuitTroubleshooting from './CircuitTroubleshooting';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -69,6 +70,8 @@ const Index = () => {
         return <EmbeddedSystemsChallenges />;
       case 'blog':
         return <Blog />;
+      case 'troubleshooting':
+        return <CircuitTroubleshooting />;
       default:
         return <HomeSection setActiveSection={setActiveSection} />;
     }
@@ -99,6 +102,7 @@ const Index = () => {
                 // { id: 'learn', label: 'Learn', icon: Lightbulb },
                 { id: 'embedded', label: 'Embedded', icon: Code },
                 { id: 'blog', label: 'Blog', icon: BookOpen },
+                { id: 'troubleshooting', label: 'Simulations ', icon: Wrench },
                 // { id: 'progress', label: 'Progress', icon: Target }
               ].map(({ id, label, icon: Icon }) => (
                 <Button
@@ -213,6 +217,27 @@ const Index = () => {
                 className="w-full border-purple-300 dark:border-purple-600 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20"
               >
                 Get Help!
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="border-pink-200 dark:border-pink-700 hover:shadow-lg transition-shadow bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2 text-pink-600 dark:text-pink-400">
+                <Wrench className="h-6 w-6" />
+                <span>Simulations</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                Diagnose common circuit issues, learn why things go wrong, and see how to fix them. Interactive explanations and (soon) real simulations!
+              </p>
+              <Button 
+                variant="outline"
+                onClick={() => setActiveSection('troubleshooting')}
+                className="w-full border-pink-300 dark:border-pink-600 text-pink-600 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/20"
+              >
+                Try Simulations
               </Button>
             </CardContent>
           </Card>

@@ -1,4 +1,4 @@
-# Circuit Scribe
+# CircuitCode
 
 An interactive learning platform for electronics and embedded systems education.
 
@@ -18,7 +18,7 @@ This project is built with:
 - **React** - Modern UI library
 - **shadcn/ui** - Beautiful, accessible components
 - **Tailwind CSS** - Utility-first CSS framework
-- **Supabase** - Backend as a service
+- **Firebase** - Backend as a service
 
 ## Getting Started
 
