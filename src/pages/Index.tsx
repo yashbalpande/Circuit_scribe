@@ -87,11 +87,11 @@ const Index = () => {
       </div>
 
       <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
-        Welcome to Circuit Scribe! ⚡
+        Welcome to CircuitCode! ⚡
       </h1>
       
       <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-        I'm <span className="font-semibold text-purple-600 dark:text-purple-400">Circuit Scribe</span>, your friendly electrical engineering companion! 
+        I'm <span className="font-semibold text-purple-600 dark:text-purple-400">CircuitCode</span>, your friendly electrical engineering companion! 
         Together, we'll explore circuits, debug problems, and celebrate every spark of understanding. 
         Ready to make learning EE feel like the coolest adventure ever? ⚡😊
       </p>
@@ -150,7 +150,7 @@ const Index = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Circuit Scribe
+                CircuitCode
               </h1>
               <p className="text-sm text-gray-600 dark:text-gray-300">Your EE Learning Buddy ⚡</p>
             </div>

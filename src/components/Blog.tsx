@@ -83,7 +83,7 @@ void loop() {
 **Circuit Simulation**
 
 This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω current-limiting resistor. The LED will blink on and off every second.`,
-      author: "Circuit Scribe Team",
+      author: "CircuitCode Team",
       date: "2024-07-13",
       readTime: "8 min read",
       category: "Beginner",
@@ -107,7 +107,7 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
         "**Generating Varying Audio Frequencies via PWM**\n\n*Case: Use PWM to dynamically generate different tones like a simple melody.*\n\n" +
         "```cpp\nconst int speakerPin = 9;\n// C major scale frequencies\nint melody[] = {262, 294, 330, 349, 392, 440, 494, 523};\nvoid setup() {\n  pinMode(speakerPin, OUTPUT);\n}\nvoid loop() {\n  for (int i = 0; i < 8; i++) {\n    tone(speakerPin, melody[i]);\n    delay(300);\n    noTone(speakerPin);\n    delay(50);\n  }\n  delay(1000); // Pause before repeating\n}\n```\n\n" +
         "Real Life Case: Common in toys, alarms, or any embedded device needing audible feedback or melodies._",
-      author: "Circuit Scribe Team",
+      author: "CircuitCode Team",
       date: "2024-07-14",
       readTime: "10 min read",
       category: "Intermediate",
