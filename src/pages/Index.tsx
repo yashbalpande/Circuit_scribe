@@ -142,11 +142,8 @@ const Navbar = ({ setActiveSection, activeSection, badgeCount, streak, user, log
             )}
           </button>
         ))}
-        {!user ? (
-          <button className="flex items-center gap-1 px-3 py-1 rounded hover:bg-purple-100 transition" onClick={onLoginClick}>
-            <FcGoogle className="text-xl" /> Login
-          </button>
-        ) : (
+        {/* Removed Google Login button here */}
+        {user ? (
           <div className="flex items-center gap-2">
             {user.photoURL && (
               <img src={user.photoURL} alt="avatar" className="w-8 h-8 rounded-full border" />
@@ -154,9 +151,9 @@ const Navbar = ({ setActiveSection, activeSection, badgeCount, streak, user, log
             <span className="font-bold text-purple-700">{user.displayName || user.email}</span>
             <button className="px-2 py-1 rounded hover:bg-purple-100 text-xs" onClick={logout}>Logout</button>
           </div>
-        )}
+        ) : null}
       </div>
-      <button className="bg-yellow-300 text-black font-bold px-5 py-2 rounded-full shadow hover:bg-yellow-400 transition">Register Now</button>
+      <button className="bg-yellow-300 text-black font-bold px-5 py-2 rounded-full shadow hover:bg-yellow-400 transition" onClick={onLoginClick}>Login</button>
     </nav>
   );
 };
