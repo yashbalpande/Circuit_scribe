@@ -100,9 +100,8 @@ const Index = () => {
         <Button 
           size="lg"
           variant="outline"
-          onClick={() => setActiveSection('learn')}
+          onClick={() => setActiveSection('blog')}
           className="w-full sm:w-auto border-purple-300 dark:border-purple-600 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 px-6 py-2 text-base sm:text-lg"
-          disabled
         >
           <Lightbulb className="mr-2 h-5 w-5" />
           Start Learning!
@@ -111,7 +110,6 @@ const Index = () => {
           size="lg"
           onClick={() => setActiveSection('embedded')}
           className="w-full sm:w-auto bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-6 py-2 text-base sm:text-lg"
-          disabled
         >
           <Code className="mr-2 h-5 w-5" />
           Code Challenges!
