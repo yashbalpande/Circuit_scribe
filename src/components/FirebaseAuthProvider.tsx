@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth } from '../lib/firebase';
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut, User, createUserWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { createOrUpdateUserProfile } from '../lib/userProfile';
 
 interface AuthContextType {
   user: User | null;
@@ -46,7 +47,8 @@ export const FirebaseAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   const signup = async (email: string, password: string) => {
     setLoading(true);
-    await createUserWithEmailAndPassword(auth, email, password);
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    await createOrUpdateUserProfile(cred.user);
     setLoading(false);
   };
 
@@ -59,7 +61,8 @@ export const FirebaseAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const loginWithGoogle = async () => {
     setLoading(true);
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    const cred = await signInWithPopup(auth, provider);
+    await createOrUpdateUserProfile(cred.user);
     setLoading(false);
   };
 

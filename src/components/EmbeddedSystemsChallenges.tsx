@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,19 +23,58 @@ import {
   EyeOff
 } from 'lucide-react';
 import { verifyArduinoCode, getAllChallenges, type Challenge, type VerificationResult } from '../lib/arduinoVerifier';
+import { useAuth } from './FirebaseAuthProvider';
+import { markChallengeComplete, getUserProfile } from '../lib/userProfile';
+
+const Toast = ({ message, show }) => (
+  <div className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ${show ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}> 
+    <div className="bg-purple-600 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 animate-fade-in">
+      <span role="img" aria-label="spark">⚡</span> {message}
+    </div>
+  </div>
+);
+
+const ProgressBar = ({ percent }) => (
+  <div className="w-full h-2 bg-purple-100 rounded-full overflow-hidden mt-2 mb-4">
+    <div className="h-full bg-gradient-to-r from-yellow-400 to-pink-500 rounded-full transition-all" style={{ width: `${percent}%` }}></div>
+  </div>
+);
 
 const EmbeddedSystemsChallenges = () => {
   console.log('EmbeddedSystemsChallenges component rendering...');
   
+  const { user } = useAuth();
   const [selectedChallenge, setSelectedChallenge] = useState<string | null>(null);
   const [userCode, setUserCode] = useState('');
   const [isRunning, setIsRunning] = useState(false);
   const [verificationResult, setVerificationResult] = useState<VerificationResult | null>(null);
   const [completedChallenges, setCompletedChallenges] = useState<string[]>([]);
   const [showSolution, setShowSolution] = useState(false);
+  const [streak, setStreak] = useState(0);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   // Get challenges from the verifier
   const challenges = getAllChallenges();
+  const totalChallenges = challenges.length;
+
+  // Fetch user progress on mount or when user changes
+  useEffect(() => {
+    const fetchProgress = async () => {
+      if (user) {
+        const profile = await getUserProfile(user.uid);
+        if (profile && profile.progress && profile.progress.embedded) {
+          if (Array.isArray(profile.progress.embedded.completed)) {
+            setCompletedChallenges(profile.progress.embedded.completed);
+          }
+          if (typeof profile.progress.embedded.streak === 'number') {
+            setStreak(profile.progress.embedded.streak);
+          }
+        }
+      }
+    };
+    fetchProgress();
+  }, [user]);
 
   const handleChallengeSelect = (challengeId: string) => {
     console.log('Selecting challenge:', challengeId);
@@ -59,18 +98,24 @@ void loop() {
     }
   };
 
-  const handleVerifyCode = () => {
+  const handleVerifyCode = async () => {
     if (!selectedChallenge || !userCode.trim()) return;
 
     setIsRunning(true);
     
     // Simulate verification delay
-    setTimeout(() => {
+    setTimeout(async () => {
       const result = verifyArduinoCode(userCode, selectedChallenge);
       setVerificationResult(result);
       
       if (result.passed && !completedChallenges.includes(selectedChallenge)) {
         setCompletedChallenges(prev => [...prev, selectedChallenge]);
+        setToastMessage('Challenge completed!');
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2500);
+        if (user) {
+          await markChallengeComplete(user.uid, selectedChallenge);
+        }
       }
       
       setIsRunning(false);
@@ -354,6 +399,10 @@ void loop() {
           and learn embedded systems concepts through practical exercises.
         </p>
       </div>
+
+      <Toast message={toastMessage} show={showToast} />
+      <ProgressBar percent={Math.round((completedChallenges.length / totalChallenges) * 100)} />
+      <div className="mb-4 text-yellow-600 font-bold">Streak: {streak} days</div>
 
       {selectedChallenge ? renderChallengeWorkspace() : renderChallengeList()}
     </div>

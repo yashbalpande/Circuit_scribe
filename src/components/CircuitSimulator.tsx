@@ -3,11 +3,17 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Zap, Play, Square, RotateCcw, Lightbulb, Battery } from 'lucide-react';
+import { testCases, CircuitTestCase } from '../simulationTestCases';
 
 const CircuitSimulator = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [currentFlow, setCurrentFlow] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState('resistor');
+  // Testable simulation state
+  const [selectedTest, setSelectedTest] = useState<CircuitTestCase | null>(testCases[0]);
+  const [userR2, setUserR2] = useState(220);
+  const [userGround, setUserGround] = useState(true);
+  const [feedback, setFeedback] = useState<string | null>(null);
 
   const components = [
     { id: 'resistor', name: 'Resistor', icon: '🔌', description: 'Limits current flow' },
@@ -25,8 +31,55 @@ const CircuitSimulator = () => {
     }
   };
 
+  // Verification logic
+  const handleRunTest = () => {
+    if (!selectedTest) return;
+    if (userR2 === selectedTest.setup.R2 && userGround === selectedTest.setup.ground) {
+      setFeedback('✅ Correct! ' + selectedTest.expected.message);
+    } else {
+      setFeedback('❌ Try again. Check your R2 value and ground connection.');
+    }
+  };
+
   return (
     <div className="space-y-6">
+      {/* Test Case Selector */}
+      <div className="mb-4 flex flex-col sm:flex-row items-center gap-4">
+        <label className="font-semibold">Test Case:</label>
+        <select
+          value={selectedTest?.id}
+          onChange={e => {
+            const tc = testCases.find(tc => tc.id === e.target.value) || null;
+            setSelectedTest(tc);
+            setFeedback(null);
+          }}
+          className="border rounded px-2 py-1"
+        >
+          {testCases.map(tc => (
+            <option key={tc.id} value={tc.id}>{tc.description}</option>
+          ))}
+        </select>
+        <label className="font-semibold">R2 Value (Ω):</label>
+        <input
+          type="number"
+          value={userR2}
+          onChange={e => setUserR2(Number(e.target.value))}
+          className="border rounded px-2 py-1 w-24"
+        />
+        <label className="font-semibold">Ground Connected:</label>
+        <input
+          type="checkbox"
+          checked={userGround}
+          onChange={e => setUserGround(e.target.checked)}
+          className="h-5 w-5"
+        />
+        <Button onClick={handleRunTest} variant="outline">Test My Circuit</Button>
+      </div>
+      {feedback && (
+        <div className="mb-4 p-3 rounded bg-blue-50 border border-blue-200 text-blue-800 font-semibold">
+          {feedback}
+        </div>
+      )}
       {/* Header */}
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-800 mb-2">

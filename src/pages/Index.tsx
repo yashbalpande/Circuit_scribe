@@ -1,422 +1,312 @@
-import { useAuth } from '../components/FirebaseAuthProvider';
-import { useState } from 'react';
-import { Button } from "@/components/ui/button";
+import React, { useState, useEffect, useRef } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, Lightbulb, Wrench, Target, Sparkles, Code, BookOpen } from 'lucide-react';
-import { ThemeToggle } from '../components/ThemeToggle';
-import CircuitSimulator from '../components/CircuitSimulator';
-import LearningModules from '../components/LearningModules';
-import ProgressTracker from '../components/ProgressTracker';
+import { useAuth } from '../components/FirebaseAuthProvider';
 import EmbeddedSystemsChallenges from '../components/EmbeddedSystemsChallenges';
 import Blog from '../components/Blog';
-import CircuitTroubleshooting from './CircuitTroubleshooting';
+
+// Toast notification (simple custom)
+const Toast = ({ message, show }) => (
+  <div className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ${show ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}> 
+    <div className="bg-purple-600 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 animate-fade-in">
+      <span role="img" aria-label="spark">⚡</span> {message}
+    </div>
+  </div>
+);
+
+const ScrollToTop = () => {
+  const [show, setShow] = React.useState(false);
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 200);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return show ? (
+    <button
+      aria-label="Scroll to top"
+      className="fixed bottom-8 right-8 bg-yellow-300 text-black p-3 rounded-full shadow-lg hover:bg-yellow-400 transition z-50 animate-bounce"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+    >
+      <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+  ) : null;
+};
+
+const ProgressBar = ({ percent }) => (
+  <div className="w-full h-2 bg-purple-100 rounded-full overflow-hidden mt-2">
+    <div className="h-full bg-gradient-to-r from-yellow-400 to-pink-500 rounded-full transition-all" style={{ width: `${percent}%` }}></div>
+  </div>
+);
+
+const StreakIndicator = ({ streak }) => (
+  <div className="flex items-center gap-1 text-yellow-500 font-bold text-sm ml-4 animate-pulse">
+    <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 2v6m0 0l2-2m-2 2l-2-2m0 8a6 6 0 0012 0c0-3.31-2.69-6-6-6s-6 2.69-6 6z"/></svg>
+    {streak} day streak
+  </div>
+);
+
+const LoginModal = ({ open, onClose, loginWithGoogle, handleEmailLogin, handleEmailSignup }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [mode, setMode] = useState('signin'); // 'signin' or 'signup'
+  return open ? (
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-sm animate-fade-in-up">
+        <h2 className="text-xl font-bold mb-4 text-center">{mode === 'signin' ? 'Sign in to CircuitCode' : 'Sign up for CircuitCode'}</h2>
+        <form onSubmit={e => {
+          e.preventDefault();
+          if (mode === 'signin') {
+            handleEmailLogin({ email, password });
+          } else {
+            handleEmailSignup({ name, email, password });
+          }
+        }} className="space-y-4">
+          {mode === 'signup' && (
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+              autoComplete="name"
+              required
+            />
+          )}
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className="w-full border rounded px-3 py-2"
+            autoComplete="email"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="w-full border rounded px-3 py-2"
+            autoComplete="current-password"
+            required
+          />
+          <button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-3 rounded-full shadow transition">
+            {mode === 'signin' ? 'Sign In' : 'Sign Up'}
+          </button>
+        </form>
+        <div className="my-4 text-center text-gray-400">or</div>
+        <button
+          className="w-full flex items-center justify-center gap-2 bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold px-6 py-3 rounded-full shadow mb-4"
+          onClick={loginWithGoogle}
+        >
+          <FcGoogle className="text-2xl" /> Sign in with Google
+        </button>
+        <div className="flex justify-between mt-2 text-sm">
+          <button className="text-gray-500 hover:underline" onClick={() => setMode(mode === 'signin' ? 'signup' : 'signin')}>
+            {mode === 'signin' ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
+          </button>
+          <button className="text-gray-500 hover:underline" onClick={onClose}>Cancel</button>
+        </div>
+      </div>
+    </div>
+  ) : null;
+};
+
+const Navbar = ({ setActiveSection, activeSection, badgeCount, streak, user, logout, loginWithGoogle, onLoginClick }) => {
+  const navItems = [
+    { id: 'home', label: 'Home' },
+    { id: 'embedded', label: 'Embedded' },
+    { id: 'blog', label: 'Blog' },
+    { id: 'simulations', label: 'Simulations' },
+  ];
+  return (
+    <nav className="flex items-center justify-between px-8 py-4 bg-white rounded-b-2xl shadow font-sans sticky top-0 z-40">
+      <div className="flex items-center gap-2">
+        <span className="inline-block -rotate-6 transition-transform duration-300 hover:scale-110 hover:drop-shadow-glow">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 3L12 21h6l-3 12 9-18h-6l3-12z" fill="#a78bfa" stroke="#7c3aed" strokeWidth="2" strokeLinejoin="round"/><circle cx="27" cy="9" r="2" fill="#fbbf24"/></svg>
+        </span>
+        <span className="font-heading text-2xl font-bold text-purple-700">CircuitCode</span>
+        <StreakIndicator streak={streak} />
+      </div>
+      <div className="hidden md:flex gap-6 text-gray-700 font-medium items-center">
+        {navItems.map(item => (
+          <button
+            key={item.id}
+            onClick={() => setActiveSection(item.id)}
+            className={`hover:text-purple-600 transition bg-transparent px-2 py-1 rounded-full ${activeSection === item.id ? 'bg-purple-100 text-purple-800 font-bold shadow animate-bounce' : ''}`}
+            aria-current={activeSection === item.id ? 'page' : undefined}
+          >
+            {item.label}
+            {item.id === 'embedded' && badgeCount > 0 && (
+              <span className="ml-2 bg-yellow-400 text-black rounded-full px-2 py-0.5 text-xs font-bold animate-pulse">{badgeCount}</span>
+            )}
+          </button>
+        ))}
+        {!user ? (
+          <button className="flex items-center gap-1 px-3 py-1 rounded hover:bg-purple-100 transition" onClick={onLoginClick}>
+            <FcGoogle className="text-xl" /> Login
+          </button>
+        ) : (
+          <div className="flex items-center gap-2">
+            {user.photoURL && (
+              <img src={user.photoURL} alt="avatar" className="w-8 h-8 rounded-full border" />
+            )}
+            <span className="font-bold text-purple-700">{user.displayName || user.email}</span>
+            <button className="px-2 py-1 rounded hover:bg-purple-100 text-xs" onClick={logout}>Logout</button>
+          </div>
+        )}
+      </div>
+      <button className="bg-yellow-300 text-black font-bold px-5 py-2 rounded-full shadow hover:bg-yellow-400 transition">Register Now</button>
+    </nav>
+  );
+};
+
+const Hero = () => (
+  <section className="max-w-6xl mx-auto mt-10 bg-white rounded-3xl shadow-lg flex flex-col md:flex-row overflow-hidden animate-fade-in-up">
+    {/* Left */}
+    <div className="flex-1 p-10 flex flex-col justify-center bg-green-200">
+      <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900 leading-tight animate-fade-in-up delay-100">
+        Spark your learning & unlock the power of circuits
+        <span className="inline-block align-middle ml-2 transition-transform duration-200 hover:rotate-12 hover:scale-125">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none"><path d="M18 3L12 21h6l-3 12 9-18h-6l3-12z" fill="#a78bfa" stroke="#7c3aed" strokeWidth="2" strokeLinejoin="round"/></svg>
+        </span>
+        ⚡
+      </h1>
+      <p className="text-lg text-gray-700 mb-6 animate-fade-in-up delay-200">
+        Your friendly electrical engineering companion.
+      </p>
+      <button className="bg-purple-200 text-purple-800 font-bold px-8 py-3 rounded-full shadow hover:bg-purple-300 transition-all hover:scale-105 w-full md:w-auto animate-fade-in-up delay-300">
+        Start Learning
+      </button>
+      <ProgressBar percent={70} />
+    </div>
+    {/* Right */}
+    <div className="flex-1 relative flex flex-col items-center justify-center bg-purple-200 p-10 animate-fade-in-up delay-200">
+      {/* Playful burst shape */}
+      <svg className="absolute top-8 left-8 z-0" width="120" height="120" viewBox="0 0 120 120" fill="none">
+        <polygon points="60,0 80,40 120,60 80,80 60,120 40,80 0,60 40,40" fill="#fbbf24" opacity="0.2"/>
+      </svg>
+      {/* Mascot or photo */}
+      <div className="relative z-10 transition-transform duration-300 hover:scale-110 hover:drop-shadow-glow">
+        <svg width="100" height="100" viewBox="0 0 120 120" className="drop-shadow-lg">
+          <circle cx="60" cy="60" r="56" fill="#ede9fe" />
+          <path d="M60 30L48 78h16l-8 24 24-48h-16l8-24z" fill="#a78bfa" stroke="#7c3aed" strokeWidth="3" strokeLinejoin="round"/>
+          <ellipse cx="90" cy="45" rx="7" ry="7" fill="#fbbf24"/>
+        </svg>
+      </div>
+      {/* Badges */}
+      <div className="flex flex-col gap-3 mt-6 z-10">
+        <span className="bg-yellow-300 text-black font-bold px-6 py-2 rounded-full shadow text-lg animate-fade-in-up delay-300">100+ Interactive Lessons</span>
+        <span className="bg-cyan-300 text-black font-bold px-6 py-2 rounded-full shadow text-lg animate-fade-in-up delay-400">20k+ Learners</span>
+      </div>
+    </div>
+  </section>
+);
+
+const Features = () => (
+  <section className="max-w-6xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-4 gap-6 bg-white rounded-2xl shadow p-8">
+    {[
+      { icon: "💡", title: "Hands-on Labs", desc: "Experiment with real circuits in your browser." },
+      { icon: "⚡", title: "Instant Feedback", desc: "Get hints and see results as you learn." },
+      { icon: "🧑‍🤝‍🧑", title: "Community", desc: "Learn and share with fellow makers." },
+      { icon: "🏆", title: "Track Progress", desc: "Earn badges and celebrate your growth." }
+    ].map((f, i) => (
+      <div key={i} className="flex flex-col items-center text-center gap-2">
+        <span className="text-3xl bg-yellow-200 rounded-full w-14 h-14 flex items-center justify-center mb-2">{f.icon}</span>
+        <h3 className="font-bold text-lg">{f.title}</h3>
+        <p className="text-gray-600 text-sm">{f.desc}</p>
+      </div>
+    ))}
+  </section>
+);
+
+const DoodleDivider = () => (
+  <svg viewBox="0 0 1440 100" className="w-full h-16 my-8" fill="none">
+    <path d="M0,0 C480,100 960,0 1440,100 L1440,100 L0,100 Z" fill="#ede9fe" />
+  </svg>
+);
+
+const Footer = () => (
+  <footer className="text-center py-6 mt-10 text-gray-500 text-sm">
+    © {new Date().getFullYear()} CircuitCode. Made with ⚡ and curiosity.
+  </footer>
+);
+
+// Placeholder components for sections
+const EmbeddedSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow text-center text-xl">Embedded Systems Content Coming Soon!</div>;
+const BlogSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow text-center text-xl">Blog Content Coming Soon!</div>;
+const SimulationsSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow text-center text-xl">Simulations Content Coming Soon!</div>;
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
-  const { user, login, logout, loading, signup, resetPassword, loginWithGoogle } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<'login' | 'signup' | 'reset'>('login');
-  const [message, setMessage] = useState<string | null>(null);
-  const [authOpen, setAuthOpen] = useState(false);
+  const [badgeCount, setBadgeCount] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { user, logout, loginWithGoogle } = useAuth();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setMessage(null);
-    try {
-      await login(email, password);
-    } catch (err: any) {
-      setError(err.message || 'Login failed');
+  useEffect(() => {
+    // Simulate fetching badge and streak data
+    const fetchData = async () => {
+      setBadgeCount(Math.floor(Math.random() * 100));
+      setStreak(Math.floor(Math.random() * 10) + 1);
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (user && user.displayName) {
+      setToastMessage(`Welcome, ${user.displayName}!`);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
     }
+  }, [user]);
+
+  const handleToast = (message, show = true) => {
+    setToastMessage(message);
+    setShowToast(show);
+    setTimeout(() => setShowToast(false), 3000);
   };
 
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setMessage(null);
-    try {
-      await signup(email, password);
-      setMessage('Account created! You are now logged in.');
-    } catch (err: any) {
-      setError(err.message || 'Signup failed');
-    }
+  // Placeholder email login/signup handlers
+  const handleEmailLogin = ({ email, password }) => {
+    setToastMessage(`Welcome, ${email}! (Email login not yet implemented)`);
+    setShowToast(true);
+    setShowLoginModal(false);
+    setTimeout(() => setShowToast(false), 3000);
   };
-
-  const handleReset = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setMessage(null);
-    try {
-      await resetPassword(email);
-      setMessage('Password reset email sent!');
-    } catch (err: any) {
-      setError(err.message || 'Failed to send reset email');
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    setError(null);
-    setMessage(null);
-    try {
-      await loginWithGoogle();
-    } catch (err: any) {
-      setError(err.message || 'Google sign-in failed');
-    }
-  };
-
-  const handleHeaderLoginClick = () => {
-    setAuthOpen(true);
-    setMode('login');
-    setError(null);
-    setMessage(null);
-  };
-
-  const HomeSection = ({ setActiveSection }: { setActiveSection: (section: string) => void }) => (
-    <div className="text-center py-6 sm:py-12">
-      <div className="relative inline-block mb-8">
-        <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-          <Zap className="h-12 w-12 text-white" />
-        </div>
-        <div className="absolute -top-2 -right-2 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center animate-pulse">
-          <Zap className="h-4 w-4 text-white" />
-        </div>
-      </div>
-
-      <h1 className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
-        Welcome to CircuitCode! ⚡
-      </h1>
-      
-      <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-        I'm <span className="font-semibold text-purple-600 dark:text-purple-400">CircuitCode</span>, your friendly electrical engineering companion! 
-        Together, we'll explore circuits, debug problems, and celebrate every spark of understanding. 
-        Ready to make learning EE feel like the coolest adventure ever? ⚡😊
-      </p>
-
-      <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mb-8">
-        <Button 
-          size="lg"
-          variant="outline"
-          onClick={() => setActiveSection('blog')}
-          className="w-full sm:w-auto border-purple-300 dark:border-purple-600 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 px-6 py-2 text-base sm:text-lg"
-        >
-          <Lightbulb className="mr-2 h-5 w-5" />
-          Start Learning!
-        </Button>
-        <Button 
-          size="lg"
-          onClick={() => setActiveSection('embedded')}
-          className="w-full sm:w-auto bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-6 py-2 text-base sm:text-lg"
-        >
-          <Code className="mr-2 h-5 w-5" />
-          Code Challenges!
-        </Button>
-      </div>
-    </div>
-  );
-
-  const renderActiveSection = () => {
-    switch (activeSection) {
-      case 'simulator':
-        return <CircuitSimulator />;
-      case 'learn':
-        // return <LearningModules />;
-      case 'progress':
-        // return <ProgressTracker />;
-      case 'embedded':
-        return <EmbeddedSystemsChallenges />;
-      case 'blog':
-        return <Blog />;
-      case 'troubleshooting':
-        return <CircuitTroubleshooting />;
-      default:
-        return <HomeSection setActiveSection={setActiveSection} />;
-    }
+  const handleEmailSignup = ({ name, email, password }) => {
+    setToastMessage(`Welcome, ${name || email}! (Sign up not yet implemented)`);
+    setShowToast(true);
+    setShowLoginModal(false);
+    setTimeout(() => setShowToast(false), 3000);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
-      {/* Header */}
-      <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200 dark:border-gray-700 sticky top-0 z-50 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
-              <Zap className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                CircuitCode
-              </h1>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Your EE Learning Buddy ⚡</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <nav className="flex space-x-2">
-              {[
-                { id: 'home', label: 'Home', icon: Zap },
-                // { id: 'simulator', label: 'Simulator', icon: Zap },
-                // { id: 'learn', label: 'Learn', icon: Lightbulb },
-                { id: 'embedded', label: 'Embedded', icon: Code },
-                { id: 'blog', label: 'Blog', icon: BookOpen },
-                { id: 'troubleshooting', label: 'Simulations ', icon: Wrench },
-                // { id: 'progress', label: 'Progress', icon: Target }
-              ].map(({ id, label, icon: Icon }) => (
-                <Button
-                  key={id}
-                  variant={activeSection === id ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setActiveSection(id)}
-                  className="flex items-center space-x-1 dark:text-gray-200 dark:hover:bg-gray-800"
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{label}</span>
-                </Button>
-              ))}
-            </nav>
-            <ThemeToggle />
-            {/* Auth controls in header, right-aligned */}
-            {loading ? (
-              <div className="ml-4">Loading...</div>
-            ) : user ? (
-              <div className="flex items-center ml-4 gap-2">
-                <span className="text-sm text-gray-700 dark:text-gray-200">{user.email}</span>
-                <Button onClick={logout} size="sm" variant="outline">Logout</Button>
-              </div>
-            ) : (
-              <Button type="button" onClick={handleHeaderLoginClick} className="ml-4 flex items-center gap-2 bg-white border border-gray-300 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 rounded shadow-sm">
-                <FcGoogle className="text-xl" /> Login
-              </Button>
-            )}
-          </div>
+    <div className="min-h-screen bg-gray-100 font-sans">
+      <Navbar setActiveSection={setActiveSection} activeSection={activeSection} badgeCount={badgeCount} streak={streak} user={user} logout={logout} loginWithGoogle={loginWithGoogle} onLoginClick={() => setShowLoginModal(true)} />
+      <LoginModal open={showLoginModal} onClose={() => setShowLoginModal(false)} loginWithGoogle={loginWithGoogle} handleEmailLogin={handleEmailLogin} handleEmailSignup={handleEmailSignup} />
+      <Toast message={toastMessage} show={showToast} />
+      <ScrollToTop />
+      {activeSection === 'home' && <>
+        <Hero />
+        <DoodleDivider />
+        <Features />
+      </>}
+      {activeSection === 'embedded' && (
+        <div className="max-w-6xl mx-auto mt-10 p-4 bg-white rounded-2xl shadow">
+          <EmbeddedSystemsChallenges />
         </div>
-      </header>
-      {/* Auth Modal */}
-      <Dialog open={authOpen} onOpenChange={setAuthOpen}>
-        <DialogContent className="max-w-sm w-full p-6">
-          <DialogHeader>
-            <DialogTitle className="text-center">{mode === 'login' ? 'Login' : mode === 'signup' ? 'Sign Up' : 'Reset Password'}</DialogTitle>
-            <DialogClose asChild>
-              <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600">×</button>
-            </DialogClose>
-          </DialogHeader>
-          <Button type="button" onClick={handleGoogleLogin} className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-100 text-gray-800 font-semibold py-2 rounded shadow-sm mb-4">
-            <FcGoogle className="text-xl" /> Sign in with Google
-          </Button>
-          <div className="relative flex items-center my-2">
-            <span className="flex-grow border-t border-gray-300"></span>
-            <span className="mx-2 text-gray-400 text-xs">or</span>
-            <span className="flex-grow border-t border-gray-300"></span>
-          </div>
-          {mode === 'login' && (
-            <form onSubmit={handleLogin} className="flex flex-col gap-4">
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="px-4 py-2 border rounded focus:outline-none focus:ring"
-                required
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="px-4 py-2 border rounded focus:outline-none focus:ring"
-                required
-              />
-              {error && <div className="text-red-500 text-sm">{error}</div>}
-              {message && <div className="text-green-600 text-sm">{message}</div>}
-              <Button type="submit" className="w-full">Login</Button>
-              <div className="flex justify-between text-sm mt-2">
-                <button type="button" className="text-blue-600 hover:underline" onClick={() => { setMode('signup'); setError(null); setMessage(null); }}>Sign up</button>
-                <button type="button" className="text-blue-600 hover:underline" onClick={() => { setMode('reset'); setError(null); setMessage(null); }}>Forgot password?</button>
-              </div>
-            </form>
-          )}
-          {mode === 'signup' && (
-            <form onSubmit={handleSignup} className="flex flex-col gap-4">
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="px-4 py-2 border rounded focus:outline-none focus:ring"
-                required
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="px-4 py-2 border rounded focus:outline-none focus:ring"
-                required
-              />
-              {error && <div className="text-red-500 text-sm">{error}</div>}
-              {message && <div className="text-green-600 text-sm">{message}</div>}
-              <Button type="submit" className="w-full">Sign Up</Button>
-              <div className="flex justify-between text-sm mt-2">
-                <button type="button" className="text-blue-600 hover:underline" onClick={() => { setMode('login'); setError(null); setMessage(null); }}>Back to Login</button>
-              </div>
-            </form>
-          )}
-          {mode === 'reset' && (
-            <form onSubmit={handleReset} className="flex flex-col gap-4">
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="px-4 py-2 border rounded focus:outline-none focus:ring"
-                required
-              />
-              {error && <div className="text-red-500 text-sm">{error}</div>}
-              {message && <div className="text-green-600 text-sm">{message}</div>}
-              <Button type="submit" className="w-full">Send Reset Email</Button>
-              <div className="flex justify-between text-sm mt-2">
-                <button type="button" className="text-blue-600 hover:underline" onClick={() => { setMode('login'); setError(null); setMessage(null); }}>Back to Login</button>
-              </div>
-            </form>
-          )}
-        </DialogContent>
-      </Dialog>
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        {renderActiveSection()}
-      </main>
-
-      {/* Feature Cards */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-gray-200">
-          {/* What You'll Learn ⚡ */}
-        </h2>
-        
-        <div className="grid md:grid-cols-4 gap-6">
-          <Card className="border-blue-200 dark:border-blue-700 hover:shadow-lg transition-shadow bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-blue-600 dark:text-blue-400">
-                <Zap className="h-6 w-6" />
-                <span>Interactive Simulations</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Watch electrons flow, see voltage changes in real-time, and experiment with circuits safely! 
-                It's like having a magical electronics lab right here. ✨
-              </p>
-              {/* <Button 
-                variant="outline" 
-                onClick={() => setActiveSection('simulator')}
-                className="w-full border-blue-300 dark:border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
-              >
-                Try it out!
-              </Button> */}
-            </CardContent>
-          </Card>
-
-          <Card className="border-green-200 dark:border-green-700 hover:shadow-lg transition-shadow bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-green-600 dark:text-green-400">
-                <Lightbulb className="h-6 w-6" />
-                <span>Gentle Learning</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Step-by-step guides, fun analogies, and encouraging explanations. 
-                Remember: every expert was once a beginner! 🌱
-              </p>
-                {/* <Button 
-                  variant="outline"
-                  onClick={() => setActiveSection('learn')}
-                  className="w-full border-green-300 dark:border-green-600 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20"
-                >
-                  Start Learning!
-                </Button> */}
-            </CardContent>
-          </Card>
-
-          <Card className="border-orange-200 dark:border-orange-700 hover:shadow-lg transition-shadow bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-orange-600 dark:text-orange-400">
-                <Code className="h-6 w-6" />
-                <span>Code Challenges</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Master embedded systems with real Arduino challenges! Code, simulate, and solve 
-                practical engineering problems. Ready to level up? 🚀
-              </p>
-              {/* <Button 
-                variant="outline"
-                onClick={() => setActiveSection('embedded')}
-                className="w-full border-orange-300 dark:border-orange-600 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20"
-              >
-                Start Coding!
-              </Button> */}
-            </CardContent>
-          </Card>
-
-          <Card className="border-purple-200 dark:border-purple-700 hover:shadow-lg transition-shadow bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-purple-600 dark:text-purple-400">
-                <Wrench className="h-6 w-6" />
-                <span>Debug Together</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Stuck on a problem? No worries! We'll debug together with patience, 
-                hints, and plenty of encouragement. You've got this! ⚡
-              </p>
-              <Button 
-                variant="outline"
-                className="w-full border-purple-300 dark:border-purple-600 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20"
-              >
-                Get Help!
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="border-pink-200 dark:border-pink-700 hover:shadow-lg transition-shadow bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-pink-600 dark:text-pink-400">
-                <Wrench className="h-6 w-6" />
-                <span>Simulations</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Diagnose common circuit issues, learn why things go wrong, and see how to fix them. Interactive explanations and (soon) real simulations!
-              </p>
-              <Button 
-                variant="outline"
-                onClick={() => setActiveSection('troubleshooting')}
-                className="w-full border-pink-300 dark:border-pink-600 text-pink-600 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/20"
-              >
-                Try Simulations
-              </Button>
-            </CardContent>
-          </Card>
+      )}
+      {activeSection === 'blog' && (
+        <div className="max-w-6xl mx-auto mt-10 p-4 bg-white rounded-2xl shadow">
+          <Blog />
         </div>
-
-        {/* Encouraging Message */}
-        <div className="text-center py-8">
-          <div className="bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl p-8 border border-orange-200 dark:border-orange-700">
-            <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
-              Remember: Every spark of curiosity matters! ⚡
-            </h3>
-            <p className="text-gray-700 dark:text-gray-300 text-lg">
-              Whether you're building your first LED circuit or designing complex embedded systems, 
-              I'm here to cheer you on every step of the way. Let's make some electrical magic together! 🎉
-            </p>
-          </div>
-        </div>
-      </div>
+      )}
+      {activeSection === 'simulations' && <SimulationsSection />}
+      <DoodleDivider />
+      <Footer />
     </div>
   );
 };
