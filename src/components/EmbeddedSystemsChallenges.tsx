@@ -529,9 +529,6 @@ void loop() {
         <div className="flex-1">
           {/* Playful header with mascot and gradient */}
           <div className="flex items-center gap-3 mb-4 relative">
-            <span className="absolute -left-8 -top-4 animate-bounce">
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#fbbf24" /><path d="M24 14v12l8 4" stroke="#fff" strokeWidth="3" strokeLinecap="round"/></svg>
-            </span>
             <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 bg-clip-text text-transparent drop-shadow-lg animate-gradient-x">
               Embedded Systems Challenges ⚡
             </h1>

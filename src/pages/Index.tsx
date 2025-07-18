@@ -158,7 +158,7 @@ const Navbar = ({ setActiveSection, activeSection, badgeCount, streak, user, log
   );
 };
 
-const Hero = () => (
+const Hero = ({ setActiveSection }) => (
   <section className="max-w-6xl mx-auto mt-10 bg-white rounded-3xl shadow-lg flex flex-col md:flex-row overflow-hidden animate-fade-in-up">
     {/* Left */}
     <div className="flex-1 p-10 flex flex-col justify-center bg-green-200">
@@ -172,7 +172,7 @@ const Hero = () => (
       <p className="text-lg text-gray-700 mb-6 animate-fade-in-up delay-200">
         Your friendly electrical engineering companion.
       </p>
-      <button className="bg-purple-200 text-purple-800 font-bold px-8 py-3 rounded-full shadow hover:bg-purple-300 transition-all hover:scale-105 w-full md:w-auto animate-fade-in-up delay-300">
+      <button className="bg-purple-200 text-purple-800 font-bold px-8 py-3 rounded-full shadow hover:bg-purple-300 transition-all hover:scale-105 w-full md:w-auto animate-fade-in-up delay-300" onClick={() => setActiveSection('embedded')}>
         Start Learning
       </button>
       <ProgressBar percent={70} />
@@ -260,6 +260,12 @@ const Index = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (user && showLoginModal) {
+      setShowLoginModal(false);
+    }
+  }, [user, showLoginModal]);
+
   const handleToast = (message, show = true) => {
     setToastMessage(message);
     setShowToast(show);
@@ -287,7 +293,7 @@ const Index = () => {
       <Toast message={toastMessage} show={showToast} />
       <ScrollToTop />
       {activeSection === 'home' && <>
-        <Hero />
+        <Hero setActiveSection={setActiveSection} />
         <DoodleDivider />
         <Features />
       </>}
