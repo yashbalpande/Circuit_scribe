@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { useAuth } from '../components/FirebaseAuthProvider';
-import EmbeddedSystemsChallenges from '../components/EmbeddedSystemsChallenges';
-import Blog from '../components/Blog';
+import { Sun, Moon, Zap, BookOpen, Code, Users, Gauge, Menu } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+// Lazy load heavy modules
+const EmbeddedSystemsChallenges = lazy(() => import('../components/EmbeddedSystemsChallenges'));
+const Blog = lazy(() => import('../components/Blog'));
 
 // Toast notification (simple custom)
 const Toast = ({ message, show }) => (
@@ -112,7 +116,51 @@ const LoginModal = ({ open, onClose, loginWithGoogle, handleEmailLogin, handleEm
   ) : null;
 };
 
-const Navbar = ({ setActiveSection, activeSection, badgeCount, streak, user, logout, loginWithGoogle, onLoginClick }) => {
+// Dark mode toggle
+const DarkModeToggle = ({ darkMode, setDarkMode }) => (
+  <button
+    aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+    className="ml-4 p-2 rounded-full hover:bg-purple-100 transition focus:outline-none focus:ring-2 focus:ring-purple-400"
+    onClick={() => {
+      setDarkMode((prev) => {
+        const newMode = !prev;
+        if (newMode) {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        }
+        return newMode;
+      });
+    }}
+  >
+    {darkMode ? <Sun /> : <Moon />}
+  </button>
+);
+
+// Mascot SVG (lightning bolt with face)
+const Mascot = () => (
+  <motion.svg
+    width="64" height="64" viewBox="0 0 64 64" fill="none"
+    initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ type: 'spring', bounce: 0.5, duration: 1 }}
+    className="drop-shadow-lg"
+    aria-label="CircuitCode mascot"
+  >
+    <g>
+      <path d="M32 6L20 38h10l-6 20 18-32h-10l6-20z" fill="#fbbf24" stroke="#f59e42" strokeWidth="2" strokeLinejoin="round"/>
+      <ellipse cx="44" cy="18" rx="3" ry="3" fill="#fff"/>
+      <ellipse cx="44" cy="18" rx="1.2" ry="1.2" fill="#333"/>
+      <ellipse cx="36" cy="22" rx="3" ry="3" fill="#fff"/>
+      <ellipse cx="36" cy="22" rx="1.2" ry="1.2" fill="#333"/>
+      <path d="M38 28q2 2 4 0" stroke="#333" strokeWidth="1.5" strokeLinecap="round"/>
+    </g>
+  </motion.svg>
+);
+
+// Responsive Navbar with hamburger
+const Navbar = ({ setActiveSection, activeSection, badgeCount, streak, user, logout, loginWithGoogle, onLoginClick, darkMode, setDarkMode }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'embedded', label: 'Embedded' },
@@ -120,88 +168,134 @@ const Navbar = ({ setActiveSection, activeSection, badgeCount, streak, user, log
     { id: 'simulations', label: 'Simulations' },
   ];
   return (
-    <nav className="flex items-center justify-between px-8 py-4 bg-white rounded-b-2xl shadow font-sans sticky top-0 z-40">
+    <nav className="flex items-center justify-between px-4 md:px-8 py-4 bg-white dark:bg-gray-900 rounded-b-2xl shadow font-sans sticky top-0 z-40">
       <div className="flex items-center gap-2">
         <span className="inline-block -rotate-6 transition-transform duration-300 hover:scale-110 hover:drop-shadow-glow">
-          <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 3L12 21h6l-3 12 9-18h-6l3-12z" fill="#a78bfa" stroke="#7c3aed" strokeWidth="2" strokeLinejoin="round"/><circle cx="27" cy="9" r="2" fill="#fbbf24"/></svg>
+          <Mascot />
         </span>
-        <span className="font-heading text-2xl font-bold text-purple-700">CircuitCode</span>
+        <span className="font-heading text-2xl font-extrabold text-purple-700 dark:text-yellow-200">CircuitCode</span>
         <StreakIndicator streak={streak} />
       </div>
-      <div className="hidden md:flex gap-6 text-gray-700 font-medium items-center">
+      <div className="hidden md:flex gap-6 text-gray-700 dark:text-gray-200 font-medium items-center">
         {navItems.map(item => (
           <button
             key={item.id}
             onClick={() => setActiveSection(item.id)}
-            className={`hover:text-purple-600 transition bg-transparent px-2 py-1 rounded-full ${activeSection === item.id ? 'bg-purple-100 text-purple-800 font-bold shadow animate-bounce' : ''}`}
+            className={`relative hover:text-purple-600 dark:hover:text-yellow-300 transition bg-transparent px-2 py-1 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400 min-h-[44px] min-w-[44px] ${activeSection === item.id ? 'bg-purple-100 dark:bg-yellow-200 text-purple-800 dark:text-yellow-900 font-bold shadow' : ''}`}
             aria-current={activeSection === item.id ? 'page' : undefined}
+            aria-label={item.label}
           >
             {item.label}
+            {activeSection === item.id && <motion.span layoutId="nav-underline" className="absolute left-0 right-0 -bottom-1 h-1 rounded bg-gradient-to-r from-yellow-400 to-pink-500" />}
             {item.id === 'embedded' && badgeCount > 0 && (
               <span className="ml-2 bg-yellow-400 text-black rounded-full px-2 py-0.5 text-xs font-bold animate-pulse">{badgeCount}</span>
             )}
           </button>
         ))}
-        {/* Removed Google Login button here */}
         {user ? (
           <div className="flex items-center gap-2">
             {user.photoURL && (
-              <img src={user.photoURL} alt="avatar" className="w-8 h-8 rounded-full border" />
+              <img src={user.photoURL} alt="User avatar" className="w-8 h-8 rounded-full border" />
             )}
-            <span className="font-bold text-purple-700">{user.displayName || user.email}</span>
-            <button className="px-2 py-1 rounded hover:bg-purple-100 text-xs" onClick={logout}>Logout</button>
+            <span className="font-bold text-purple-700 dark:text-yellow-200">{user.displayName || user.email}</span>
+            <button className="px-2 py-1 rounded hover:bg-purple-100 dark:hover:bg-yellow-200 text-xs" onClick={logout}>Logout</button>
           </div>
         ) : null}
       </div>
-      <button className="bg-yellow-300 text-black font-bold px-5 py-2 rounded-full shadow hover:bg-yellow-400 transition" onClick={onLoginClick}>Login</button>
+      <button className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-400" aria-label="Open menu" onClick={() => setMenuOpen(v => !v)}>
+        <Menu className="h-7 w-7 text-purple-700 dark:text-yellow-200" />
+      </button>
+      <button className="hidden md:block bg-yellow-300 text-black font-bold px-5 py-2 rounded-full shadow hover:bg-yellow-400 transition min-h-[44px] min-w-[44px]" onClick={onLoginClick}>Login</button>
+      <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-lg rounded-b-2xl flex flex-col items-center py-4 z-50 animate-fade-in-up">
+          {navItems.map(item => (
+            <button
+              key={item.id}
+              onClick={() => { setActiveSection(item.id); setMenuOpen(false); }}
+              className={`w-full text-lg py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-purple-400 ${activeSection === item.id ? 'bg-purple-100 dark:bg-yellow-200 text-purple-800 dark:text-yellow-900 font-bold shadow' : ''}`}
+              aria-current={activeSection === item.id ? 'page' : undefined}
+              aria-label={item.label}
+            >
+              {item.label}
+            </button>
+          ))}
+          {!user && <button className="w-full bg-yellow-300 text-black font-bold px-5 py-2 rounded-full shadow hover:bg-yellow-400 transition min-h-[44px] min-w-[44px] mt-2" onClick={() => { setMenuOpen(false); onLoginClick(); }}>Login</button>}
+        </div>
+      )}
     </nav>
   );
 };
 
 const Hero = ({ setActiveSection }) => (
-  <section className="max-w-6xl mx-auto mt-10 bg-white rounded-3xl shadow-lg flex flex-col md:flex-row overflow-hidden animate-fade-in-up">
-    {/* Left */}
-    <div className="flex-1 p-10 flex flex-col justify-center bg-green-200">
-      <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900 leading-tight animate-fade-in-up delay-100">
-        Spark your learning & unlock the power of circuits
-        <span className="inline-block align-middle ml-2 transition-transform duration-200 hover:rotate-12 hover:scale-125">
-          <svg width="32" height="32" viewBox="0 0 36 36" fill="none"><path d="M18 3L12 21h6l-3 12 9-18h-6l3-12z" fill="#a78bfa" stroke="#7c3aed" strokeWidth="2" strokeLinejoin="round"/></svg>
-        </span>
-        ⚡
+  <motion.section
+    className="max-w-6xl mx-auto mt-10 bg-white dark:bg-gray-900 rounded-3xl shadow-lg flex flex-col md:flex-row overflow-hidden px-4 py-10 md:py-20 my-12"
+    initial={{ opacity: 0, y: 40 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8, ease: 'easeOut' }}
+  >
+    <div className="flex-1 flex flex-col justify-center gap-6">
+      <h1 className="font-heading text-5xl md:text-6xl font-extrabold text-purple-800 dark:text-yellow-200 mb-2 leading-tight">
+        Welcome to CircuitCode!
       </h1>
-      <p className="text-lg text-gray-700 mb-6 animate-fade-in-up delay-200">
-        Your friendly electrical engineering companion.
+      <h2 className="text-2xl md:text-3xl font-bold text-pink-600 dark:text-yellow-400 mb-2">Interactive labs, real-time feedback, community challenges.</h2>
+      <p className="text-lg md:text-xl text-gray-700 dark:text-gray-200 mb-6">
+        Your friendly electrical engineering companion. Explore circuits, debug problems, and spark your understanding.
       </p>
-      <button className="bg-purple-200 text-purple-800 font-bold px-8 py-3 rounded-full shadow hover:bg-purple-300 transition-all hover:scale-105 w-full md:w-auto animate-fade-in-up delay-300" onClick={() => setActiveSection('embedded')}>
-        Start Learning
-      </button>
-      <ProgressBar percent={70} />
+      <div className="flex flex-col sm:flex-row gap-4 w-full">
+        <motion.button
+          className="flex-1 bg-purple-200 dark:bg-yellow-200 text-purple-800 dark:text-yellow-900 font-bold px-8 py-3 rounded-full shadow hover:bg-purple-300 dark:hover:bg-yellow-300 transition-all hover:scale-105 text-lg min-h-[48px] min-w-[44px] focus:outline-none focus:ring-2 focus:ring-purple-400 flex items-center justify-center gap-2"
+          whileHover={{ scale: 1.07 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => setActiveSection('embedded')}
+          aria-label="Start Learning"
+        >
+          <Gauge className="inline-block mr-2 text-purple-600 dark:text-yellow-700" aria-hidden="true" />
+          <span>Start Learning</span>
+        </motion.button>
+        <motion.button
+          className="flex-1 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold px-8 py-3 rounded-full shadow hover:brightness-110 transition-all hover:scale-105 text-lg min-h-[48px] min-w-[44px] focus:outline-none focus:ring-2 focus:ring-pink-400 flex items-center justify-center gap-2"
+          whileHover={{ scale: 1.07 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => setActiveSection('blog')}
+          aria-label="Code Challenges"
+        >
+          <Code className="inline-block mr-2 text-white" aria-hidden="true" />
+          <span>Code Challenges</span>
+        </motion.button>
+      </div>
+      <div className="flex items-center gap-3 mt-6">
+        <Mascot />
+        <span className="text-lg text-gray-500 dark:text-gray-300">Meet Sparky, your learning buddy!</span>
+      </div>
     </div>
-    {/* Right */}
-    <div className="flex-1 relative flex flex-col items-center justify-center bg-purple-200 p-10 animate-fade-in-up delay-200">
-      {/* Playful burst shape */}
-      <svg className="absolute top-8 left-8 z-0" width="120" height="120" viewBox="0 0 120 120" fill="none">
-        <polygon points="60,0 80,40 120,60 80,80 60,120 40,80 0,60 40,40" fill="#fbbf24" opacity="0.2"/>
+    <div className="flex-1 flex items-center justify-center">
+      {/* Custom SVG circuit board illustration */}
+      <svg viewBox="0 0 320 180" width="320" height="180" fill="none" aria-label="Circuit board illustration" className="w-full max-w-md drop-shadow-2xl rounded-2xl animate-fade-in-up" role="img">
+        <rect x="10" y="20" width="300" height="140" rx="24" fill="#e0e7ff" />
+        <rect x="40" y="60" width="40" height="20" rx="6" fill="#a5b4fc" />
+        <rect x="100" y="60" width="60" height="20" rx="6" fill="#fbbf24" />
+        <rect x="180" y="60" width="30" height="20" rx="6" fill="#fca5a5" />
+        <rect x="230" y="60" width="50" height="20" rx="6" fill="#6ee7b7" />
+        <circle cx="70" cy="120" r="10" fill="#f472b6" />
+        <rect x="120" y="110" width="40" height="12" rx="4" fill="#a7f3d0" />
+        <rect x="180" y="110" width="60" height="12" rx="4" fill="#fde68a" />
+        {/* Traces */}
+        <path d="M60 80 Q60 100 70 120" stroke="#6366f1" strokeWidth="3" fill="none" />
+        <path d="M120 70 Q120 100 140 116" stroke="#f59e42" strokeWidth="3" fill="none" />
+        <path d="M200 70 Q200 100 210 116" stroke="#f472b6" strokeWidth="3" fill="none" />
+        <path d="M255 80 Q255 100 240 116" stroke="#6ee7b7" strokeWidth="3" fill="none" />
+        {/* Chips */}
+        <rect x="150" y="40" width="20" height="10" rx="2" fill="#6366f1" />
+        <rect x="200" y="40" width="16" height="10" rx="2" fill="#fbbf24" />
       </svg>
-      {/* Mascot or photo */}
-      <div className="relative z-10 transition-transform duration-300 hover:scale-110 hover:drop-shadow-glow">
-        <svg width="100" height="100" viewBox="0 0 120 120" className="drop-shadow-lg">
-          <circle cx="60" cy="60" r="56" fill="#ede9fe" />
-          <path d="M60 30L48 78h16l-8 24 24-48h-16l8-24z" fill="#a78bfa" stroke="#7c3aed" strokeWidth="3" strokeLinejoin="round"/>
-          <ellipse cx="90" cy="45" rx="7" ry="7" fill="#fbbf24"/>
-        </svg>
-      </div>
-      {/* Badges */}
-      <div className="flex flex-col gap-3 mt-6 z-10">
-        <span className="bg-yellow-300 text-black font-bold px-6 py-2 rounded-full shadow text-lg animate-fade-in-up delay-300">100+ Interactive Lessons</span>
-        <span className="bg-cyan-300 text-black font-bold px-6 py-2 rounded-full shadow text-lg animate-fade-in-up delay-400">20k+ Learners</span>
-      </div>
     </div>
-  </section>
+  </motion.section>
 );
 
 const Features = () => (
-  <section className="max-w-6xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-4 gap-6 bg-white rounded-2xl shadow p-8">
+  <section className="max-w-6xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-4 gap-6 bg-white dark:bg-gray-900 rounded-2xl shadow p-8">
     {[
       { icon: "💡", title: "Hands-on Labs", desc: "Experiment with real circuits in your browser." },
       { icon: "⚡", title: "Instant Feedback", desc: "Get hints and see results as you learn." },
@@ -211,7 +305,7 @@ const Features = () => (
       <div key={i} className="flex flex-col items-center text-center gap-2">
         <span className="text-3xl bg-yellow-200 rounded-full w-14 h-14 flex items-center justify-center mb-2">{f.icon}</span>
         <h3 className="font-bold text-lg">{f.title}</h3>
-        <p className="text-gray-600 text-sm">{f.desc}</p>
+        <p className="text-gray-600 dark:text-gray-300 text-sm">{f.desc}</p>
       </div>
     ))}
   </section>
@@ -242,6 +336,7 @@ const Index = () => {
   const [toastMessage, setToastMessage] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const { user, logout, loginWithGoogle } = useAuth();
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('theme') === 'dark');
 
   useEffect(() => {
     // Simulate fetching badge and streak data
@@ -286,9 +381,20 @@ const Index = () => {
     setTimeout(() => setShowToast(false), 3000);
   };
 
+  useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      setDarkMode(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      setDarkMode(false);
+    }
+  }, [setDarkMode]);
+
   return (
-    <div className="min-h-screen bg-gray-100 font-sans">
-      <Navbar setActiveSection={setActiveSection} activeSection={activeSection} badgeCount={badgeCount} streak={streak} user={user} logout={logout} loginWithGoogle={loginWithGoogle} onLoginClick={() => setShowLoginModal(true)} />
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 font-sans">
+      <Navbar setActiveSection={setActiveSection} activeSection={activeSection} badgeCount={badgeCount} streak={streak} user={user} logout={logout} loginWithGoogle={loginWithGoogle} onLoginClick={() => setShowLoginModal(true)} darkMode={darkMode} setDarkMode={setDarkMode} />
       <LoginModal open={showLoginModal} onClose={() => setShowLoginModal(false)} loginWithGoogle={loginWithGoogle} handleEmailLogin={handleEmailLogin} handleEmailSignup={handleEmailSignup} />
       <Toast message={toastMessage} show={showToast} />
       <ScrollToTop />
@@ -298,14 +404,14 @@ const Index = () => {
         <Features />
       </>}
       {activeSection === 'embedded' && (
-        <div className="max-w-6xl mx-auto mt-10 p-4 bg-white rounded-2xl shadow">
+        <Suspense fallback={<div className="max-w-6xl mx-auto mt-10 p-4 bg-white rounded-2xl shadow text-center text-xl">Loading...</div>}>
           <EmbeddedSystemsChallenges />
-        </div>
+        </Suspense>
       )}
       {activeSection === 'blog' && (
-        <div className="max-w-6xl mx-auto mt-10 p-4 bg-white rounded-2xl shadow">
+        <Suspense fallback={<div className="max-w-6xl mx-auto mt-10 p-4 bg-white rounded-2xl shadow text-center text-xl">Loading...</div>}>
           <Blog />
-        </div>
+        </Suspense>
       )}
       {activeSection === 'simulations' && <SimulationsSection />}
       <DoodleDivider />

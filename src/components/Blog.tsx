@@ -6,8 +6,10 @@ import { atomOneDark, atomOneLight } from 'react-syntax-highlighter/dist/esm/sty
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Clock, User, ArrowRight, Zap } from 'lucide-react';
+import { BookOpen, Clock, User, ArrowRight, Zap, Tag } from 'lucide-react';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
 
 // Helper to render HTML with syntax highlighting for code blocks
 const renderExcerptWithCode = (excerpt: string) => {
@@ -17,10 +19,17 @@ const renderExcerptWithCode = (excerpt: string) => {
   const elements: React.ReactNode[] = [];
   let match;
   let key = 0;
+  // Custom regex for Analogy Time block
+  const analogyRegex = /\*\*Analogy Time:([^\n]*)\*\*/g;
+  // First, split excerpt into code and non-code blocks
   while ((match = codeBlockRegex.exec(excerpt)) !== null) {
     // Text before code block
     if (match.index > lastIndex) {
-      const text = excerpt.slice(lastIndex, match.index);
+      let text = excerpt.slice(lastIndex, match.index);
+      // Replace Analogy Time block with styled span
+      text = text.replace(analogyRegex, (m, p1) =>
+        `<span class="analogy-block"><b>🔎 Analogy Time:${p1}</b></span>`
+      );
       elements.push(<span key={key++} dangerouslySetInnerHTML={{ __html: text.replace(/\n/g, '<br/>') }} />);
     }
     // Code block
@@ -37,7 +46,11 @@ const renderExcerptWithCode = (excerpt: string) => {
   }
   // Remaining text after last code block
   if (lastIndex < excerpt.length) {
-    elements.push(<span key={key++} dangerouslySetInnerHTML={{ __html: excerpt.slice(lastIndex).replace(/\n/g, '<br/>') }} />);
+    let text = excerpt.slice(lastIndex);
+    text = text.replace(analogyRegex, (m, p1) =>
+      `<span class="analogy-block"><b>🔎 Analogy Time:${p1}</b></span>`
+    );
+    elements.push(<span key={key++} dangerouslySetInnerHTML={{ __html: text.replace(/\n/g, '<br/>') }} />);
   }
   return elements;
 };
@@ -47,7 +60,8 @@ const Blog = () => {
     {
       id: 1,
       title: "Building an LED Blinker Circuit with Arduino",
-      excerpt: `Light Emitting Diodes (LEDs) are semiconductor devices that emit light when current flows through them. To control an LED with a microcontroller like Arduino, we need to understand a few key concepts:
+      excerpt: `Light Emitting Diodes (LEDs) are semiconductor devices that emit light when current flows through them. To control an LED with a microcontroller like Arduino, we need to understand a few key concepts. For a basic LED circuit, we calculate the resistor value using Ohm's law. This circuit shows a simple LED connected to Arduino pin 13 through a 220\u03A9 current-limiting resistor. The LED will blink on and off every second.`,
+      content: `Light Emitting Diodes (LEDs) are semiconductor devices that emit light when current flows through them. To control an LED with a microcontroller like Arduino, we need to understand a few key concepts.
 
 1. **Forward Voltage**: LEDs have a forward voltage drop (typically 1.8-3.3V depending on color)
 2. **Current Limiting**: LEDs require current limiting resistors to prevent damage
@@ -62,12 +76,13 @@ Where:
 - Vled = 2.0V (typical red LED)
 - Iled = 20mA (desired current)
 
-Therefore: R = (5-2)/0.02 = 150Ω (use 220Ω for safety margin)
+Therefore: R = (5-2)/0.02 = 150\u03A9 (use 220\u03A9 for safety margin)
 
 ---
 
 **Arduino LED Blinker Code**
 
+~~~cpp
 void setup() {
   pinMode(13, OUTPUT);
 }
@@ -77,78 +92,214 @@ void loop() {
   digitalWrite(13, LOW);
   delay(1000);
 }
+~~~
 
 ---
 
 **Circuit Simulation**
 
-This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω current-limiting resistor. The LED will blink on and off every second.`,
+This circuit shows a simple LED connected to Arduino pin 13 through a 220\u03A9 current-limiting resistor. The LED will blink on and off every second.`,
       author: "CircuitCode Team",
       date: "2024-07-13",
       readTime: "8 min read",
       category: "Beginner",
       tags: ["Arduino", "LED", "Beginner", "PWM"],
       icon: Zap,
-      featured: true
+      featured: true,
+      imageUrl: '/public/circuit-20250713-0003.png',
+      avatarUrl: 'https://api.dicebear.com/7.x/identicon/svg?seed=CircuitCodeTeam'
     },
     {
       id: 2,
       title: "Making Microcontrollers Speak: Audio with PWM & Filters",
-      excerpt: "Ever tried to make your microcontroller speak or play a tone and it sounded more like static than music? That’s because microcontrollers aren't naturally built for analog sound but with Pulse Width Modulation (PWM) and a simple filter, you can turn those jagged pulses into smooth, audible sound. Let’s dive into how you can generate decent quality audio using just PWM, a filter, and some clever coding.\n\n" +
-        "PWM creates a square wave with variable duty cycles to approximate analog signals. By adjusting the pulse width rapidly, you can encode audio amplitude into the digital signal. However, PWM signals are still steppy. To make them smooth, you need a Low-Pass Filter to filter out the high-frequency components, leaving behind the audio waveform.\n\n" +
-        "**Analogy Time: Water Faucet Drips:**\nImagine controlling water flow with rapid on-off bursts. If the bursts are fast enough, the flow feels continuous, that's PWM. The filter is like a sponge that absorbs the bursts, smoothing the flow into a steady stream.\n\n" +
-        "---\n\n" +
-        "**Generating Simple Tones with PWM**\n\n*Case: Create a basic tone generator using PWM on Arduino.*\n\n" +
-        "```cpp\nconst int speakerPin = 9;\nvoid setup() {\n  pinMode(speakerPin, OUTPUT);\n}\nvoid loop() {\n  tone(speakerPin, 1000); // Play 1kHz tone\n  delay(1000);\n  noTone(speakerPin);\n  delay(500);\n}\n```\n\n" +
-        "Real Life Case: Useful for alerts, beeps, or notification sounds._\n\n---\n\n" +
-        "**Playing Audio Samples via PWM**\n\n*Case: Playing pre-recorded audio (like a WAV file) using PWM.*\n\n" +
-        "```cpp\n#include <Arduino.h>\nconst int pwmPin = 9;\nconst unsigned char audioData[] = {128, 200, 255, 200, 128, 50, 0, 50};\nint index = 0;\nvoid setup() {\n  pinMode(pwmPin, OUTPUT);\n  analogWrite(pwmPin, 128);\n}\nvoid loop() {\n  analogWrite(pwmPin, audioData[index]);\n  index = (index + 1) % (sizeof(audioData) / sizeof(audioData[0]));\n  delayMicroseconds(125); // Controls playback rate\n}\n```\n\n" +
-        "Real Life Case: Enables simple audio playback in toys, gadgets, or notifications without needing a DAC._\n\n---\n\n" +
-        "**Generating Varying Audio Frequencies via PWM**\n\n*Case: Use PWM to dynamically generate different tones like a simple melody.*\n\n" +
-        "```cpp\nconst int speakerPin = 9;\n// C major scale frequencies\nint melody[] = {262, 294, 330, 349, 392, 440, 494, 523};\nvoid setup() {\n  pinMode(speakerPin, OUTPUT);\n}\nvoid loop() {\n  for (int i = 0; i < 8; i++) {\n    tone(speakerPin, melody[i]);\n    delay(300);\n    noTone(speakerPin);\n    delay(50);\n  }\n  delay(1000); // Pause before repeating\n}\n```\n\n" +
-        "Real Life Case: Common in toys, alarms, or any embedded device needing audible feedback or melodies._",
+      excerpt: `Ever tried to make your microcontroller speak or play a tone and it sounded more like static than music? ...`,
+      content: `Ever tried to make your microcontroller speak or play a tone and it sounded more like static than music? That’s because microcontrollers aren't naturally built for analog sound but with Pulse Width Modulation (PWM) and a simple filter, you can turn those jagged pulses into smooth, audible sound. Let’s dive into how you can generate decent quality audio using just PWM, a filter, and some clever coding.
+
+PWM creates a square wave with variable duty cycles to approximate analog signals. By adjusting the pulse width rapidly, you can encode audio amplitude into the digital signal. However, PWM signals are still steppy. To make them smooth, you need a Low-Pass Filter to filter out the high-frequency components, leaving behind the audio waveform.
+
+**Analogy Time: Water Faucet Drips:**
+Imagine controlling water flow with rapid on-off bursts. If the bursts are fast enough, the flow feels continuous, that's PWM. The filter is like a sponge that absorbs the bursts, smoothing the flow into a steady stream.
+
+---
+
+**Generating Simple Tones with PWM**
+
+*Case: Create a basic tone generator using PWM on Arduino.*
+
+~~~cpp
+const int speakerPin = 9;
+void setup() {
+  pinMode(speakerPin, OUTPUT);
+}
+void loop() {
+  tone(speakerPin, 1000); // Play 1kHz tone
+  delay(1000);
+  noTone(speakerPin);
+  delay(500);
+}
+~~~
+
+Real Life Case: Useful for alerts, beeps, or notification sounds._
+
+---
+
+**Playing Audio Samples via PWM**
+
+*Case: Playing pre-recorded audio (like a WAV file) using PWM.*
+
+~~~cpp
+#include <Arduino.h>
+const int pwmPin = 9;
+const unsigned char audioData[] = {128, 200, 255, 200, 128, 50, 0, 50};
+int index = 0;
+void setup() {
+  pinMode(pwmPin, OUTPUT);
+  analogWrite(pwmPin, 128);
+}
+void loop() {
+  analogWrite(pwmPin, audioData[index]);
+  index = (index + 1) % (sizeof(audioData) / sizeof(audioData[0]));
+  delayMicroseconds(125); // Controls playback rate
+}
+~~~
+
+Real Life Case: Enables simple audio playback in toys, gadgets, or notifications without needing a DAC._
+
+---
+
+**Generating Varying Audio Frequencies via PWM**
+
+*Case: Use PWM to dynamically generate different tones like a simple melody.*
+
+~~~cpp
+const int speakerPin = 9;
+// C major scale frequencies
+int melody[] = {262, 294, 330, 349, 392, 440, 494, 523};
+void setup() {
+  pinMode(speakerPin, OUTPUT);
+}
+void loop() {
+  for (int i = 0; i < 8; i++) {
+    tone(speakerPin, melody[i]);
+    delay(300);
+    noTone(speakerPin);
+    delay(50);
+  }
+  delay(1000); // Pause before repeating
+}
+~~~
+
+Real Life Case: Common in toys, alarms, or any embedded device needing audible feedback or melodies._`,
       author: "CircuitCode Team",
       date: "2024-07-14",
       readTime: "10 min read",
       category: "Intermediate",
       tags: ["Arduino", "PWM", "Audio", "Embedded"],
       icon: BookOpen,
-      featured: false
+      featured: false,
+      imageUrl: '/public/circuit-20250713-0003.png',
+      avatarUrl: 'https://api.dicebear.com/7.x/identicon/svg?seed=CircuitCodeTeam'
     },
     {
       id: 4,
       title: "Filtering the Noise: Bandpass & Notch Filters in Embedded Systems",
-      excerpt:
-        "Ever dealt with annoying background noise in a sensor reading or wondered how devices like radios or medical monitors keep their signals clean? That’s where bandpass and notch filters quietly do the heavy lifting. In the world of embedded systems, filters aren’t just for sound engineers, they're your toolkit for ensuring that the data and signals you process are sharp, clear, and reliable. Let’s see how these filters help us separate the signal from the noise, both literally and figuratively.<br/><br/>" +
-        "**Bandpass Filter:** Allows only a specific range of frequencies to pass through while attenuating frequencies outside this range.<br/>" +
-        "**Notch (Bandstop) Filter:** Blocks or attenuates a specific narrow band of frequencies, allowing others to pass.<br/><br/>" +
-        "**Analogy Time: Frequency Bouncer:**<br/>" +
-        "Imagine a club where the bouncer only lets in people (frequencies) from a certain age group.<br/>" +
-        "- Bandpass Filter: Only lets in people aged 20-30 (desired frequency range)<br/>" +
-        "- Notch Filter: Bans a specific troublemaker (unwanted frequency), while others can party.<br/><br/>" +
-        "---<br/><br/>" +
-        "**Cleaning Audio Signals**<br/>" +
-        "*Case: Removing unwanted low-frequency hums and high-frequency hiss from microphone inputs.*<br/><br/>" +
-        "```cpp\n// Pseudo-logic for filtering in microcontrollers using a basic moving\naverage as a smoothing filter\nconst int micPin = A0;\nint rawAudio;\nint filteredAudio;\nvoid setup() {\nSerial.begin(9600);\n}\nvoid loop() {\nrawAudio = analogRead(micPin);\n// Simulating basic filtering effect\nfilteredAudio = constrain(rawAudio, 300, 700); // bandpass constraint\nSerial.println(filteredAudio);\ndelay(10);\n}\n```<br/>" +
-        "_Real Life Case: Produces clearer audio for voice recognition or communication devices._<br/><br/>" +
-        "---<br/><br/>" +
-        "**Power Line Noise Removal**<br/>" +
-        "*Case: Removing 50Hz or 60Hz noise from analog sensor readings.*<br/><br/>" +
-        "```cpp\n const int sensorPin = A1;\n int rawData;\nint cleanData;\nvoid setup() {\nSerial.begin(9600);\n}\nvoid loop() {\nrawData = analogRead(sensorPin);\n// Simulate a software-based notch filter by ignoring specific ranges\nif (rawData > 480 && rawData < 520) {\ncleanData = 500; // Suppressing the noisy band\n} else {\ncleanData = rawData;\n}\nSerial.println(cleanData);\ndelay(10);\n}\n```<br/>" +
-        "_Real Life Case: Improves reliability of analog sensors in industrial environments._<br/><br/>" +
-        "---<br/><br/>" +
-        "**RF Communication Tuning**<br/>" +
-        "*Case: Tuning a radio receiver to only pick signals in the desired frequency band, ignoring side noise.*<br/><br/>" +
-        "```cpp\n// Simulated frequency selector\nint incomingSignalFreq = 915; // Example frequency in MHz\nint lowerBound = 900;\nint upperBound = 930;\nvoid setup() {\nSerial.begin(9600);\n}\nvoid loop() {\nif (incomingSignalFreq >= lowerBound && incomingSignalFreq <= upperBound) {\nSerial.println(\"Signal Accepted\");\n} else {\nSerial.println(\"Signal Rejected\");\n}\ndelay(1000);\n}\n```<br/>" +
-        "_Real Life Case: Ensures stable wireless communication by preventing interference._",
+      excerpt: `Ever dealt with annoying background noise in a sensor reading or wondered how devices like radios or medical monitors keep their signals clean? ...`,
+      content: `Ever dealt with annoying background noise in a sensor reading or wondered how devices like radios or medical monitors keep their signals clean? That’s where bandpass and notch filters quietly do the heavy lifting. In the world of embedded systems, filters aren’t just for sound engineers, they're your toolkit for ensuring that the data and signals you process are sharp, clear, and reliable. Let’s see how these filters help us separate the signal from the noise, both literally and figuratively.
+
+**Bandpass Filter:** Allows only a specific range of frequencies to pass through while attenuating frequencies outside this range.
+**Notch (Bandstop) Filter:** Blocks or attenuates a specific narrow band of frequencies, allowing others to pass.
+
+**Analogy Time: Frequency Bouncer:**
+Imagine a club where the bouncer only lets in people (frequencies) from a certain age group.
+- Bandpass Filter: Only lets in people aged 20-30 (desired frequency range)
+- Notch Filter: Bans a specific troublemaker (unwanted frequency), while others can party.
+
+---
+
+**Cleaning Audio Signals**
+*Case: Removing unwanted low-frequency hums and high-frequency hiss from microphone inputs.*
+
+~~~cpp
+// Pseudo-logic for filtering in microcontrollers using a basic moving
+average as a smoothing filter
+const int micPin = A0;
+int rawAudio;
+int filteredAudio;
+void setup() {
+Serial.begin(9600);
+}
+void loop() {
+rawAudio = analogRead(micPin);
+// Simulating basic filtering effect
+filteredAudio = constrain(rawAudio, 300, 700); // bandpass constraint
+Serial.println(filteredAudio);
+delay(10);
+}
+~~~
+
+_Real Life Case: Produces clearer audio for voice recognition or communication devices._
+
+---
+
+**Power Line Noise Removal**
+*Case: Removing 50Hz or 60Hz noise from analog sensor readings.*
+
+~~~cpp
+ const int sensorPin = A1;
+ int rawData;
+int cleanData;
+void setup() {
+Serial.begin(9600);
+}
+void loop() {
+rawData = analogRead(sensorPin);
+// Simulate a software-based notch filter by ignoring specific ranges
+if (rawData > 480 && rawData < 520) {
+cleanData = 500; // Suppressing the noisy band
+} else {
+cleanData = rawData;
+}
+Serial.println(cleanData);
+delay(10);
+}
+~~~
+
+_Real Life Case: Improves reliability of analog sensors in industrial environments._
+
+---
+
+**RF Communication Tuning**
+*Case: Tuning a radio receiver to only pick signals in the desired frequency band, ignoring side noise.*
+
+~~~cpp
+// Simulated frequency selector
+int incomingSignalFreq = 915; // Example frequency in MHz
+int lowerBound = 900;
+int upperBound = 930;
+void setup() {
+Serial.begin(9600);
+}
+void loop() {
+if (incomingSignalFreq >= lowerBound && incomingSignalFreq <= upperBound) {
+Serial.println("Signal Accepted");
+} else {
+Serial.println("Signal Rejected");
+}
+delay(1000);
+}
+~~~
+
+_Real Life Case: Ensures stable wireless communication by preventing interference._`,
       author: "Embedded Insights Team",
       date: "2024-07-14",
       readTime: "7 min read",
       category: "Signal Processing",
       tags: ["Filters", "Bandpass", "Notch", "Embedded", "Noise"],
       icon: Zap,
-      featured: false
-    },
+      featured: false,
+      imageUrl: '/public/circuit-20250713-0003.png',
+      avatarUrl: 'https://api.dicebear.com/7.x/identicon/svg?seed=EmbeddedInsightsTeam'
+    }
   ]);
   const [form, setForm] = useState({
     title: '',
@@ -160,14 +311,20 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
     tags: '',
     featured: false,
     imageUrl: '',
+    avatarUrl: '',
   });
   const [showForm, setShowForm] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState<null | typeof articles[0]>(null);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
+    let fieldValue: string | boolean = value;
+    if (type === 'checkbox' && e.target instanceof HTMLInputElement) {
+      fieldValue = e.target.checked;
+    }
     setForm(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: fieldValue,
     }));
   };
 
@@ -183,6 +340,7 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
         id: Date.now(),
         title: form.title,
         excerpt: form.excerpt,
+        content: form.excerpt, // Ensure content field is present
         author: form.author || 'Anonymous',
         date: form.date || new Date().toISOString().slice(0, 10),
         readTime: form.readTime || '5 min read',
@@ -190,12 +348,13 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
         tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
         icon: BookOpen,
         featured: form.featured,
-        imageUrl: form.imageUrl,
+        imageUrl: form.imageUrl || '/public/circuit-20250713-0003.png',
+        avatarUrl: form.avatarUrl || `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(form.author || 'Anonymous')}`,
       },
-      ...prev,
+      ...prev.map(a => ({ ...a, content: a.content ?? a.excerpt })),
     ]);
     setForm({
-      title: '', excerpt: '', author: '', date: '', readTime: '', category: '', tags: '', featured: false, imageUrl: '',
+      title: '', excerpt: '', author: '', date: '', readTime: '', category: '', tags: '', featured: false, imageUrl: '', avatarUrl: '',
     });
     setShowForm(false);
   };
@@ -214,18 +373,22 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
   };
 
   return (
-    <div className="space-y-12 max-w-4xl mx-auto px-2 sm:px-4">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Engineering Blog <span role="img" aria-label="books">📚</span>
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-          Explore tutorials, tips, and insights from real projects! Learn Arduino programming, 
-          circuit design, and practical engineering concepts.
-        </p>
-      </div>
-
+    <div className="space-y-12 max-w-6xl mx-auto px-2 sm:px-4">
+      {/* Hero Banner */}
+      <section className="w-full bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 rounded-3xl shadow-lg flex flex-col md:flex-row items-center gap-8 px-6 py-10 md:py-16 mb-8 relative overflow-hidden">
+        <div className="flex-1 flex flex-col justify-center gap-4">
+          <h1 className="font-heading text-4xl md:text-5xl font-extrabold text-purple-800 dark:text-yellow-200 mb-2 leading-tight">
+            Welcome to the CircuitCode Blog!
+          </h1>
+          <h2 className="text-xl md:text-2xl font-bold text-pink-600 dark:text-yellow-400 mb-2">Explore real-world electrical engineering stories, tutorials, and student journeys.</h2>
+          <p className="text-lg md:text-xl text-gray-700 dark:text-gray-200 mb-4 max-w-xl">
+            Dive into hands-on projects, simulation tips, and community insights. Learn, share, and grow with fellow makers!
+          </p>
+        </div>
+        <div className="flex-1 flex items-center justify-center">
+          <img src="/public/circuit-20250713-0003.png" alt="Circuit board illustration" className="w-64 h-40 object-contain rounded-2xl shadow-xl border-2 border-purple-200 dark:border-yellow-300" />
+        </div>
+      </section>
       {/* Blog Add Form Toggle */}
       <div className="flex justify-end">
         <Button onClick={() => setShowForm(f => !f)} variant="outline">
@@ -276,40 +439,119 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
             <label className="font-semibold">Image URL (optional)</label>
             <input name="imageUrl" value={form.imageUrl} onChange={handleFormChange} className="border rounded px-3 py-2 dark:bg-gray-800" />
           </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-semibold">Avatar URL (optional)</label>
+            <input name="avatarUrl" value={form.avatarUrl} onChange={handleFormChange} className="border rounded px-3 py-2 dark:bg-gray-800" />
+          </div>
           <Button type="submit" className="w-full">Submit</Button>
         </form>
       )}
 
-      {/* Blog Articles */}
-      <div className="space-y-10">
+      {/* Blog Card Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {articles.map(article => (
-          <Card key={article.id} className={`relative group transition-shadow duration-200 shadow-md hover:shadow-xl border-2 ${article.featured ? 'border-blue-500 dark:border-blue-400' : 'border-gray-200 dark:border-gray-800'} bg-white dark:bg-gray-950`}>  
-            {article.featured && (
-              <span className="absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg z-10">Featured</span>
-            )}
-            <CardHeader className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-              <div className="flex-1">
-                <CardTitle className="text-2xl font-bold mb-1 text-gray-900 dark:text-white">{article.title}</CardTitle>
-                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  <span className="flex items-center gap-1"><User className="w-4 h-4" /> {article.author || 'Anonymous'}</span>
-                  <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {article.date}</span>
-                  <span className="flex items-center gap-1"><ArrowRight className="w-4 h-4" /> {article.readTime}</span>
-                  <span className={`ml-2 px-2 py-0.5 rounded text-xs font-semibold ${getCategoryColor(article.category)}`}>{article.category}</span>
-                </div>
-                <div className="flex flex-wrap gap-2 mb-2">
-                  {article.tags && article.tags.map((tag: string, idx: number) => (
-                    <Badge key={idx} className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-200 px-2 py-0.5 text-xs font-medium">{tag}</Badge>
-                  ))}
-                </div>
+          <motion.div
+            key={article.id}
+            whileHover={{ scale: 1.04, boxShadow: '0 8px 32px 0 rgba(80,0,120,0.12)' }}
+            className="bg-white dark:bg-gray-950 rounded-2xl shadow-md border border-gray-200 dark:border-gray-800 flex flex-col overflow-hidden transition-all duration-200 group hover:shadow-xl"
+            onClick={() => setSelectedArticle(article)}
+          >
+            {/* Thumbnail */}
+            <div className="h-40 w-full bg-gray-100 dark:bg-gray-900 flex items-center justify-center overflow-hidden">
+              <img
+                src={article.imageUrl || '/public/circuit-20250713-0003.png'}
+                alt={article.title + ' thumbnail'}
+                className="object-cover w-full h-full"
+              />
+            </div>
+            {/* Card Content */}
+            <div className="flex-1 flex flex-col p-5 gap-2">
+              <div className="flex items-center gap-2 mb-1">
+                <span className={`px-2 py-0.5 rounded text-xs font-semibold ${getCategoryColor(article.category)}`}>{article.category}</span>
               </div>
-            </CardHeader>
-            <CardContent className="prose prose-base dark:prose-invert max-w-none text-gray-800 dark:text-gray-100 leading-relaxed">
-              {/* Render excerpt/content as HTML for formatting and highlight code blocks */}
-              {renderExcerptWithCode(article.excerpt)}
-            </CardContent>
-          </Card>
+              <h3 className="text-lg font-bold text-purple-800 dark:text-yellow-200 mb-1 line-clamp-2">{article.title}</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-sm mb-2 line-clamp-2">{article.excerpt.replace(/\n/g, ' ').replace(/\*\*.*?\*\*/g, '').slice(0, 120)}...</p>
+              <div className="flex items-center gap-2 mt-auto pt-2">
+                <img
+                  src={article.avatarUrl || 'https://api.dicebear.com/7.x/identicon/svg?seed=' + encodeURIComponent(article.author || 'Anonymous')}
+                  alt={article.author + ' avatar'}
+                  className="w-8 h-8 rounded-full border border-purple-200 dark:border-yellow-300 object-cover"
+                />
+                <span className="font-medium text-sm text-gray-800 dark:text-gray-100">{article.author || 'Anonymous'}</span>
+                <span className="text-xs text-gray-400 ml-2">{article.date}</span>
+              </div>
+              <div className="flex flex-wrap gap-1 mt-2">
+                {article.tags && article.tags.map((tag: string, idx: number) => (
+                  <span key={idx} className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-200 px-2 py-0.5 text-xs font-medium rounded-full">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
         ))}
       </div>
+
+      {selectedArticle && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="bg-white dark:bg-gray-950 rounded-2xl shadow-2xl max-w-2xl w-full mx-4 p-6 relative animate-fade-in-up overflow-y-auto max-h-[90vh]">
+            <button onClick={() => setSelectedArticle(null)} className="absolute top-4 right-4 text-gray-400 hover:text-purple-600 dark:hover:text-yellow-300 text-2xl font-bold">&times;</button>
+            <img src={selectedArticle.imageUrl} alt={selectedArticle.title + ' featured'} className="w-full h-48 object-cover rounded-xl mb-4 border border-purple-200 dark:border-yellow-300" />
+            <div className="flex items-center gap-2 mb-2">
+              <span className={`px-2 py-0.5 rounded text-xs font-semibold ${getCategoryColor(selectedArticle.category)}`}>{selectedArticle.category}</span>
+              <span className="text-xs text-gray-400 ml-2">{selectedArticle.date}</span>
+              <span className="text-xs text-gray-400 ml-2">{selectedArticle.readTime}</span>
+            </div>
+            <h2 className="text-2xl font-extrabold text-purple-800 dark:text-yellow-200 mb-2">{selectedArticle.title}</h2>
+            <div className="flex items-center gap-2 mb-4">
+              <img src={selectedArticle.avatarUrl} alt={selectedArticle.author + ' avatar'} className="w-8 h-8 rounded-full border border-purple-200 dark:border-yellow-300 object-cover" />
+              <span className="font-medium text-sm text-gray-800 dark:text-gray-100">{selectedArticle.author}</span>
+            </div>
+            <div className="prose prose-lg dark:prose-invert max-w-none text-gray-800 dark:text-gray-100 leading-relaxed">
+              <ReactMarkdown
+                components={{
+                  code({node, inline, className, children, ...props}) {
+                    return !inline ? (
+                      <pre className="bg-gray-900 text-pink-200 rounded-lg p-4 overflow-x-auto text-base my-4">
+                        <code>{children}</code>
+                      </pre>
+                    ) : (
+                      <code className="bg-gray-200 dark:bg-gray-800 rounded px-1 text-pink-700 dark:text-pink-300">{children}</code>
+                    );
+                  },
+                  blockquote({children}) {
+                    return <blockquote className="border-l-4 border-purple-400 bg-purple-50 dark:bg-gray-800 p-4 my-4 italic text-purple-900 dark:text-purple-200">{children}</blockquote>;
+                  },
+                  h2({children}) {
+                    return <h2 className="text-2xl font-bold mt-8 mb-3 text-purple-700 dark:text-yellow-200">{children}</h2>;
+                  },
+                  h3({children}) {
+                    return <h3 className="text-xl font-semibold mt-6 mb-2 text-pink-700 dark:text-yellow-300">{children}</h3>;
+                  },
+                  ul({children}) {
+                    return <ul className="list-disc ml-6 mb-4">{children}</ul>;
+                  },
+                  ol({children}) {
+                    return <ol className="list-decimal ml-6 mb-4">{children}</ol>;
+                  },
+                  li({children}) {
+                    return <li className="mb-1">{children}</li>;
+                  },
+                  strong({children}) {
+                    return <strong className="text-purple-700 dark:text-yellow-200 font-extrabold">{children}</strong>;
+                  },
+                  em({children}) {
+                    return <em className="text-pink-600 dark:text-yellow-300 italic">{children}</em>;
+                  },
+                  a({href, children}) {
+                    return <a href={href} className="text-blue-600 underline hover:text-blue-800 dark:text-yellow-300" target="_blank" rel="noopener noreferrer">{children}</a>;
+                  },
+                }}
+              >
+                {selectedArticle.content}
+              </ReactMarkdown>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Newsletter Signup */}
       <Card className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border-purple-200 dark:border-purple-700">
@@ -336,6 +578,20 @@ This circuit shows a simple LED connected to Arduino pin 13 through a 220Ω curr
           </div>
         </CardContent>
       </Card>
+      <style>{`
+        .analogy-block {
+          display: inline-block;
+          font-weight: bold;
+          color: #a21caf;
+          font-size: 1.1em;
+          background: #f3e8ff;
+          border-left: 4px solid #a21caf;
+          padding: 0.1em 0.6em;
+          margin: 0.3em 0;
+          border-radius: 0.5em;
+          box-shadow: 0 1px 4px 0 #a21caf22;
+        }
+      `}</style>
     </div>
   );
 };

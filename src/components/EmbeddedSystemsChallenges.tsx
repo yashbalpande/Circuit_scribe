@@ -20,7 +20,9 @@ import {
   Lightbulb,
   ArrowLeft,
   Eye,
-  EyeOff
+  EyeOff,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { verifyArduinoCode, getAllChallenges, type Challenge, type VerificationResult } from '../lib/arduinoVerifier';
 import { useAuth } from './FirebaseAuthProvider';
@@ -73,7 +75,7 @@ const Confetti = ({ show }) => show ? (
 ) : null;
 
 const ProfileCard = ({ user, streak, xp, level, badges }) => (
-  <div className="sticky top-8 bg-white/90 rounded-2xl shadow-lg p-4 flex flex-col items-center mb-8 animate-fade-in-up">
+  <div className="sticky top-8 bg-white/90 dark:bg-gray-900/90 rounded-2xl shadow-lg p-4 flex flex-col items-center mb-8 animate-fade-in-up">
     <div className="mb-2">
       {user?.photoURL ? (
         <img src={user.photoURL} alt="avatar" className="w-16 h-16 rounded-full border-4 border-yellow-300" />
@@ -93,7 +95,7 @@ const ProfileCard = ({ user, streak, xp, level, badges }) => (
 );
 
 const Leaderboard = ({ leaderboard }) => (
-  <div className="bg-white/90 rounded-2xl shadow-lg p-4 mb-8 animate-fade-in-up">
+  <div className="bg-white/90 dark:bg-gray-900/90 rounded-2xl shadow-lg p-4 mb-8 animate-fade-in-up">
     <h2 className="text-xl font-bold text-purple-700 mb-4 flex items-center gap-2">
       <Zap className="h-5 w-5 text-yellow-400" /> Leaderboard
     </h2>
@@ -139,6 +141,19 @@ const EmbeddedSystemsChallenges = () => {
   const [level, setLevel] = useState(1);
   const [badges, setBadges] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
+
+  // On mount, check localStorage for theme and set initial state
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      setDarkMode(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      setDarkMode(false);
+    }
+  }, []);
 
   // Get challenges from the verifier
   const challenges = getAllChallenges();
@@ -522,7 +537,7 @@ void loop() {
   };
 
   return (
-    <div className="min-h-[80vh] bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 py-8 px-2 sm:px-0">
+    <div className="min-h-[80vh] bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-8 px-2 sm:px-0">
       <Toast message={toastMessage} show={showToast} />
       <Confetti show={showConfetti} />
       <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-8">
@@ -589,10 +604,35 @@ void loop() {
         <div className="w-full md:w-72 flex-shrink-0">
           <ProfileCard user={user} streak={streak} xp={xp} level={level} badges={badges} />
           <Leaderboard leaderboard={leaderboard} />
+          <div className="flex justify-center mt-6">
+            <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
+const DarkModeToggle = ({ darkMode, setDarkMode }) => (
+  <button
+    aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+    className="ml-4 p-2 rounded-full hover:bg-purple-100 transition focus:outline-none focus:ring-2 focus:ring-purple-400"
+    onClick={() => {
+      setDarkMode((prev) => {
+        const newMode = !prev;
+        if (newMode) {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        }
+        return newMode;
+      });
+    }}
+  >
+    {darkMode ? <Sun /> : <Moon />}
+  </button>
+);
 
 export default EmbeddedSystemsChallenges;
