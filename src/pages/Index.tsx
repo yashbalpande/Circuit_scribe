@@ -1,5 +1,8 @@
+import { useAuth } from '../components/FirebaseAuthProvider';
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
+import { FcGoogle } from 'react-icons/fc';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Zap, Lightbulb, Wrench, Target, Sparkles, Code, BookOpen } from 'lucide-react';
 import { ThemeToggle } from '../components/ThemeToggle';
@@ -12,6 +15,65 @@ import CircuitTroubleshooting from './CircuitTroubleshooting';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const { user, login, logout, loading, signup, resetPassword, loginWithGoogle } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [mode, setMode] = useState<'login' | 'signup' | 'reset'>('login');
+  const [message, setMessage] = useState<string | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setMessage(null);
+    try {
+      await login(email, password);
+    } catch (err: any) {
+      setError(err.message || 'Login failed');
+    }
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setMessage(null);
+    try {
+      await signup(email, password);
+      setMessage('Account created! You are now logged in.');
+    } catch (err: any) {
+      setError(err.message || 'Signup failed');
+    }
+  };
+
+  const handleReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setMessage(null);
+    try {
+      await resetPassword(email);
+      setMessage('Password reset email sent!');
+    } catch (err: any) {
+      setError(err.message || 'Failed to send reset email');
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setError(null);
+    setMessage(null);
+    try {
+      await loginWithGoogle();
+    } catch (err: any) {
+      setError(err.message || 'Google sign-in failed');
+    }
+  };
+
+  const handleHeaderLoginClick = () => {
+    setAuthOpen(true);
+    setMode('login');
+    setError(null);
+    setMessage(null);
+  };
 
   const HomeSection = ({ setActiveSection }: { setActiveSection: (section: string) => void }) => (
     <div className="text-center py-12">
@@ -93,7 +155,6 @@ const Index = () => {
               <p className="text-sm text-gray-600 dark:text-gray-300">Your EE Learning Buddy ⚡</p>
             </div>
           </div>
-          
           <div className="flex items-center space-x-4">
             <nav className="flex space-x-2">
               {[
@@ -118,10 +179,112 @@ const Index = () => {
               ))}
             </nav>
             <ThemeToggle />
+            {/* Auth controls in header, right-aligned */}
+            {loading ? (
+              <div className="ml-4">Loading...</div>
+            ) : user ? (
+              <div className="flex items-center ml-4 gap-2">
+                <span className="text-sm text-gray-700 dark:text-gray-200">{user.email}</span>
+                <Button onClick={logout} size="sm" variant="outline">Logout</Button>
+              </div>
+            ) : (
+              <Button type="button" onClick={handleHeaderLoginClick} className="ml-4 flex items-center gap-2 bg-white border border-gray-300 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 rounded shadow-sm">
+                <FcGoogle className="text-xl" /> Login
+              </Button>
+            )}
           </div>
         </div>
       </header>
-
+      {/* Auth Modal */}
+      <Dialog open={authOpen} onOpenChange={setAuthOpen}>
+        <DialogContent className="max-w-sm w-full p-6">
+          <DialogHeader>
+            <DialogTitle className="text-center">{mode === 'login' ? 'Login' : mode === 'signup' ? 'Sign Up' : 'Reset Password'}</DialogTitle>
+            <DialogClose asChild>
+              <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600">×</button>
+            </DialogClose>
+          </DialogHeader>
+          <Button type="button" onClick={handleGoogleLogin} className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-100 text-gray-800 font-semibold py-2 rounded shadow-sm mb-4">
+            <FcGoogle className="text-xl" /> Sign in with Google
+          </Button>
+          <div className="relative flex items-center my-2">
+            <span className="flex-grow border-t border-gray-300"></span>
+            <span className="mx-2 text-gray-400 text-xs">or</span>
+            <span className="flex-grow border-t border-gray-300"></span>
+          </div>
+          {mode === 'login' && (
+            <form onSubmit={handleLogin} className="flex flex-col gap-4">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="px-4 py-2 border rounded focus:outline-none focus:ring"
+                required
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="px-4 py-2 border rounded focus:outline-none focus:ring"
+                required
+              />
+              {error && <div className="text-red-500 text-sm">{error}</div>}
+              {message && <div className="text-green-600 text-sm">{message}</div>}
+              <Button type="submit" className="w-full">Login</Button>
+              <div className="flex justify-between text-sm mt-2">
+                <button type="button" className="text-blue-600 hover:underline" onClick={() => { setMode('signup'); setError(null); setMessage(null); }}>Sign up</button>
+                <button type="button" className="text-blue-600 hover:underline" onClick={() => { setMode('reset'); setError(null); setMessage(null); }}>Forgot password?</button>
+              </div>
+            </form>
+          )}
+          {mode === 'signup' && (
+            <form onSubmit={handleSignup} className="flex flex-col gap-4">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="px-4 py-2 border rounded focus:outline-none focus:ring"
+                required
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="px-4 py-2 border rounded focus:outline-none focus:ring"
+                required
+              />
+              {error && <div className="text-red-500 text-sm">{error}</div>}
+              {message && <div className="text-green-600 text-sm">{message}</div>}
+              <Button type="submit" className="w-full">Sign Up</Button>
+              <div className="flex justify-between text-sm mt-2">
+                <button type="button" className="text-blue-600 hover:underline" onClick={() => { setMode('login'); setError(null); setMessage(null); }}>Back to Login</button>
+              </div>
+            </form>
+          )}
+          {mode === 'reset' && (
+            <form onSubmit={handleReset} className="flex flex-col gap-4">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="px-4 py-2 border rounded focus:outline-none focus:ring"
+                required
+              />
+              {error && <div className="text-red-500 text-sm">{error}</div>}
+              {message && <div className="text-green-600 text-sm">{message}</div>}
+              <Button type="submit" className="w-full">Send Reset Email</Button>
+              <div className="flex justify-between text-sm mt-2">
+                <button type="button" className="text-blue-600 hover:underline" onClick={() => { setMode('login'); setError(null); setMessage(null); }}>Back to Login</button>
+              </div>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
         {renderActiveSection()}
