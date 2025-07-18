@@ -76,7 +76,7 @@ const Index = () => {
   };
 
   const HomeSection = ({ setActiveSection }: { setActiveSection: (section: string) => void }) => (
-    <div className="text-center py-12">
+    <div className="text-center py-6 sm:py-12">
       <div className="relative inline-block mb-8">
         <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
           <Zap className="h-12 w-12 text-white" />
@@ -86,7 +86,7 @@ const Index = () => {
         </div>
       </div>
 
-      <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+      <h1 className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
         Welcome to CircuitCode! ⚡
       </h1>
       
@@ -96,12 +96,12 @@ const Index = () => {
         Ready to make learning EE feel like the coolest adventure ever? ⚡😊
       </p>
 
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
+      <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mb-8">
         <Button 
-          size="lg" 
+          size="lg"
           variant="outline"
           onClick={() => setActiveSection('learn')}
-          className="border-purple-300 dark:border-purple-600 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 px-8 py-3 text-lg"
+          className="w-full sm:w-auto border-purple-300 dark:border-purple-600 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 px-6 py-2 text-base sm:text-lg"
           disabled
         >
           <Lightbulb className="mr-2 h-5 w-5" />
@@ -110,7 +110,7 @@ const Index = () => {
         <Button 
           size="lg"
           onClick={() => setActiveSection('embedded')}
-          className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-8 py-3 text-lg"
+          className="w-full sm:w-auto bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-6 py-2 text-base sm:text-lg"
           disabled
         >
           <Code className="mr-2 h-5 w-5" />
@@ -143,7 +143,7 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
       {/* Header */}
       <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200 dark:border-gray-700 sticky top-0 z-50 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
           <div className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
               <Zap className="h-6 w-6 text-white" />

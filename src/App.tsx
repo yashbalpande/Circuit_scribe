@@ -5,6 +5,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { FirebaseAuthProvider } from "./components/FirebaseAuthProvider";
+import { Analytics } from "@vercel/analytics/next";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>
+      <Analytics />
     </FirebaseAuthProvider>
   </ThemeProvider>
 );
