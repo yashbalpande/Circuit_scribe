@@ -239,16 +239,17 @@ const Hero = ({ setActiveSection }) => (
       <h1 className="font-heading text-5xl md:text-6xl font-extrabold text-purple-800 dark:text-yellow-200 mb-2 leading-tight">
         Welcome to CircuitCode!
       </h1>
-      <h2 className="text-2xl md:text-3xl font-bold text-pink-600 dark:text-yellow-400 mb-2">Interactive labs, real-time feedback, community challenges.</h2>
+      <h2 className="text-2xl md:text-3xl font-bold text-pink-600 dark:text-yellow-400 mb-2">Explore real-world electrical engineering stories, tutorials, and student journeys.
+</h2>
       <p className="text-lg md:text-xl text-gray-700 dark:text-gray-200 mb-6">
-        Your friendly electrical engineering companion. Explore circuits, debug problems, and spark your understanding.
+        Dive into hands-on projects, simulation tips, and community insights. Learn, share, and grow with fellow makers!
       </p>
       <div className="flex flex-col sm:flex-row gap-4 w-full">
         <motion.button
           className="flex-1 bg-purple-200 dark:bg-yellow-200 text-purple-800 dark:text-yellow-900 font-bold px-8 py-3 rounded-full shadow hover:bg-purple-300 dark:hover:bg-yellow-300 transition-all hover:scale-105 text-lg min-h-[48px] min-w-[44px] focus:outline-none focus:ring-2 focus:ring-purple-400 flex items-center justify-center gap-2"
           whileHover={{ scale: 1.07 }}
           whileTap={{ scale: 0.97 }}
-          onClick={() => setActiveSection('embedded')}
+          onClick={() => setActiveSection('blog')}
           aria-label="Start Learning"
         >
           <Gauge className="inline-block mr-2 text-purple-600 dark:text-yellow-700" aria-hidden="true" />
@@ -258,7 +259,7 @@ const Hero = ({ setActiveSection }) => (
           className="flex-1 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold px-8 py-3 rounded-full shadow hover:brightness-110 transition-all hover:scale-105 text-lg min-h-[48px] min-w-[44px] focus:outline-none focus:ring-2 focus:ring-pink-400 flex items-center justify-center gap-2"
           whileHover={{ scale: 1.07 }}
           whileTap={{ scale: 0.97 }}
-          onClick={() => setActiveSection('blog')}
+          onClick={() => setActiveSection('embedded')}
           aria-label="Code Challenges"
         >
           <Code className="inline-block mr-2 text-white" aria-hidden="true" />
