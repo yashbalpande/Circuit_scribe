@@ -181,7 +181,7 @@ const arduinoDays: ArduinoDay[] = [
     tags: ['Serial', 'Communication', 'Debugging', 'Beginner'],
     image: '/pic1.png',
     content:
-      '## ↔️ Serial Communication Basics\n' +
+      '## ↔️ Serial Communication Basics\n ' +
       '\n' +
       'Serial communication is a way for your Arduino to send and receive data to/from other devices—most commonly your computer.\n' +
       'Think of it as a chat channel between your Arduino and your PC.\n' +
