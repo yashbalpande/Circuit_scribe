@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import { describe, it, expect } from '@j;est/globals';
 
 const courses = [
   {
@@ -230,6 +231,298 @@ const arduinoDays: ArduinoDay[] = [
       '```\nvoid setup() {\n  Serial.begin(9600); // Start serial communication\n}\n\nvoid loop() {\n  if (Serial.available() > 0) { // Check if data is available\n    char incomingChar = Serial.read();        // Read the oldest character\n    Serial.print("I received: ");             // Print a message\n    Serial.println(incomingChar);             // Print the character received\n  }\n}\n```\n',
     questions: []
   },
+  {
+    day: '4',
+    title: 'Operators in Arduino',
+    summary:
+      'Learn how operators work in Arduino to perform calculations, make comparisons, and control logic. Includes examples for arithmetic, comparison, and logical operators.',
+    tags: ['Operators', 'Logic', 'Arduino Programming', 'Beginner'],
+    image: '/pic4.png',
+    content:
+`# 🧮 Operators in Arduino
+
+## 🔍 What Are Operators?
+Operators are special symbols that perform operations on variables and values.
+They are the building blocks for calculations, comparisons, and logical decisions in your Arduino programs.
+
+---
+
+## 📚 Categories of Operators
+- **Arithmetic Operators** – Perform mathematical calculations
+- **Comparison Operators** – Compare two values
+- **Logical Operators** – Combine or modify boolean values
+
+---
+
+## ➕ Arithmetic Operators
+Used to perform basic mathematical operations on numbers.
+
+### ➕ Addition +
+\`\`\`cpp
+int a = 5;
+int b = 3;
+int sum = a + b;  // Result: 8
+\`\`\`
+
+### ➖ Subtraction -
+\`\`\`cpp
+int temperature = 25;
+int decrease = 5;
+int newTemp = temperature - decrease;  // Result: 20
+\`\`\`
+
+### ✖️ Multiplication *
+\`\`\`cpp
+float voltage = 3.3;
+float multiplier = 2.0;
+float result = voltage * multiplier;  // Result: 6.6
+\`\`\`
+
+### ➗ Division /
+\`\`\`cpp
+int totalLEDs = 20;
+int groups = 4;
+int ledsPerGroup = totalLEDs / groups;  // Result: 5
+\`\`\`
+
+### 🔢 Modulus % (Remainder)
+\`\`\`cpp
+int number = 17;
+int divisor = 5;
+int remainder = number % divisor;  // Result: 2
+\`\`\`
+
+---
+
+## ⚖️ Comparison Operators
+These operators compare two values and return true or false.
+
+### == Equal to
+\`\`\`cpp
+int sensorValue = 512;
+bool isMiddle = (sensorValue == 512);  // Result: true
+\`\`\`
+
+### != Not Equal to
+\`\`\`cpp
+char grade = 'A';
+bool notPerfect = (grade != 'A');  // Result: false
+\`\`\`
+
+### > Greater Than
+\`\`\`cpp
+float temperature = 30.5; 
+bool tooHot = (temperature > 25.0);  // Result: true
+\`\`\`
+
+### < Less Than
+\`\`\`cpp
+int brightness = 100;
+bool dim = (brightness < 200);  // Result: true
+\`\`\`
+
+### >= Greater Than or Equal To
+\`\`\`cpp
+int batteryLevel = 80;
+bool sufficient = (batteryLevel >= 80);  // Result: true
+\`\`\`
+
+### <= Less Than or Equal To
+\`\`\`cpp
+byte pwmValue = 255;
+bool validPWM = (pwmValue <= 255);  // Result: true
+\`\`\`
+
+---
+
+## 🧠 Logical Operators
+These work with boolean values (true/false) and combine or modify them.
+
+### && Logical AND
+\`\`\`cpp
+bool switch1 = true;
+bool switch2 = true;
+bool bothOn = switch1 && switch2;  // Result: true
+\`\`\`
+
+**Truth Table:**
+\`\`\`arduino
+true  && true  = true  
+true  && false = false  
+false && true  = false  
+false && false = false
+\`\`\`
+
+### || Logical OR
+\`\`\`cpp
+bool emergencyStop = false;
+bool manualStop = true;
+bool shouldStop = emergencyStop || manualStop;  // Result: true
+\`\`\`
+
+**Truth Table:**
+\`\`\`arduino
+true  || true  = true  
+true  || false = true  
+false || true  = true  
+false || false = false
+\`\`\`
+
+### ! Logical NOT
+\`\`\`cpp
+bool systemReady = false;
+bool systemNotReady = !systemReady;  // Result: true
+\`\`\`
+
+---
+
+## 🧮 Operator Precedence
+When multiple operators are used, precedence determines the order of operations.
+
+**Order (Highest → Lowest):**
+1. Parentheses ()
+2. NOT !
+3. Multiplication *, Division /, Modulus %
+4. Addition +, Subtraction -
+5. Comparison Operators <, >, <=, >=
+6. Equality Operators ==, !=
+7. AND &&
+8. OR ||
+
+**Example:**
+\`\`\`cpp
+int result = 5 + 3 * 2;      // Result: 11
+int result2 = (5 + 3) * 2;   // Result: 16
+\`\`\`
+
+---
+
+## 📌 Practical Examples
+
+### ✅ Sensor Range Check
+\`\`\`cpp
+int sensorValue = 750;
+bool inRange = (sensorValue >= 200) && (sensorValue <= 800);
+\`\`\`
+
+### ✅ LED Brightness Calculation
+\`\`\`cpp
+int maxBrightness = 255;
+int percentage = 75;
+int ledBrightness = (maxBrightness * percentage) / 100;
+\`\`\`
+
+### ✅ System Status Check
+\`\`\`cpp
+bool powerOk = true;
+bool temperatureOk = false;
+bool systemStatus = powerOk && temperatureOk;  // Result: false
+\`\`\`
+`,
+  quiz: [
+    {
+      question: '1. What is the primary purpose of a variable in Arduino?',
+      options: [
+        'a) Store only text values',
+        'b) Create loops',
+        'c) Store and manage data values',
+        "d) Control the board's voltage",
+      ],
+      answer: 2,
+    },
+    {
+      question: '2. Which of the following is a valid variable declaration in Arduino?',
+      options: [
+        'a) int 2sensor = 512;',
+        'b) int light sensor = 1023;',
+        'c) int_sensor = 1023;',
+        'd) int lightSensor = 1023;',
+      ],
+      answer: 3,
+    },
+    {
+      question: '3. What data type would you use to store the value 3.14?',
+      options: [
+        'a) int',
+        'b) float',
+        'c) char',
+        'd) bool',
+      ],
+      answer: 1,
+    },
+    {
+      question: '4. Which of the following can store only true or false values?',
+      options: [
+        'a) int',
+        'b) float',
+        'c) bool',
+        'd) char',
+      ],
+      answer: 2,
+    },
+    {
+      question: '5. What is the range of values that an int can store in Arduino?',
+      options: [
+        'a) 0 to 255',
+        'b) -128 to 127',
+        'c) -32,768 to 32,767',
+        'd) -2,147,483,648 to 2,147,483,647',
+      ],
+      answer: 2,
+    },
+    {
+      question: '6. Which data type is most memory-efficient for storing small positive values like PWM brightness?',
+      options: [
+        'a) long',
+        'b) byte',
+        'c) float',
+        'd) bool',
+      ],
+      answer: 1,
+    },
+    {
+      question: '7. Which variable name is invalid in Arduino?',
+      options: [
+        'a) _temperature',
+        'b) temp1',
+        'c) int',
+        'd) sensor_value',
+      ],
+      answer: 2,
+    },
+    {
+      question: '8. What does the following line do? float temp = 22.5;',
+      options: [
+        'a) Declares an integer named temp',
+        'b) Stores an error code',
+        'c) Declares a decimal value in a float variable',
+        'd) Compares temperature values',
+      ],
+      answer: 2,
+    },
+    {
+      question: "9. What is the correct data type to store a single letter like 'A'?",
+      options: [
+        'a) char',
+        'b) byte',
+        'c) bool',
+        'd) int',
+      ],
+      answer: 0,
+    },
+    {
+      question: '10. Which data type should be used for time values like milliseconds in Arduino?',
+      options: [
+        'a) int',
+        'b) char',
+        'c) long',
+        'd) bool',
+      ],
+      answer: 2,
+    },
+  ],
+  questions: [],
+},
 ];
 
 // Add quiz for Day 2
@@ -434,6 +727,62 @@ arduinoDays[2].quiz = [
       'c) The Arduino would stop running the code.',
       'd) The monitor would automatically adjust to 57600.',
     ],
+    answer: 1,
+  },
+];
+
+
+
+// Add quiz for Day 5
+arduinoDays[4].quiz = [
+  {
+    question: '1. What is the result of 15 % 4?',
+    options: ['a) 3', 'b) 4', 'c) 3.75', 'd) 0'],
+    answer: 0,
+  },
+  {
+    question: '2. Which operator checks if two values are NOT equal?',
+    options: ['a) ==', 'b) !=', 'c) <>', 'd) ><'],
+    answer: 1,
+  },
+  {
+    question: '3. What does the expression (true && false) evaluate to?',
+    options: ['a) true', 'b) false', 'c) 1', 'd) 0'],
+    answer: 1,
+  },
+  {
+    question: '4. What is the result of 7 / 2 when using integer division?',
+    options: ['a) 3.5', 'b) 3', 'c) 4', 'd) 2'],
+    answer: 1,
+  },
+  {
+    question: '5. Which logical operator returns true when at least one condition is true?',
+    options: ['a) &&', 'b) ||', 'c) !', 'd) =='],
+    answer: 1,
+  },
+  {
+    question: '6. What will be printed for the remainder in Snippet 1?',
+    options: ['a) 2', 'b) 2.4', 'c) 7', 'd) 0'],
+    answer: 0,
+  },
+  {
+    question: '7. What will be printed for "Too hot" in Snippet 2?',
+    options: ['a) true', 'b) false', 'c) 1', 'd) 28.5'],
+    answer: 0,
+  },
+  {
+    question: '8. What will be printed for "Engine can start" in Snippet 3?',
+    options: ['a) true', 'b) false', 'c) Door closed', 'd) Error'],
+    answer: 1,
+  },
+  {
+    question: '9. What will be printed for "Valid voltage" in Snippet 4?',
+    options: ['a) true', 'b) false', 'c) 4.8', 'd) 1'],
+    answer: 0,
+  },
+  {
+    question: '10. What will be the PWM Value in Snippet 5?',
+    options: ['a) 60', 'b) 153', 'c) 255', 'd) 100'],
     answer: 1,
   },
 ];
