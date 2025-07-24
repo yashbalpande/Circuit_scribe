@@ -730,63 +730,7 @@ arduinoDays[2].quiz = [
     answer: 1,
   },
 ];
-
-
-
-// Add quiz for Day 5
-arduinoDays[4].quiz = [
-  {
-    question: '1. What is the result of 15 % 4?',
-    options: ['a) 3', 'b) 4', 'c) 3.75', 'd) 0'],
-    answer: 0,
-  },
-  {
-    question: '2. Which operator checks if two values are NOT equal?',
-    options: ['a) ==', 'b) !=', 'c) <>', 'd) ><'],
-    answer: 1,
-  },
-  {
-    question: '3. What does the expression (true && false) evaluate to?',
-    options: ['a) true', 'b) false', 'c) 1', 'd) 0'],
-    answer: 1,
-  },
-  {
-    question: '4. What is the result of 7 / 2 when using integer division?',
-    options: ['a) 3.5', 'b) 3', 'c) 4', 'd) 2'],
-    answer: 1,
-  },
-  {
-    question: '5. Which logical operator returns true when at least one condition is true?',
-    options: ['a) &&', 'b) ||', 'c) !', 'd) =='],
-    answer: 1,
-  },
-  {
-    question: '6. What will be printed for the remainder in Snippet 1?',
-    options: ['a) 2', 'b) 2.4', 'c) 7', 'd) 0'],
-    answer: 0,
-  },
-  {
-    question: '7. What will be printed for "Too hot" in Snippet 2?',
-    options: ['a) true', 'b) false', 'c) 1', 'd) 28.5'],
-    answer: 0,
-  },
-  {
-    question: '8. What will be printed for "Engine can start" in Snippet 3?',
-    options: ['a) true', 'b) false', 'c) Door closed', 'd) Error'],
-    answer: 1,
-  },
-  {
-    question: '9. What will be printed for "Valid voltage" in Snippet 4?',
-    options: ['a) true', 'b) false', 'c) 4.8', 'd) 1'],
-    answer: 0,
-  },
-  {
-    question: '10. What will be the PWM Value in Snippet 5?',
-    options: ['a) 60', 'b) 153', 'c) 255', 'd) 100'],
-    answer: 1,
-  },
-];
-
+  
 // Add a Quiz component for single-select questions
 const arduinoQuizQuestions = [
   {
