@@ -18,6 +18,9 @@ const arduinoDays = [
   {
     day: '1',
     title: 'What is Arduino?',
+    summary: 'Discover what Arduino is, why it is popular, and what you can build with it. Learn about the basics of the platform and its community.',
+    tags: ['Beginner', 'Introduction', 'Open Source', 'Physical Computing'],
+    image: '../public/pic3.png',
     content:
       '# **What is Arduino?**\n' +
       '\n' +
@@ -94,10 +97,12 @@ const arduinoDays = [
       '> 💡 Arduino lets you bridge code and hardware to build amazing interactive projects.\n' +
       '\n' +
       '- **Smart Home Devices** — Automate lights, control appliances, monitor temperature or humidity\n' +
-      '- **Robotics** — Build robots, line-followers, or drones\n' +
-      '- **Sensor Systems** — Measure environmental data like light, distance, sound, or motion\n' +
-      '- **Interactive Art** — Create displays that react to touch, sound, or movement\n' +
-      '- **Educational Tools** — Great for building hands-on learning kits\n',
+      '\n' +
+      '- **Robotics** — Build robots, line-followers, or drones\n\n' +
+'- **Sensor Systems** — Measure environmental data like light, distance, sound, or motion\n\n' +
+'- **Interactive Art** — Create displays that react to touch, sound, or movement\n\n' +
+'- **Educational Tools** — Great for building hands-on learning kits\n',
+
     questions: []
   }
 ];
@@ -261,117 +266,121 @@ function ArduinoQuiz() {
   );
 }
 
-const ArduinoDetail = ({ onBack }) => (
-  <div className="max-w-3xl mx-auto py-10 px-5">
-    <button
-      onClick={onBack}
-      className="mb-6 px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-700 transition"
-    >
-      ← Back to Courses
-    </button>
-    <h2 className="text-3xl font-bold mb-6 flex items-center gap-2 text-white">
-      ⚡ Arduino Day-wise Plan
-    </h2>
-    <div className="space-y-10">
-      {arduinoDays.map((item, idx) => (
-        <div
-          key={idx}
-          className="bg-gray-950 border border-gray-800 rounded-2xl shadow-xl overflow-hidden"
-        >
-          {/* Header */}
-          <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-3 border-b border-yellow-300 flex items-center gap-2">
-            <span className="text-gray-900 font-bold text-lg">Day {item.day}</span>
-            <span className="text-gray-900 font-semibold">{item.title}</span>
-          </div>
-
-          {/* Content */}
-          <div className="bg-gray-900 px-6 py-6">
-            <div className="text-gray-200 prose prose-invert max-w-none mb-8">
-              <ReactMarkdown
-                children={item.content}
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeSlug, rehypeAutolinkHeadings]}
-                components={{
-                  img: ({node, ...props}) => (
-                    <div className="flex justify-center my-6">
-                      <img
-                        {...props}
-                        className="rounded-xl border border-gray-700 shadow-lg max-w-md w-full object-contain"
-                        alt={props.alt}
-                      />
-                    </div>
-                  ),
-                  code({node, inline, className, children, ...props}: any) {
-                    return !inline ? (
-                      <pre className="bg-gray-900 border border-gray-700 rounded-xl p-4 my-4 overflow-x-auto text-sm">
-                        <code className="font-mono text-green-200">{children}</code>
-                      </pre>
-                    ) : (
-                      <code className="bg-gray-800 rounded px-1.5 py-0.5 text-green-300 font-mono text-sm">{children}</code>
-                    );
-                  },
-                }}
-              />
-            </div>
-            {/* Quiz Section */}
-            <ArduinoQuiz />
-            {/* Questions (if any) */}
-            {item.questions && item.questions.length > 0 && (
-              <div className="mb-8 bg-gray-800 border border-pink-400/40 rounded-xl p-6 shadow-inner">
-                <h3 className="text-xl font-bold text-pink-400 mb-4">📚 Practice Questions</h3>
-                <ul className="space-y-5">
-                  {item.questions.map((q, i) => (
-                    <li
-                      key={i}
-                      className="bg-gray-900 border border-gray-700 rounded-lg p-4"
-                    >
-                      <div className="text-white font-medium mb-2">{q.question}</div>
-                      {q.code && (
-                        <pre className="bg-gray-800 text-green-200 text-sm rounded p-4 overflow-x-auto border border-gray-700">
-                          <code>{q.code}</code>
-                        </pre>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-const CoursePage = () => {
-  const [selectedCourse, setSelectedCourse] = useState(null);
-
-  if (selectedCourse === 'arduino') {
-    return <ArduinoDetail onBack={() => setSelectedCourse(null)} />;
-  }
-
+// Card component for day-wise view
+function ArduinoDayCard({ day, title, summary, tags, image, onClick }) {
   return (
-    <div className="max-w-4xl mx-auto py-10 px-5">
-      <h1 className="text-4xl font-bold mb-8 text-white flex items-center gap-2">
-        📚 Courses
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {courses.map((course) => (
+    <div className="rounded-xl overflow-hidden shadow-lg bg-gray-900 border border-gray-800 hover:shadow-2xl transition cursor-pointer flex flex-col" onClick={onClick}>
+      <div className="h-36 w-full bg-gray-700 flex items-center justify-center">
+        {image ? (
+          <img src={image} alt={title} className="object-cover w-full h-full" />
+        ) : (
+          <span className="text-4xl text-yellow-400">⚡</span>
+        )}
+      </div>
+      <div className="p-4 flex-1 flex flex-col">
+        <span className="text-xs bg-yellow-400 text-gray-900 rounded px-2 py-1 mb-2 w-fit font-semibold">Day {day}</span>
+        <span className="text-lg font-semibold text-white mb-1">{title}</span>
+        <span className="text-gray-300 text-sm mb-2 flex-1">{summary}</span>
+        <div className="flex flex-wrap gap-2 mt-auto">
+          {tags && tags.map(tag => (
+            <span key={tag} className="bg-gray-800 text-gray-200 text-xs px-2 py-0.5 rounded">{tag}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const arduinoOverview = {
+  title: 'Arduino Overview',
+  summary: 'Start your journey with Arduino! Learn what Arduino is, why it’s popular, and how this course is structured.',
+  tags: ['Overview', 'Getting Started'],
+  image: '../public/pic1.png',
+  content:
+    '# Welcome to Arduino!\n\n' +
+    'Arduino is an open-source electronics platform based on easy-to-use hardware and software. ' +
+    'It’s intended for anyone making interactive projects. This course will guide you through the basics and beyond.\n\n' +
+    '---\n\n' +
+    'Click on a day to start learning specific topics!'
+};
+
+const ArduinoDetail = ({ onBack, dayIdx, overview = null }) => {
+  const item = overview || arduinoDays[dayIdx];
+  return (
+    <div className="max-w-3xl mx-auto py-10 px-5">
+      <button
+        onClick={onBack}
+        className="mb-6 px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-700 transition"
+      >
+        ← Back to Days
+      </button>
+      <h2 className="text-3xl font-bold mb-6 flex items-center gap-2 text-white">
+        ⚡ Arduino Day-wise Plan
+      </h2>
+      <div className="space-y-10">
+        {[item].map((item, idx) => (
           <div
-            key={course.id}
-            className="rounded-xl overflow-hidden shadow-lg bg-gray-900 border border-gray-800 hover:shadow-2xl transition cursor-pointer"
-            onClick={() => setSelectedCourse(course.id)}
+            key={idx}
+            className="bg-gray-950 border border-gray-800 rounded-2xl shadow-xl overflow-hidden"
           >
-            <div className="h-36 w-full bg-gray-700">
-              <img
-                src={course.cover}
-                alt={course.title}
-                className="object-cover w-full h-full"
-              />
+            {/* Header */}
+            <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-3 border-b border-yellow-300 flex items-center gap-2">
+              <span className="text-gray-900 font-bold text-lg">{item.day ? `Day ${item.day}` : 'Overview'}</span>
+              <span className="text-gray-900 font-semibold">{item.title}</span>
             </div>
-            <div className="p-4 flex items-center gap-2">
-              <span className="text-purple-400 text-xl">{course.icon}</span>
-              <span className="text-lg font-semibold text-white">{course.title}</span>
+
+            {/* Content */}
+            <div className="bg-gray-900 px-6 py-6">
+              <div className="text-gray-200 prose prose-invert max-w-none mb-8 leading-relaxed">
+                <ReactMarkdown
+                  children={item.content}
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeSlug, rehypeAutolinkHeadings]}
+                  components={{
+                    img: ({node, ...props}) => (
+                      <div className="flex justify-center my-6">
+                        <img
+                          {...props}
+                          className="rounded-xl border border-gray-700 shadow-lg max-w-md w-full object-contain"
+                          alt={props.alt}
+                        />
+                      </div>
+                    ),
+                    code({node, inline, className, children, ...props}: any) {
+                      return !inline ? (
+                        <pre className="bg-gray-900 border border-gray-700 rounded-xl p-4 my-4 overflow-x-auto text-sm">
+                          <code className="font-mono text-green-200">{children}</code>
+                        </pre>
+                      ) : (
+                        <code className="bg-gray-800 rounded px-1.5 py-0.5 text-green-300 font-mono text-sm">{children}</code>
+                      );
+                    },
+                  }}
+                />
+              </div>
+              {/* Quiz Section (only for days, not overview) */}
+              {item.day && <ArduinoQuiz />}
+              {/* Questions (if any) */}
+              {item.day && item.questions && item.questions.length > 0 && (
+                <div className="mb-8 bg-gray-800 border border-pink-400/40 rounded-xl p-6 shadow-inner">
+                  <h3 className="text-xl font-bold text-pink-400 mb-4">📚 Practice Questions</h3>
+                  <ul className="space-y-5">
+                    {item.questions.map((q, i) => (
+                      <li
+                        key={i}
+                        className="bg-gray-900 border border-gray-700 rounded-lg p-4"
+                      >
+                        <div className="text-white font-medium mb-2">{q.question}</div>
+                        {q.code && (
+                          <pre className="bg-gray-800 text-green-200 text-sm rounded p-4 overflow-x-auto border border-gray-700">
+                            <code>{q.code}</code>
+                          </pre>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -380,4 +389,34 @@ const CoursePage = () => {
   );
 };
 
+const CoursePage = () => {
+  const [selectedDay, setSelectedDay] = useState(null);
+
+  if (selectedDay !== null) {
+    return <ArduinoDetail onBack={() => setSelectedDay(null)} dayIdx={selectedDay} />;
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto py-10 px-5">
+      <h1 className="text-4xl font-bold mb-8 text-white flex items-center gap-2">
+        ⚡ Arduino Day-wise Modules
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {arduinoDays.map((item, idx) => (
+          <ArduinoDayCard
+            key={idx}
+            day={item.day}
+            title={item.title}
+            summary={item.summary}
+            tags={item.tags}
+            image={item.image}
+            onClick={() => setSelectedDay(idx)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default CoursePage;
+
