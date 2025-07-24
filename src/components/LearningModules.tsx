@@ -221,8 +221,7 @@ const arduinoDays: ArduinoDay[] = [
       '\n' +
       '**🔹 Serial.read()**\n' +
       'Reads the next byte from serial input.\n' +
-      '```\nchar incomingByte = Serial.read(); // Reads one character\n```\n' +
-      'If you send "hi", it reads \'h\' first, then \'i\'.\n' +
+      '```\nchar incomingByte = Serial.read();\n' +
       '\n' +
       '### 🧪 Example 1: Arduino Sending "Hello!" Every Second\n' +
       '```\nvoid setup() {\n  Serial.begin(9600); // Start serial communication at 9600 baud\n}\n\nvoid loop() {\n  Serial.println("Hello!"); // Send "Hello!" followed by a new line\n  delay(1000); // Wait for 1 second\n}\n```\n' +
