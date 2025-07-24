@@ -189,7 +189,7 @@ const arduinoDays: ArduinoDay[] = [
       '### 🛠️ Why Use Serial Communication?\n' +
       '- **Debugging** — Print messages or sensor values to troubleshoot your code.\n' +
       '- **Monitoring** — See real-time data from sensors like temperature, light, or distance.\n' +
-      '- **Controlling** — Send commands from your computer to Arduino (e.g., type `on` to turn an LED on).\n' +
+      '- **Controlling** — Send commands from your computer to Arduino (e.g., type on to turn an LED on).\n' +
       '\n' +
       '### ⚙️ How Serial Communication Works\n' +
       '- Data is sent serially: one bit (0 or 1) at a time over a single wire.\n' +
