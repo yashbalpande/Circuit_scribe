@@ -31,7 +31,7 @@ const arduinoDays: ArduinoDay[] = [
     title: 'What is Arduino?',
     summary: 'Discover what Arduino is, why it is popular, and what you can build with it. Learn about the basics of the platform and its community.',
     tags: ['Beginner', 'Introduction', 'Open Source', 'Physical Computing'],
-    image: '../public/pic3.png',
+    image: '/pic3.png',
     content:
       '# **What is Arduino?**\n' +
       '\n' +
@@ -121,7 +121,7 @@ const arduinoDays: ArduinoDay[] = [
     title: 'Arduino Board Anatomy',
     summary: 'Explore the key components of an Arduino board and understand the function of each part, from the microcontroller to the power pins.',
     tags: ['Hardware', 'Board Anatomy', 'Components', 'Beginner'],
-    image: '../public/pic4.png',
+    image: '/pic4.png',
     content: `
   # Arduino Board Anatomy
   
@@ -179,7 +179,7 @@ const arduinoDays: ArduinoDay[] = [
     title: 'Serial Communication Basics',
     summary: 'Learn how Arduino communicates with your computer and other devices using serial communication. Understand key commands and see practical examples.',
     tags: ['Serial', 'Communication', 'Debugging', 'Beginner'],
-    image: '../public/pic1.png',
+    image: '/pic1.png',
     content:
       '## ↔️ Serial Communication Basics\n' +
       '\n' +
