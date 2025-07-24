@@ -1,213 +1,383 @@
-
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Lightbulb, CheckCircle, PlayCircle, BookOpen, Zap } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
-const LearningModules = () => {
-  const [selectedModule, setSelectedModule] = useState(null);
-  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
+const courses = [
+  {
+    id: 'arduino',
+    title: 'Arduino',
+    icon: '⚡',
+    cover:
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+  },
+];
 
-  const modules = [
-    {
-      id: 'basics',
-      title: 'Electrical Basics',
-      icon: '⚡',
-      description: 'Voltage, current, resistance - the holy trinity of electronics!',
-      progress: 60,
-      lessons: [
-        { id: 'voltage', title: 'What is Voltage?', completed: true },
-        { id: 'current', title: 'Understanding Current', completed: true },
-        { id: 'resistance', title: 'Resistance & Ohm\'s Law', completed: false },
-        { id: 'power', title: 'Electrical Power', completed: false }
-      ]
-    },
-    {
-      id: 'components',
-      title: 'Circuit Components',
-      icon: '🔌',
-      description: 'Meet the building blocks of every amazing circuit!',
-      progress: 30,
-      lessons: [
-        { id: 'resistors', title: 'Resistors - The Current Controllers', completed: true },
-        { id: 'capacitors', title: 'Capacitors - Energy Storage Tanks', completed: false },
-        { id: 'inductors', title: 'Inductors - Magnetic Magic', completed: false },
-        { id: 'diodes', title: 'Diodes - One Way Streets', completed: false }
-      ]
-    },
-    {
-      id: 'circuits',
-      title: 'Circuit Analysis',
-      icon: '🔬',
-      description: 'Learn to read circuits like a detective reads clues!',
-      progress: 10,
-      lessons: [
-        { id: 'series', title: 'Series Circuits', completed: false },
-        { id: 'parallel', title: 'Parallel Circuits', completed: false },
-        { id: 'complex', title: 'Complex Circuit Analysis', completed: false },
-        { id: 'troubleshooting', title: 'Circuit Troubleshooting', completed: false }
-      ]
-    }
-  ];
+const arduinoDays = [
+  {
+    day: '1',
+    title: 'What is Arduino?',
+    content:
+      '# **What is Arduino?**\n' +
+      '\n' +
+      '![Arduino Uno board with icons showing possible projects like lights, robots, plant watering, and buttons](../public/pic1.png)\n' +
+      '\n' +
+      '> 💡 **Arduino is an open source electronics platform designed for ease of use.**\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔷 **Arduino Boards**\n' +
+      'Small circuit boards with a special microchip that acts like a tiny computer. These boards have inputs and outputs, allowing them to:\n' +
+      '- **Connect to sensors** (to read information)\n' +
+      '- **Connect to actuators** (to control things like lights or motors)\n' +
+      '\n' +
+      '## 🔷 **Programming Environment**\n' +
+      'Where you write instructions (code) for the Arduino board. You write your code and upload it to the Arduino board, telling it exactly what to do.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '### 💬 **What does "open source" mean?**\n' +
+      'It means the designs for both the hardware and software are publicly available.  \n' +
+      'This promotes a massive global community that shares knowledge, creates new projects, and provides support—making learning and building with Arduino much easier for beginners.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## ⚙️ **void setup() and void loop()**\n' +
+      '> 💡 **These two functions are the heart of every Arduino program.**\n' +
+      '\n' +
+      '### 🔸 **void setup()**\n' +
+      'This function runs **once** when the Arduino board starts or resets.  \n' +
+      'Think of it as the preparation area.\n' +
+      '\n' +
+      '**Examples:**\n' +
+      '- Define which pins are inputs or outputs\n' +
+      '- Start communication (like Serial Monitor)\n' +
+      '\n' +
+      '```\n' +
+      'void setup() {\n' +
+      '  pinMode(13, OUTPUT); // Set pin 13 as output\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### 🔸 **void loop()**\n' +
+      'This function runs **repeatedly, forever**.  \n' +
+      'Place the main logic of your program here.\n' +
+      '\n' +
+      '**Examples:**\n' +
+      '- Check if a button is pressed\n' +
+      '- Read sensor data\n' +
+      '- Turn an LED on/off\n' +
+      '\n' +
+      '```\n' +
+      'void loop() {\n' +
+      '  digitalWrite(13, HIGH); // Turn LED on\n' +
+      '  delay(1000);            // Wait for 1 second\n' +
+      '  digitalWrite(13, LOW);  // Turn LED off\n' +
+      '  delay(1000);            // Wait for 1 second\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## ⭐ **Why Choose Arduino?**\n' +
+      '> 💡 Arduino’s popularity stems from several key advantages:\n' +
+      '\n' +
+      '- **Simplicity** — Designed for beginners, it simplifies interaction with hardware and code\n' +
+      '- **Affordability** — Arduino boards are cost-effective and perfect for students and hobbyists\n' +
+      '- **Versatility** — From blinking LEDs to robotics, Arduino can power a wide variety of projects\n' +
+      '- **Vast Community** — A huge open-source community offers tutorials, libraries, and forums\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🚀 **What Can You Build with Arduino?**\n' +
+      '> 💡 Arduino lets you bridge code and hardware to build amazing interactive projects.\n' +
+      '\n' +
+      '- **Smart Home Devices** — Automate lights, control appliances, monitor temperature or humidity\n' +
+      '- **Robotics** — Build robots, line-followers, or drones\n' +
+      '- **Sensor Systems** — Measure environmental data like light, distance, sound, or motion\n' +
+      '- **Interactive Art** — Create displays that react to touch, sound, or movement\n' +
+      '- **Educational Tools** — Great for building hands-on learning kits\n',
+    questions: []
+  }
+];
 
-  const toggleLessonComplete = (lessonId: string) => {
-    if (completedLessons.includes(lessonId)) {
-      setCompletedLessons(completedLessons.filter(id => id !== lessonId));
+// Add a Quiz component for single-select questions
+const arduinoQuizQuestions = [
+  {
+    question: '1. What is an Arduino, primarily?',
+    options: [
+      'A. A mobile app for coding',
+      'B. A physical computer mouse',
+      'C. An open-source electronics platform',
+      'D. A web browser extension',
+    ],
+    answer: 2,
+  },
+  {
+    question: '2. What does "open source" mean for Arduino users?',
+    options: [
+      'A. The hardware is made of recycled materials',
+      'B. It can only be used in schools',
+      'C. Designs for hardware and software are publicly available',
+      'D. It requires a paid license to access',
+    ],
+    answer: 2,
+  },
+  {
+    question: '3. An Arduino board contains a microchip called a:',
+    options: [
+      'A. GPU',
+      'B. CPU',
+      'C. Microcontroller',
+      'D. RAM',
+    ],
+    answer: 2,
+  },
+  {
+    question: "4. Which of the following is a benefit of Arduino's large community?",
+    options: [
+      'A. Higher prices',
+      'B. Less online content',
+      'C. Lack of support',
+      'D. Abundant tutorials and project help',
+    ],
+    answer: 3,
+  },
+  {
+    question: '5. The function in an Arduino program that runs only once at the beginning is:',
+    options: [
+      'A. start()',
+      'B. begin()',
+      'C. void loop()',
+      'D. void setup()',
+    ],
+    answer: 3,
+  },
+  {
+    question: '6. Which function in an Arduino program runs repeatedly, forever, after the initial setup?',
+    options: [
+      'A. main()',
+      'B. forever()',
+      'C. void loop()',
+      'D. repeat()',
+    ],
+    answer: 2,
+  },
+  {
+    question: '7. Arduino connects the digital world (your code) with which other world?',
+    options: [
+      'A. Virtual reality',
+      'B. Gaming',
+      'C. Physical world',
+      'D. Fantasy world',
+    ],
+    answer: 2,
+  },
+  {
+    question: '8. Arduino can be used to control physical devices like LEDs and motors.',
+    options: [
+      'A. True',
+      'B. False',
+    ],
+    answer: 0,
+  },
+  {
+    question: '9. Which of these is NOT typically an application for Arduino?',
+    options: [
+      'A. Smart homes',
+      'B. Robotics',
+      'C. Word processing',
+      'D. Sensor systems',
+    ],
+    answer: 2,
+  },
+  {
+    question: '10. What aspect of Arduino helps keep its cost down and encourages innovation?',
+    options: [
+      'A. Paid-only content',
+      'B. Closed-source software',
+      'C. Government restrictions',
+      'D. Open-source nature',
+    ],
+    answer: 3,
+  },
+];
+
+function ArduinoQuiz() {
+  const [answers, setAnswers] = useState(Array(arduinoQuizQuestions.length).fill(null));
+  const [checked, setChecked] = useState(Array(arduinoQuizQuestions.length).fill(false));
+  const [feedback, setFeedback] = useState(Array(arduinoQuizQuestions.length).fill(null));
+
+  const handleCheck = (idx) => {
+    setChecked(c => c.map((v, i) => i === idx ? true : v));
+    if (answers[idx] === arduinoQuizQuestions[idx].answer) {
+      setFeedback(f => f.map((v, i) => i === idx ? 'correct' : v));
     } else {
-      setCompletedLessons([...completedLessons, lessonId]);
+      setFeedback(f => f.map((v, i) => i === idx ? 'incorrect' : v));
     }
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">
-          📚 Learning Adventures
-        </h2>
-        <p className="text-gray-600 text-lg">
-          Every expert was once a beginner! Let's explore EE concepts together, one friendly step at a time! 🌟
-        </p>
-      </div>
-
-      {selectedModule ? (
-        <LessonView 
-          module={modules.find(m => m.id === selectedModule)} 
-          onBack={() => setSelectedModule(null)}
-          completedLessons={completedLessons}
-          toggleLessonComplete={toggleLessonComplete}
-        />
-      ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {modules.map((module) => (
-            <Card 
-              key={module.id} 
-              className="hover:shadow-lg transition-all duration-300 bg-white/90 backdrop-blur-sm border-blue-200 cursor-pointer transform hover:scale-105"
-              onClick={() => setSelectedModule(module.id)}
-            >
-              <CardHeader>
-                <div className="flex items-center space-x-3">
-                  <span className="text-3xl">{module.icon}</span>
-                  <div className="flex-1">
-                    <CardTitle className="text-blue-600">{module.title}</CardTitle>
-                    <p className="text-sm text-gray-600 mt-1">{module.description}</p>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between text-sm text-gray-600 mb-2">
-                      <span>Progress</span>
-                      <span>{module.progress}%</span>
-                    </div>
-                    <Progress value={module.progress} className="w-full" />
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">
-                      {module.lessons.filter(l => l.completed).length} of {module.lessons.length} lessons
-                    </span>
-                    <Button 
-                      size="sm" 
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white"
-                    >
-                      <PlayCircle className="h-4 w-4 mr-1" />
-                      Start
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-
-      {/* Encouragement Section */}
-      {!selectedModule && (
-        <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
-          <CardContent className="p-6">
-            <div className="text-center">
-              <Lightbulb className="h-12 w-12 text-yellow-500 mx-auto mb-4 animate-bounce" />
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Remember: Learning is a Journey! 🚀
-              </h3>
-              <p className="text-gray-700">
-                Don't worry about getting everything right immediately. Even the greatest engineers started with simple circuits. 
-                I'm here to guide you every step of the way, and we'll celebrate every small victory together! 🎉
-              </p>
+    <div className="bg-gray-900 border border-yellow-400/40 rounded-xl p-6 shadow-inner mt-10 mb-10">
+      <h3 className="text-xl font-bold text-yellow-400 mb-4">📝 Practice Quiz</h3>
+      <form className="space-y-6">
+        {arduinoQuizQuestions.map((q, idx) => (
+          <div key={idx} className="mb-4">
+            <div className="text-white font-medium mb-2">{q.question}</div>
+            <div className="flex flex-col gap-2">
+              {q.options.map((opt, oidx) => (
+                <label key={oidx} className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name={`q${idx}`}
+                    value={opt}
+                    checked={answers[idx] === oidx}
+                    onChange={() => setAnswers(a => a.map((v, i) => i === idx ? oidx : v))}
+                    className="accent-yellow-400"
+                    disabled={checked[idx]}
+                  />
+                  <span className="text-gray-200">{opt}</span>
+                </label>
+              ))}
             </div>
-          </CardContent>
-        </Card>
-      )}
+            <button
+              type="button"
+              className="mt-2 px-3 py-1 rounded bg-yellow-500 text-black font-semibold hover:bg-yellow-400 transition"
+              onClick={() => handleCheck(idx)}
+              disabled={answers[idx] === null || checked[idx]}
+            >
+              Check Answer
+            </button>
+            {checked[idx] && (
+              <div className={`mt-2 font-bold ${feedback[idx] === 'correct' ? 'text-green-400' : 'text-red-400'}`}>
+                {feedback[idx] === 'correct' ? 'Correct!' : 'Incorrect'}
+              </div>
+            )}
+          </div>
+        ))}
+      </form>
     </div>
   );
-};
+}
 
-const LessonView = ({ module, onBack, completedLessons, toggleLessonComplete }) => {
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center space-x-4">
-        <Button variant="outline" onClick={onBack}>← Back to Modules</Button>
-        <div>
-          <h2 className="text-2xl font-bold text-gray-800 flex items-center space-x-2">
-            <span className="text-3xl">{module.icon}</span>
-            <span>{module.title}</span>
-          </h2>
-          <p className="text-gray-600">{module.description}</p>
-        </div>
-      </div>
+const ArduinoDetail = ({ onBack }) => (
+  <div className="max-w-3xl mx-auto py-10 px-5">
+    <button
+      onClick={onBack}
+      className="mb-6 px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-700 transition"
+    >
+      ← Back to Courses
+    </button>
+    <h2 className="text-3xl font-bold mb-6 flex items-center gap-2 text-white">
+      ⚡ Arduino Day-wise Plan
+    </h2>
+    <div className="space-y-10">
+      {arduinoDays.map((item, idx) => (
+        <div
+          key={idx}
+          className="bg-gray-950 border border-gray-800 rounded-2xl shadow-xl overflow-hidden"
+        >
+          {/* Header */}
+          <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-3 border-b border-yellow-300 flex items-center gap-2">
+            <span className="text-gray-900 font-bold text-lg">Day {item.day}</span>
+            <span className="text-gray-900 font-semibold">{item.title}</span>
+          </div>
 
-      <div className="grid gap-4">
-        {module.lessons.map((lesson, index) => (
-          <Card key={lesson.id} className="bg-white/90 backdrop-blur-sm border-gray-200">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    lesson.completed ? 'bg-green-500' : 'bg-gray-300'
-                  }`}>
-                    {lesson.completed ? (
-                      <CheckCircle className="h-5 w-5 text-white" />
+          {/* Content */}
+          <div className="bg-gray-900 px-6 py-6">
+            <div className="text-gray-200 prose prose-invert max-w-none mb-8">
+              <ReactMarkdown
+                children={item.content}
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeSlug, rehypeAutolinkHeadings]}
+                components={{
+                  img: ({node, ...props}) => (
+                    <div className="flex justify-center my-6">
+                      <img
+                        {...props}
+                        className="rounded-xl border border-gray-700 shadow-lg max-w-md w-full object-contain"
+                        alt={props.alt}
+                      />
+                    </div>
+                  ),
+                  code({node, inline, className, children, ...props}: any) {
+                    return !inline ? (
+                      <pre className="bg-gray-900 border border-gray-700 rounded-xl p-4 my-4 overflow-x-auto text-sm">
+                        <code className="font-mono text-green-200">{children}</code>
+                      </pre>
                     ) : (
-                      <span className="text-white font-medium">{index + 1}</span>
-                    )}
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-gray-800">{lesson.title}</h3>
-                    <p className="text-sm text-gray-600">
-                      {lesson.completed ? "Great job! You've mastered this! 🎉" : "Ready to learn something awesome? 🚀"}
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  onClick={() => toggleLessonComplete(lesson.id)}
-                  className={lesson.completed ? "bg-green-500 hover:bg-green-600" : "bg-blue-500 hover:bg-blue-600"}
-                >
-                  <BookOpen className="h-4 w-4 mr-2" />
-                  {lesson.completed ? 'Review' : 'Start'}
-                </Button>
+                      <code className="bg-gray-800 rounded px-1.5 py-0.5 text-green-300 font-mono text-sm">{children}</code>
+                    );
+                  },
+                }}
+              />
+            </div>
+            {/* Quiz Section */}
+            <ArduinoQuiz />
+            {/* Questions (if any) */}
+            {item.questions && item.questions.length > 0 && (
+              <div className="mb-8 bg-gray-800 border border-pink-400/40 rounded-xl p-6 shadow-inner">
+                <h3 className="text-xl font-bold text-pink-400 mb-4">📚 Practice Questions</h3>
+                <ul className="space-y-5">
+                  {item.questions.map((q, i) => (
+                    <li
+                      key={i}
+                      className="bg-gray-900 border border-gray-700 rounded-lg p-4"
+                    >
+                      <div className="text-white font-medium mb-2">{q.question}</div>
+                      {q.code && (
+                        <pre className="bg-gray-800 text-green-200 text-sm rounded p-4 overflow-x-auto border border-gray-700">
+                          <code>{q.code}</code>
+                        </pre>
+                      )}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </CardContent>
-          </Card>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const CoursePage = () => {
+  const [selectedCourse, setSelectedCourse] = useState(null);
+
+  if (selectedCourse === 'arduino') {
+    return <ArduinoDetail onBack={() => setSelectedCourse(null)} />;
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto py-10 px-5">
+      <h1 className="text-4xl font-bold mb-8 text-white flex items-center gap-2">
+        📚 Courses
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {courses.map((course) => (
+          <div
+            key={course.id}
+            className="rounded-xl overflow-hidden shadow-lg bg-gray-900 border border-gray-800 hover:shadow-2xl transition cursor-pointer"
+            onClick={() => setSelectedCourse(course.id)}
+          >
+            <div className="h-36 w-full bg-gray-700">
+              <img
+                src={course.cover}
+                alt={course.title}
+                className="object-cover w-full h-full"
+              />
+            </div>
+            <div className="p-4 flex items-center gap-2">
+              <span className="text-purple-400 text-xl">{course.icon}</span>
+              <span className="text-lg font-semibold text-white">{course.title}</span>
+            </div>
+          </div>
         ))}
       </div>
-
-      <Card className="bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200">
-        <CardContent className="p-6 text-center">
-          <Zap className="h-8 w-8 text-purple-500 mx-auto mb-3" />
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
-            You're doing fantastic! 💜
-          </h3>
-          <p className="text-gray-700">
-            Each lesson you complete is a step closer to becoming an amazing engineer. 
-            Take your time, ask questions, and remember - I believe in you! ⚡✨
-          </p>
-        </CardContent>
-      </Card>
     </div>
   );
 };
 
-export default LearningModules;
+export default CoursePage;

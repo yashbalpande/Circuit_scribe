@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 // Lazy load heavy modules
 const EmbeddedSystemsChallenges = lazy(() => import('../components/EmbeddedSystemsChallenges'));
-const Blog = lazy(() => import('../components/Blog'));
+const CoursePage = lazy(() => import('../components/LearningModules'));
 
 // Toast notification (simple custom)
 const Toast = ({ message, show }) => (
@@ -164,7 +164,7 @@ const Navbar = ({ setActiveSection, activeSection, badgeCount, streak, user, log
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'embedded', label: 'Embedded' },
-    { id: 'blog', label: 'Blog' },
+    { id: 'courses', label: 'Courses' },
     { id: 'simulations', label: 'Simulations' },
   ];
   return (
@@ -249,7 +249,7 @@ const Hero = ({ setActiveSection }) => (
           className="flex-1 bg-purple-200 dark:bg-yellow-200 text-purple-800 dark:text-yellow-900 font-bold px-8 py-3 rounded-full shadow hover:bg-purple-300 dark:hover:bg-yellow-300 transition-all hover:scale-105 text-lg min-h-[48px] min-w-[44px] focus:outline-none focus:ring-2 focus:ring-purple-400 flex items-center justify-center gap-2"
           whileHover={{ scale: 1.07 }}
           whileTap={{ scale: 0.97 }}
-          onClick={() => setActiveSection('blog')}
+          onClick={() => setActiveSection('courses')}
           aria-label="Start Learning"
         >
           <Gauge className="inline-block mr-2 text-purple-600 dark:text-yellow-700" aria-hidden="true" />
@@ -409,9 +409,9 @@ const Index = () => {
           <EmbeddedSystemsChallenges />
         </Suspense>
       )}
-      {activeSection === 'blog' && (
+      {activeSection === 'courses' && (
         <Suspense fallback={<div className="max-w-6xl mx-auto mt-10 p-4 bg-white rounded-2xl shadow text-center text-xl">Loading...</div>}>
-          <Blog />
+          <CoursePage />
         </Suspense>
       )}
       {activeSection === 'simulations' && <SimulationsSection />}
