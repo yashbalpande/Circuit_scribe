@@ -232,12 +232,89 @@ const arduinoDays: ArduinoDay[] = [
     questions: []
   },
   {
-    day: '4',
+    day: "4",
+  title: "Variables and Data Types",
+  summary: "Learn how to store and manage information in Arduino using variables. Understand different data types, naming rules, and how they apply to real-world use cases like sensors, LEDs, and logic.",
+  tags: ["Beginner", "Variables", "Data Types", "Arduino"],
+  image: "/pic4.png",
+  content:
+    "# 🔤 **Variables and Data Types**\n" +
+    "\n" +
+    "## 📦 **What Are Variables?**\n" +
+    "Variables are containers that store data values in your Arduino programs. Think of them as labeled boxes that hold information like numbers or letters.\n" +
+    "\n" +
+    "### 🛠️ Why do we need variables?\n" +
+    "- Store sensor readings\n" +
+    "- Keep track of pin numbers\n" +
+    "- Save calculation results\n" +
+    "- Store temporary values during program execution\n" +
+    "\n" +
+    "### 📌 Variable Declaration Syntax:\n" +
+    "`dataType variableName = value;`\n" +
+    "\n" +
+    "### 📛 Variable Naming Rules:\n" +
+    "- Start with a letter or underscore (`_`)\n" +
+    "- Can include letters, numbers, and underscores\n" +
+    "- No spaces or special characters\n" +
+    "- Case-sensitive (`myVar` ≠ `myvar`)\n" +
+    "- Cannot use reserved words (like `int`, `if`, etc.)\n" +
+    "\n" +
+    "---\n" +
+    "\n" +
+    "## 📘 **Common Arduino Data Types**\n" +
+    "\n" +
+    "**🔹 int (Integer):** Whole numbers from -32,768 to 32,767  \n" +
+    "`int ledPin = 13;`\n" +
+    "\n" +
+    "**🔹 float (Floating Point):** Decimal numbers with precision (6–7 digits)  \n" +
+    "`float voltage = 3.14;`\n" +
+    "\n" +
+    "**🔹 char (Character):** Single characters or small integers (-128 to 127)  \n" +
+    "`char grade = 'A';`\n" +
+    "\n" +
+    "**🔹 bool (Boolean):** Only `true` or `false` values  \n" +
+    "`bool systemReady = true;`\n" +
+    "\n" +
+    "**🔹 long (Long Integer):** Large numbers from -2,147,483,648 to 2,147,483,647  \n" +
+    "`long counter = 50000;`\n" +
+    "\n" +
+    "**🔹 byte (Byte):** Small positive integers from 0 to 255  \n" +
+    "`byte brightness = 255;`\n" +
+    "\n" +
+    "---\n" +
+    "\n" +
+    "## 🧪 **Examples**\n" +
+    "\n" +
+    "**Sensor Data Storage:**\n" +
+    "```cpp\n" +
+    "int lightSensor = 512;\n" +
+    "float voltage = 2.5;\n" +
+    "bool dayTime = true;\n" +
+    "```\n" +
+    "\n" +
+    "**LED Control:**\n" +
+    "```cpp\n" +
+    "int redPin = 9;\n" +
+    "int greenPin = 10;\n" +
+    "byte redBrightness = 200;\n" +
+    "byte greenBrightness = 50;\n" +
+    "```\n" +
+    "\n" +
+    "**Temperature Monitoring:**\n" +
+    "```cpp\n" +
+    "float currentTemp = 22.7;\n" +
+    "float maxTemp = 30.0;\n" +
+    "bool overheated = false;\n" +
+    "```\n",
+    questions: [],
+  },
+  {
+    day: '5',
     title: 'Operators in Arduino',
     summary:
       'Learn how operators work in Arduino to perform calculations, make comparisons, and control logic. Includes examples for arithmetic, comparison, and logical operators.',
     tags: ['Operators', 'Logic', 'Arduino Programming', 'Beginner'],
-    image: '/pic4.png',
+    image: '/pic5.png',
     content:
 `# 🧮 Operators in Arduino
 
@@ -419,111 +496,184 @@ bool temperatureOk = false;
 bool systemStatus = powerOk && temperatureOk;  // Result: false
 \`\`\`
 `,
-  quiz: [
-    {
-      question: '1. What is the primary purpose of a variable in Arduino?',
-      options: [
-        'a) Store only text values',
-        'b) Create loops',
-        'c) Store and manage data values',
-        "d) Control the board's voltage",
-      ],
-      answer: 2,
-    },
-    {
-      question: '2. Which of the following is a valid variable declaration in Arduino?',
-      options: [
-        'a) int 2sensor = 512;',
-        'b) int light sensor = 1023;',
-        'c) int_sensor = 1023;',
-        'd) int lightSensor = 1023;',
-      ],
-      answer: 3,
-    },
-    {
-      question: '3. What data type would you use to store the value 3.14?',
-      options: [
-        'a) int',
-        'b) float',
-        'c) char',
-        'd) bool',
-      ],
-      answer: 1,
-    },
-    {
-      question: '4. Which of the following can store only true or false values?',
-      options: [
-        'a) int',
-        'b) float',
-        'c) bool',
-        'd) char',
-      ],
-      answer: 2,
-    },
-    {
-      question: '5. What is the range of values that an int can store in Arduino?',
-      options: [
-        'a) 0 to 255',
-        'b) -128 to 127',
-        'c) -32,768 to 32,767',
-        'd) -2,147,483,648 to 2,147,483,647',
-      ],
-      answer: 2,
-    },
-    {
-      question: '6. Which data type is most memory-efficient for storing small positive values like PWM brightness?',
-      options: [
-        'a) long',
-        'b) byte',
-        'c) float',
-        'd) bool',
-      ],
-      answer: 1,
-    },
-    {
-      question: '7. Which variable name is invalid in Arduino?',
-      options: [
-        'a) _temperature',
-        'b) temp1',
-        'c) int',
-        'd) sensor_value',
-      ],
-      answer: 2,
-    },
-    {
-      question: '8. What does the following line do? float temp = 22.5;',
-      options: [
-        'a) Declares an integer named temp',
-        'b) Stores an error code',
-        'c) Declares a decimal value in a float variable',
-        'd) Compares temperature values',
-      ],
-      answer: 2,
-    },
-    {
-      question: "9. What is the correct data type to store a single letter like 'A'?",
-      options: [
-        'a) char',
-        'b) byte',
-        'c) bool',
-        'd) int',
-      ],
-      answer: 0,
-    },
-    {
-      question: '10. Which data type should be used for time values like milliseconds in Arduino?',
-      options: [
-        'a) int',
-        'b) char',
-        'c) long',
-        'd) bool',
-      ],
-      answer: 2,
-    },
-  ],
+
   questions: [],
 },
+  {
+    day: '6',
+    title: "Loops in Arduino",
+    summary: "Understand for, while, and do-while loops in Arduino: why we use them, how they work, and when to choose each. Includes clear syntax, step-by-step flow, and practical serial examples.",
+    tags: ["Beginner", "Loops", "Control Flow", "Arduino"],
+    image: "/pic5.png",
+    content:
+    "# 🔁 **Loops**\n" +
+    "\n" +
+    "Loops let your Arduino **repeat a block of code** multiple times — perfect for tasks that require repetition (very common in interactive electronics!).\n" +
+    "\n" +
+    "## ✅ **Why Use Loops?**\n" +
+    "- **Efficiency** — Avoid writing repetitive code\n" +
+    "- **Automation** — Perform actions many times without manual effort\n" +
+    "- **Dynamic behavior** — Run until a condition changes during execution\n" +
+    "\n" +
+    "---\n" +
+    "\n" +
+    "## 🔂 **Types of Loops in Arduino**\n" +
+    "- `for`\n" +
+    "- `while`\n" +
+    "- `do...while`\n" +
+    "\n" +
+    "---\n" +
+    "\n" +
+    "## 1) **for loop**\n" +
+    "Use when you **know exactly how many times** the code should repeat.\n" +
+    "\n" +
+    "**Syntax**\n" +
+    "```cpp\n" +
+    "for (initialization; condition; increment/decrement) {\n" +
+    "  // Code to be repeated\n" +
+    "}\n" +
+    "```\n" +
+    "\n" +
+    "**Steps**\n" +
+    "1. **Initialization** – runs once (e.g., `int i = 0;`)\n" +
+    "2. **Condition** – checked before each iteration; if `false`, loop stops\n" +
+    "3. **Body Execution** – the code inside the loop\n" +
+    "4. **Increment/Decrement** – runs after each iteration (e.g., `i++`)\n" +
+    "\n" +
+    "**Example**\n" +
+    "```cpp\n" +
+    "void setup() {\n" +
+    "  Serial.begin(9600);\n" +
+    "  Serial.println(\"Starting for loop...\");\n" +
+    "}\n" +
+    "\n" +
+    "void loop() {\n" +
+    "  for (int i = 0; i < 5; i++) { // i = 0,1,2,3,4\n" +
+    "    Serial.print(\"Count: \");\n" +
+    "    Serial.println(i);\n" +
+    "  }\n" +
+    "  Serial.println(\"For loop finished!\");\n" +
+    "  while (true) {} // prevent spamming loop()\n" +
+    "}\n" +
+    "```\n" +
+    "\n" +
+    "---\n" +
+    "\n" +
+    "## 2) **while loop**\n" +
+    "Use when you want to repeat code **as long as a condition stays true**. You often **don't know** how many times it will run.\n" +
+    "\n" +
+    "**Syntax**\n" +
+    "```cpp\n" +
+    "while (condition) {\n" +
+    "  // Code to be repeated\n" +
+    "}\n" +
+    "```\n" +
+    "\n" +
+    "**Step**\n" +
+    "- The **condition is checked before each repetition**. If it's `false`, the loop stops.\n" +
+    "\n" +
+    "**Example**\n" +
+    "```cpp\n" +
+    "int currentCount = 0;\n" +
+    "const int MAX_COUNT = 3;\n" +
+    "\n" +
+    "void setup() {\n" +
+    "  Serial.begin(9600);\n" +
+    "  Serial.println(\"Starting while loop...\");\n" +
+    "}\n" +
+    "\n" +
+    "void loop() {\n" +
+    "  currentCount = 0;\n" +
+    "  while (currentCount < MAX_COUNT) {\n" +
+    "    Serial.print(\"Current while count: \");\n" +
+    "    Serial.println(currentCount);\n" +
+    "    currentCount = currentCount + 1;\n" +
+    "  }\n" +
+    "  Serial.println(\"While loop finished!\");\n" +
+    "  while (true) {}\n" +
+    "}\n" +
+    "```\n" +
+    "\n" +
+    "---\n" +
+    "\n" +
+    "## 3) **do...while loop**\n" +
+    "Similar to `while`, but the **body runs at least once** before the condition is checked.\n" +
+    "\n" +
+    "**Syntax**\n" +
+    "```cpp\n" +
+    "do {\n" +
+    "  // Code to be repeated\n" +
+    "} while (condition); // Note the semicolon!\n" +
+    "```\n" +
+    "\n" +
+    "**Steps**\n" +
+    "1. Run the block **once**\n" +
+    "2. **Then** check the condition\n" +
+    "3. Repeat if condition is `true`\n" +
+    "\n" +
+    "**Example**\n" +
+    "```cpp\n" +
+    "int attempt = 0;\n" +
+    "bool success = false;\n" +
+    "\n" +
+    "void setup() {\n" +
+    "  Serial.begin(9600);\n" +
+    "  Serial.println(\"Starting do-while loop...\");\n" +
+    "}\n" +
+    "\n" +
+    "void loop() {\n" +
+    "  attempt = 0;\n" +
+    "  success = false;\n" +
+    "\n" +
+    "  do {\n" +
+    "    Serial.print(\"Attempt number: \");\n" +
+    "    Serial.println(attempt);\n" +
+    "    attempt = attempt + 1;\n" +
+    "    if (attempt >= 2) {\n" +
+    "      success = true;\n" +
+    "    }\n" +
+    "  } while (success == false && attempt < 5);\n" +
+    "\n" +
+    "  Serial.println(\"Do-while loop finished!\");\n" +
+    "  while (true) {}\n" +
+    "}\n" +
+    "```\n",
+  questions: []
+},  
+  {
+    "day": "7",
+    "title": "Functions in Arduino",
+    "summary": "Understand what functions are, why they are used, how to define them, and how to call them. Includes examples for void functions, functions with parameters, and return values.",
+    "tags": [
+      "Beginner",
+      "Functions",
+      "Code Structure",
+      "Arduino"
+    ],
+    "image": "/pic6.png",
+    "content": "**🔧 What are Functions?**\n\nImagine you have a big task, like preparing a report. Instead of writing every step from scratch, you break it into smaller jobs like *gather data*, *analyze results*, and *format summary*.\n\nIn programming, a **function** is just like one of these jobs. It's a **self-contained block of code** that performs a specific task. You can name this block and call it whenever needed.\n\nExamples of built-in Arduino functions:\n- `void setup()`\n- `void loop()`\n- `Serial.print()`\n- `Serial.println()`\n\n---\n\n**🎯 Why Use Functions?**\n\n- **Organization**: Break down large programs into smaller, manageable parts.\n- **Reusability**: Write once, use multiple times.\n- **Debugging**: Easier to isolate and fix issues.\n- **Modularity**: Code becomes more adaptable and maintainable.\n\n---\n\n**✍️ Defining Your Own Functions**\n\nTo define a function, tell Arduino:\n- What value it returns\n- Its name\n- Its input parameters (if any)\n- The code it should run\n\n**Syntax:**\n```cpp\nreturnType functionName(parameterType parameterName) {\n  // Code to execute\n}\n```\n\n- `returnType`: `void`, `int`, `float`, `char`, etc.\n- `functionName`: Describe what the function does (e.g. `displayWelcomeMessage`)\n- `parameterType parameterName`: Optional inputs (arguments)\n\n---\n\n**🧪 Example 1: No Return, No Parameters**\n```cpp\nvoid printWelcomeMessage() {\n  Serial.println(\"--- Welcome to CircuitCode! ---\");\n  Serial.println(\"Starting program...\");\n}\n```\n\n**🧪 Example 2: One Parameter, No Return**\n```cpp\nvoid greetByName(char initial) {\n  Serial.print(\"Hello, \");\n  Serial.print(initial);\n  Serial.println(\"!\");\n}\n```\n\n**🧪 Example 3: Parameters and Return Value**\n```cpp\nfloat calculateAverage(int num1, int num2, int num3) {\n  float sum = num1 + num2 + num3;\n  float average = sum / 3.0;\n  return average;\n}\n```\n\n---\n\n**📞 Calling Your Functions**\n\nYou can call your functions from `setup()`, `loop()`, or other functions.\n\n**Example:**\n```cpp\nvoid setup() {\n  Serial.begin(9600);\n  float avgScore = calculateAverage(50, 80, 90);\n  Serial.print(\"Average score: \");\n  Serial.println(avgScore);\n}\n\nvoid loop() {\n  Serial.println(\"Looping and printing a message...\");\n  printWelcomeMessage();\n}\n```\n",
+    questions: []
+  },
+  {
+  "day": "8",
+  "title": "Digital Pins in Arduino",
+  "summary": "Explore Arduino's digital pins, understanding their two states (HIGH/LOW) and how to configure them using `pinMode()`. Learn to control outputs with `digitalWrite()` and read inputs with `digitalRead()`, including a practical LED blinking example.",
+  "tags": ["Beginner", "Digital I/O", "Pins", "Arduino", "Hardware Control"],
+  "image": "/pic8.png",
+  "content": "**🔌 What are Digital Pins?**\n\nDigital pins are the header pins labeled 0 to 13 on an Arduino board. Interestingly, the Analog pins A0-A5 can also function as digital pins! These pins operate in one of two states:\n\n- **HIGH**: Represents an \"ON\" state, typically 5 volts (V).\n- **LOW**: Represents an \"OFF\" state, typically 0 volts (V) or ground (GND).\n\n---\n\n**🔄 pinMode() Function**\n\nBefore you can use a digital pin, you must tell the Arduino whether it will be an **input** (to read a signal) or an **output** (to send a signal).\n\n- **OUTPUT Mode**: When a digital pin is set to `OUTPUT`, your Arduino can **send** electricity out through that pin, typically to power components like an LED.\n- **INPUT Mode**: When a digital pin is set to `INPUT`, your Arduino can **receive** electricity coming into that pin, for instance, from a button press.\n\n---\n\n**⚙️ Key Functions for Digital Pins**\n\nHere are the essential functions you'll use to interact with digital pins:\n\n**1. `pinMode(pin, mode)`**\n\nThis function is used to configure a specific digital pin as either an `INPUT` or an `OUTPUT`.\n\n- `pin`: The number of the digital pin you want to configure (e.g., 13, 7, A0).\n- `mode`: Either `INPUT` or `OUTPUT`.\n\n**Example:**\n```cpp\nvoid setup(){\n  pinMode(13, OUTPUT); // Sets digital pin 13 to send signals out.\n  pinMode(2, INPUT);   // Sets digital pin 2 to listen for signals.\n}\n```\n\n**2. `digitalWrite(pin, value)`**\n\nThis function is used to send a `HIGH` (ON) or `LOW` (OFF) signal from a digital pin that has been configured as an `OUTPUT`.\n\n- `pin`: The number of the digital pin you want to control.\n- `value`: Either `HIGH` or `LOW`.\n\n**Example:**\n```cpp\ndigitalWrite(13, HIGH); // Sends 5V out from pin 13 (turns an LED on).\ndigitalWrite(13, LOW);  // Sends 0V out from pin 13 (turns an LED off).\n```\n\n**3. `digitalRead(pin)`**\n\nThis function is used to read the state of a digital pin that has been configured as an `INPUT`. It returns either `HIGH` or `LOW`.\n\n- `pin`: The number of the digital pin you want to read.\n\n**Example:**\n```cpp\nint buttonState = digitalRead(2); // Reads the state of pin 2 and stores it in buttonState.\n```\n\n---\n\n**💡 Example: Blinking an LED**\n\nThis classic example demonstrates how to use `pinMode()` and `digitalWrite()` to make an LED connected to pin 13 blink.\n\n```cpp\nvoid setup() {\n  Serial.begin(9600);           // Initialize serial communication\n  Serial.println(\"LED Blinker Started!\");\n  pinMode(13, OUTPUT);          // Set digital pin 13 as an OUTPUT to control the LED\n}\n\nvoid loop() {\n  digitalWrite(13, HIGH);       // Turn the LED on (send HIGH signal to pin 13)\n  Serial.println(\"LED is ON\");\n  delay(1000);                  // Wait for 1 second (1000 milliseconds)\n  digitalWrite(13, LOW);        // Turn the LED off (send LOW signal to pin 13)\n  Serial.println(\"LED is OFF\");\n  delay(1000);                  // Wait for 1 second\n}\n```"
+},
+{
+  "day": "9",
+  "title": "Pull-up and Pull-down Resistors",
+  "summary": "Understand the concept of a 'floating pin' and how pull-up and pull-down resistors provide stable input readings. Learn about the `INPUT_PULLUP` mode for simplifying button circuits in Arduino.",
+  "tags": ["Beginner", "Input", "Resistors", "Pull-up", "Pull-down", "Arduino"],
+  "image": "/pic9.png",
+  "content": "**👻 The \"Floating Pin\"**\n\nImagine a digital input pin configured as `INPUT` but not connected to any specific voltage source through a component like a button. This pin is said to be \"floating.\"\n\nA floating pin is problematic because `digitalRead()` might return `HIGH` sometimes and `LOW` at other times, seemingly randomly, even if nothing is physically happening. This makes reliable input sensing impossible.\n\nTo fix this, we need to \"pull\" the pin to a known state (`HIGH` or `LOW`) when the input device (like a button) isn't actively providing a signal. This is where pull-up and pull-down resistors come in.\n\n---\n\n**⬆️ Pull-up Resistors**\n\nA pull-up resistor connects your digital input pin to the `HIGH` voltage (5V on most Arduinos).\n\n- When the button is **not pressed**, the resistor \"pulls up\" the pin's voltage to `HIGH` (5V), giving it a stable `HIGH` reading.\n- When the button is **pressed**, it typically connects the pin directly to `GND`. In this state, the pin reads `LOW`.\n\nThis configuration is common for buttons, where a `LOW` reading indicates a press.\n\n---\n\n**⬇️ Pull-down Resistors**\n\nA pull-down resistor connects your digital input pin to the `LOW` voltage (0V or `GND`).\n\n- When the button is **not pressed**, the resistor \"pulls down\" the pin's voltage to `LOW` (0V), giving it a stable `LOW` reading.\n- When the button is **pressed**, it typically connects the pin directly to `HIGH` (5V). In this state, the pin reads `HIGH`.\n\nThis configuration means a `HIGH` reading indicates a button press.\n\n---\n\n**💻 `INPUT_PULLUP` Mode**\n\nArduino provides a convenient built-in pull-up resistor that you can activate with the `INPUT_PULLUP` mode in `pinMode()`:\n\n```cpp\npinMode(pin, INPUT_PULLUP);\n```\n\n- When you use `INPUT_PULLUP`, the pin will be `HIGH` when the button is not pressed (due to the internal pull-up).\n- Similar to an external pull-up resistor setup, a button press (connecting the pin to `GND`) will result in a `LOW` reading.\n\n---\n\n**Example: Button Controlled LED using `INPUT_PULLUP`**\n\n```cpp\nconst int switchPin = 5;    // Switch connected to digital pin 5\nconst int ledPin = 13;      // Onboard LED\n\nvoid setup() {\n  pinMode(switchPin, INPUT_PULLUP); // Enable internal pull-up resistor on pin 5\n  pinMode(ledPin, OUTPUT);          // Set the LED pin as an OUTPUT\n}\n\nvoid loop() {\n  // Reads LOW when switch is ON (closed to GND), HIGH when OFF (open)\n  if (digitalRead(switchPin) == LOW) {\n    digitalWrite(ledPin, HIGH);   // Turn on LED when switch is closed\n  } else {\n    digitalWrite(ledPin, LOW);    // Turn off LED when switch is open\n  }\n}\n```",
+  questions: []
+}
+
 ];
+
 
 // Add quiz for Day 2
 arduinoDays[1].quiz = [
