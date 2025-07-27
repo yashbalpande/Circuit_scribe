@@ -1,183 +1,196 @@
 
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Trophy, Star, Zap, Target, Heart, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useAuth } from './FirebaseAuthProvider';
+import { getUserProfile, UserProgress } from '../lib/userProfile';
+import { Trophy, Star, Zap, BookOpen, Target, TrendingUp } from 'lucide-react';
 
-const ProgressTracker = () => {
-  const achievements = [
-    { id: 1, title: 'First Circuit', description: 'Built your very first circuit!', icon: '🔌', unlocked: true },
-    { id: 2, title: 'Ohm\'s Law Master', description: 'Mastered voltage, current, and resistance!', icon: '⚡', unlocked: true },
-    { id: 3, title: 'Component Explorer', description: 'Learned about 5 different components!', icon: '🔬', unlocked: false },
-    { id: 4, title: 'Debug Detective', description: 'Successfully debugged 3 circuits!', icon: '🕵️', unlocked: false },
-    { id: 5, title: 'LED Wizard', description: 'Made your first LED light up!', icon: '💡', unlocked: true },
-    { id: 6, title: 'Circuit Analyst', description: 'Analyzed complex circuit behavior!', icon: '📊', unlocked: false }
-  ];
+interface ProgressTrackerProps {
+  className?: string;
+}
 
-  const stats = {
-    lessonsCompleted: 8,
-    totalLessons: 24,
-    circuitsBuilt: 5,
-    problemsSolved: 12,
-    studyStreak: 7,
-    totalPoints: 2450
+const ProgressTracker: React.FC<ProgressTrackerProps> = ({ className = '' }) => {
+  const { user } = useAuth();
+  const [progress, setProgress] = useState<UserProgress | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      loadUserProgress();
+    } else {
+      setProgress(null);
+      setLoading(false);  
+    }
+  }, [user]);
+
+  const loadUserProgress = async () => {
+    try {
+      const userData = await getUserProfile(user?.uid);
+      if (userData?.progress) {
+        setProgress(userData.progress);
+      }
+    } catch (error) {
+      console.error('Error loading user progress:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const weeklyProgress = [
-    { day: 'Mon', progress: 80 },
-    { day: 'Tue', progress: 60 },
-    { day: 'Wed', progress: 100 },
-    { day: 'Thu', progress: 40 },
-    { day: 'Fri', progress: 90 },
-    { day: 'Sat', progress: 70 },
-    { day: 'Sun', progress: 85 }
-  ];
+  if (!user) {
+    return null;
+  }
+
+  if (loading) {
+    return (
+      <div className={`bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 ${className}`}>
+        <div className="animate-pulse">
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
+          <div className="space-y-3">
+            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-2/3"></div>
+            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!progress) {
+    return (
+      <div className={`bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 ${className}`}>
+        <p className="text-gray-500 dark:text-gray-400 text-center">No progress data available</p>
+      </div>
+    );
+  }
+
+  const xpToNextLevel = 100 - (progress.xp % 100);
+  const progressPercentage = ((progress.xp % 100) / 100) * 100;
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">
-          🏆 Your Amazing Progress!
-        </h2>
-        <p className="text-gray-600 text-lg">
-          Look how far you've come! Every step forward is worth celebrating! 🎉
+    <motion.div 
+      className={`bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 ${className}`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <Trophy className="w-5 h-5 text-yellow-500" />
+          Progress Tracker
+        </h3>
+        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+          <Star className="w-4 h-4 text-yellow-500" />
+          Level {progress.level}
+        </div>
+      </div>
+
+      {/* XP Progress Bar */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Experience Points
+          </span>
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            {progress.xp} XP
+          </span>
+        </div>
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+          <motion.div
+            className="bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full"
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPercentage}%` }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          />
+        </div>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          {xpToNextLevel} XP to next level
         </p>
       </div>
 
-      {/* Stats Overview */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-blue-600">{stats.lessonsCompleted}</div>
-            <div className="text-sm text-gray-600">Lessons Completed</div>
-            <div className="mt-2">
-              <Progress value={(stats.lessonsCompleted / stats.totalLessons) * 100} className="w-full" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-green-600">{stats.circuitsBuilt}</div>
-            <div className="text-sm text-gray-600">Circuits Built</div>
-            <Zap className="h-6 w-6 text-green-500 mx-auto mt-2" />
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-purple-600">{stats.studyStreak}</div>
-            <div className="text-sm text-gray-600">Day Streak</div>
-            <div className="flex justify-center mt-2">
-              <Sparkles className="h-6 w-6 text-purple-500 animate-pulse" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-yellow-600">{stats.totalPoints}</div>
-            <div className="text-sm text-gray-600">Total Points</div>
-            <Star className="h-6 w-6 text-yellow-500 mx-auto mt-2" />
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Weekly Activity */}
-        <Card className="bg-white/90 backdrop-blur-sm border-blue-200">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2 text-blue-600">
-              <Target className="h-5 w-5" />
-              <span>This Week's Journey</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {weeklyProgress.map((day) => (
-                <div key={day.day} className="flex items-center space-x-3">
-                  <div className="w-12 text-sm font-medium text-gray-600">{day.day}</div>
-                  <div className="flex-1">
-                    <Progress value={day.progress} className="w-full" />
-                  </div>
-                  <div className="w-12 text-sm text-gray-600">{day.progress}%</div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-700">
-                🌟 Awesome consistency this week! You're building great study habits!
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Achievements */}
-        <Card className="bg-white/90 backdrop-blur-sm border-purple-200">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2 text-purple-600">
-              <Trophy className="h-5 w-5" />
-              <span>Achievements Unlocked</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {achievements.map((achievement) => (
-                <div
-                  key={achievement.id}
-                  className={`flex items-center space-x-3 p-3 rounded-lg ${
-                    achievement.unlocked
-                      ? 'bg-green-50 border border-green-200'
-                      : 'bg-gray-50 border border-gray-200 opacity-60'
-                  }`}
-                >
-                  <div className="text-2xl">{achievement.icon}</div>
-                  <div className="flex-1">
-                    <div className={`font-medium ${
-                      achievement.unlocked ? 'text-green-700' : 'text-gray-500'
-                    }`}>
-                      {achievement.title}
-                    </div>
-                    <div className={`text-sm ${
-                      achievement.unlocked ? 'text-green-600' : 'text-gray-400'
-                    }`}>
-                      {achievement.description}
-                    </div>
-                  </div>
-                  {achievement.unlocked && (
-                    <div className="text-green-500">
-                      <Trophy className="h-5 w-5" />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Encouragement Message */}
-      <Card className="bg-gradient-to-r from-pink-50 via-purple-50 to-blue-50 border-pink-200">
-        <CardContent className="p-6 text-center">
-          <div className="flex justify-center mb-4">
-            <div className="relative">
-              <Heart className="h-12 w-12 text-pink-500 animate-pulse" />
-              <Sparkles className="h-6 w-6 text-purple-500 absolute -top-2 -right-2 animate-bounce" />
-            </div>
+      {/* Stats Grid */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Zap className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+            <span className="text-sm font-medium text-purple-700 dark:text-purple-300">Streak</span>
           </div>
-          <h3 className="text-2xl font-semibold text-gray-800 mb-3">
-            You're absolutely crushing it! 💜
-          </h3>
-          <p className="text-gray-700 text-lg max-w-2xl mx-auto">
-            Every problem you solve, every concept you master, and every circuit you build 
-            brings you closer to becoming an amazing engineer. I'm so proud of your dedication 
-            and curiosity! Keep up the fantastic work! ⚡✨
+          <p className="text-2xl font-bold text-purple-800 dark:text-purple-200">
+            {progress.streak} days
           </p>
-          <div className="mt-4 text-4xl">🎉 🚀 ⚡ 💡 🏆</div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <BookOpen className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+            <span className="text-sm font-medium text-blue-700 dark:text-blue-300">Arduino Days</span>
+          </div>
+          <p className="text-2xl font-bold text-blue-800 dark:text-blue-200">
+            {progress.arduino.completedDays.length}/5
+          </p>
+        </div>
+      </div>
+
+      {/* Arduino Progress */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <h4 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+            <Target className="w-4 h-4 text-green-500" />
+            Arduino Course
+          </h4>
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            {Math.round((progress.arduino.completedDays.length / 5) * 100)}% Complete
+          </span>
+        </div>
+        <div className="space-y-2">
+          {['1', '2', '3', '4', '5'].map((day) => (
+            <div key={day} className="flex items-center gap-3">
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                progress.arduino.completedDays.includes(day)
+                  ? 'bg-green-500 text-white'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
+              }`}>
+                {progress.arduino.completedDays.includes(day) ? '✓' : day}
+              </div>
+              <span className={`text-sm ${
+                progress.arduino.completedDays.includes(day)
+                  ? 'text-green-600 dark:text-green-400 font-medium'
+                  : 'text-gray-500 dark:text-gray-400'
+              }`}>
+                Day {day}
+              </span>
+              {progress.arduino.currentDay === day && !progress.arduino.completedDays.includes(day) && (
+                <span className="text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded-full">
+                  Current
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Quiz Stats */}
+      {progress.arduino.totalQuizzesTaken > 0 && (
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+          <div className="flex items-center gap-2 mb-2">
+            <TrendingUp className="w-4 h-4 text-indigo-500" />
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Quiz Performance
+            </span>
+          </div>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            {progress.arduino.totalQuizzesTaken} quizzes completed
+          </p>
+          {Object.keys(progress.arduino.quizScores).length > 0 && (
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Average score: {Math.round(
+                Object.values(progress.arduino.quizScores).reduce((a, b) => a + b, 0) / 
+                Object.values(progress.arduino.quizScores).length
+              )}%
+            </p>
+          )}
+        </div>
+      )}
+    </motion.div>
   );
 };
 

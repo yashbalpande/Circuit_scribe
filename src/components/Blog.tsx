@@ -123,18 +123,18 @@ const ArduinoDetail = ({ onBack }) => (
   <div className="max-w-3xl mx-auto py-8 px-4">
     <button
       onClick={onBack}
-      className="mb-6 px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-700 transition"
+      className="mb-6 px-4 py-2 rounded bg-gray-800 dark:bg-gray-700 text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition"
     >
       ← Back to Courses
     </button>
 
-    <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+    <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white">
       <span className="text-purple-400 text-2xl">⚡</span> Arduino Day-wise Plan
     </h2>
 
     <div className="space-y-10">
       {arduinoDays.map((item, idx) => (
-        <div key={idx} className="bg-gray-900 border border-gray-800 rounded-xl shadow p-6">
+        <div key={idx} className="bg-gray-900 dark:bg-gray-800 border border-gray-800 dark:border-gray-700 rounded-xl shadow p-6">
           <div className="text-yellow-400 font-bold mb-1">Day {item.day}</div>
           <div className="text-lg font-semibold text-white mb-2">{item.title}</div>
           
@@ -147,10 +147,10 @@ const ArduinoDetail = ({ onBack }) => (
               <h3 className="text-xl font-bold text-pink-400 mb-2">Questions & Practice</h3>
               <ul className="space-y-4">
                 {item.questions.map((q, i) => (
-                  <li key={i} className="bg-gray-800 rounded p-4">
+                  <li key={i} className="bg-gray-800 dark:bg-gray-700 rounded p-4">
                     <div className="font-semibold text-white mb-2">{q.question}</div>
                     {q.code && (
-                      <pre className="bg-gray-700 rounded p-2 text-sm overflow-x-auto text-green-200 mb-0">
+                      <pre className="bg-gray-700 dark:bg-gray-600 rounded p-2 text-sm overflow-x-auto text-green-200 mb-0">
                         <code>{q.code}</code>
                       </pre>
                     )}
@@ -172,7 +172,7 @@ const ArduinoDetail = ({ onBack }) => (
               {item.assignment.expectedOutput && (
                 <div className="mt-2">
                   <div className="font-semibold text-white mb-1">Expected Output Example</div>
-                  <pre className="bg-gray-800 rounded p-2 text-sm overflow-x-auto text-green-200">
+                  <pre className="bg-gray-800 dark:bg-gray-700 rounded p-2 text-sm overflow-x-auto text-green-200">
                     <code>{item.assignment.expectedOutput}</code>
                   </pre>
                 </div>
@@ -203,7 +203,21 @@ const CoursePage = () => {
         {courses.map(course => (
           <div
             key={course.id}
-            className="rounded-xl overflow-hidden shadow-lg bg-gray-900 border border-gray-800 hover:shadow-2xl transition cursor-pointer"
+            className="rounded-xl overflow-hidden shadow-lg bg-gray-900 dark:bg-gray-800 border border-gray-800 dark:border-gray-700 hover:shadow-2xl transition cursor-pointer"
             onClick={() => setSelectedCourse(course.id)}
           >
-            <div className="h-36 w-full bg
+            <div className="h-36 w-full bg-gray-700 dark:bg-gray-600 flex items-center justify-center">
+              <span className="text-4xl">{course.icon}</span>
+            </div>
+            <div className="p-4">
+              <h3 className="text-lg font-semibold text-white mb-2">{course.title}</h3>
+              <p className="text-gray-300 text-sm">Learn the fundamentals of {course.title.toLowerCase()} programming.</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default CoursePage;

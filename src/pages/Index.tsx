@@ -201,12 +201,14 @@ const Navbar = ({ setActiveSection, activeSection, badgeCount, streak, user, log
             <button className="px-2 py-1 rounded hover:bg-purple-100 dark:hover:bg-yellow-200 text-xs" onClick={logout}>Logout</button>
           </div>
         ) : null}
+        <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
       </div>
       <button className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-400" aria-label="Open menu" onClick={() => setMenuOpen(v => !v)}>
         <Menu className="h-7 w-7 text-purple-700 dark:text-yellow-200" />
       </button>
-      <button className="hidden md:block bg-yellow-300 text-black font-bold px-5 py-2 rounded-full shadow hover:bg-yellow-400 transition min-h-[44px] min-w-[44px]" onClick={onLoginClick}>Login</button>
-      <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+      {!user && (
+        <button className="hidden md:block bg-yellow-300 text-black font-bold px-5 py-2 rounded-full shadow hover:bg-yellow-400 transition min-h-[44px] min-w-[44px]" onClick={onLoginClick}>Login</button>
+      )}
       {/* Mobile menu */}
       {menuOpen && (
         <div className="absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-lg rounded-b-2xl flex flex-col items-center py-4 z-50 animate-fade-in-up">
@@ -221,6 +223,9 @@ const Navbar = ({ setActiveSection, activeSection, badgeCount, streak, user, log
               {item.label}
             </button>
           ))}
+          <div className="flex items-center justify-center mt-4">
+            <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+          </div>
           {!user && <button className="w-full bg-yellow-300 text-black font-bold px-5 py-2 rounded-full shadow hover:bg-yellow-400 transition min-h-[44px] min-w-[44px] mt-2" onClick={() => { setMenuOpen(false); onLoginClick(); }}>Login</button>}
         </div>
       )}
@@ -304,8 +309,8 @@ const Features = () => (
       { icon: "🏆", title: "Track Progress", desc: "Earn badges and celebrate your growth." }
     ].map((f, i) => (
       <div key={i} className="flex flex-col items-center text-center gap-2">
-        <span className="text-3xl bg-yellow-200 rounded-full w-14 h-14 flex items-center justify-center mb-2">{f.icon}</span>
-        <h3 className="font-bold text-lg">{f.title}</h3>
+        <span className="text-3xl bg-yellow-200 dark:bg-yellow-300 rounded-full w-14 h-14 flex items-center justify-center mb-2">{f.icon}</span>
+        <h3 className="font-bold text-lg text-gray-900 dark:text-white">{f.title}</h3>
         <p className="text-gray-600 dark:text-gray-300 text-sm">{f.desc}</p>
       </div>
     ))}
@@ -314,20 +319,20 @@ const Features = () => (
 
 const DoodleDivider = () => (
   <svg viewBox="0 0 1440 100" className="w-full h-16 my-8" fill="none">
-    <path d="M0,0 C480,100 960,0 1440,100 L1440,100 L0,100 Z" fill="#ede9fe" />
+    <path d="M0,0 C480,100 960,0 1440,100 L1440,100 L0,100 Z" fill="#ede9fe" className="dark:fill-gray-800" />
   </svg>
 );
 
 const Footer = () => (
-  <footer className="text-center py-6 mt-10 text-gray-500 text-sm">
+  <footer className="text-center py-6 mt-10 text-gray-500 dark:text-gray-400 text-sm">
     © {new Date().getFullYear()} CircuitCode. Made with ⚡ and curiosity.
   </footer>
 );
 
 // Placeholder components for sections
-const EmbeddedSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow text-center text-xl">Embedded Systems Content Coming Soon!</div>;
-const BlogSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow text-center text-xl">Blog Content Coming Soon!</div>;
-const SimulationsSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow text-center text-xl">Simulations Content Coming Soon!</div>;
+const EmbeddedSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white dark:bg-gray-900 rounded-2xl shadow text-center text-xl text-gray-900 dark:text-white">Embedded Systems Content Coming Soon!</div>;
+const BlogSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white dark:bg-gray-900 rounded-2xl shadow text-center text-xl text-gray-900 dark:text-white">Blog Content Coming Soon!</div>;
+const SimulationsSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white dark:bg-gray-900 rounded-2xl shadow text-center text-xl text-gray-900 dark:text-white">Simulations Content Coming Soon!</div>;
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -337,7 +342,15 @@ const Index = () => {
   const [toastMessage, setToastMessage] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const { user, logout, loginWithGoogle } = useAuth();
-  const [darkMode, setDarkMode] = useState(localStorage.getItem('theme') === 'dark');
+  const [darkMode, setDarkMode] = useState(() => {
+    // Check localStorage first, then system preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      return savedTheme === 'dark';
+    }
+    // Check system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
   useEffect(() => {
     // Simulate fetching badge and streak data
@@ -391,7 +404,30 @@ const Index = () => {
       document.documentElement.classList.remove('dark');
       setDarkMode(false);
     }
-  }, [setDarkMode]);
+  }, []);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [darkMode]);
+
+  // Listen for system theme changes
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e) => {
+      if (!localStorage.getItem('theme')) {
+        setDarkMode(e.matches);
+      }
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 font-sans">
@@ -405,12 +441,12 @@ const Index = () => {
         <Features />
       </>}
       {activeSection === 'embedded' && (
-        <Suspense fallback={<div className="max-w-6xl mx-auto mt-10 p-4 bg-white rounded-2xl shadow text-center text-xl">Loading...</div>}>
+        <Suspense fallback={<div className="max-w-6xl mx-auto mt-10 p-4 bg-white dark:bg-gray-900 rounded-2xl shadow text-center text-xl text-gray-900 dark:text-white">Loading...</div>}>
           <EmbeddedSystemsChallenges />
         </Suspense>
       )}
       {activeSection === 'courses' && (
-        <Suspense fallback={<div className="max-w-6xl mx-auto mt-10 p-4 bg-white rounded-2xl shadow text-center text-xl">Loading...</div>}>
+        <Suspense fallback={<div className="max-w-6xl mx-auto mt-10 p-4 bg-white dark:bg-gray-900 rounded-2xl shadow text-center text-xl text-gray-900 dark:text-white">Loading...</div>}>
           <CoursePage />
         </Suspense>
       )}

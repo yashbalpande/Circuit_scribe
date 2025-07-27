@@ -45,7 +45,7 @@ const CircuitSimulator = () => {
     <div className="space-y-6">
       {/* Test Case Selector */}
       <div className="mb-4 flex flex-col sm:flex-row items-center gap-4">
-        <label className="font-semibold">Test Case:</label>
+        <label className="font-semibold text-gray-900 dark:text-white">Test Case:</label>
         <select
           value={selectedTest?.id}
           onChange={e => {
@@ -53,20 +53,20 @@ const CircuitSimulator = () => {
             setSelectedTest(tc);
             setFeedback(null);
           }}
-          className="border rounded px-2 py-1"
+          className="border rounded px-2 py-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
         >
           {testCases.map(tc => (
             <option key={tc.id} value={tc.id}>{tc.description}</option>
           ))}
         </select>
-        <label className="font-semibold">R2 Value (Ω):</label>
+        <label className="font-semibold text-gray-900 dark:text-white">R2 Value (Ω):</label>
         <input
           type="number"
           value={userR2}
           onChange={e => setUserR2(Number(e.target.value))}
-          className="border rounded px-2 py-1 w-24"
+          className="border rounded px-2 py-1 w-24 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
         />
-        <label className="font-semibold">Ground Connected:</label>
+        <label className="font-semibold text-gray-900 dark:text-white">Ground Connected:</label>
         <input
           type="checkbox"
           checked={userGround}
@@ -76,25 +76,25 @@ const CircuitSimulator = () => {
         <Button onClick={handleRunTest} variant="outline">Test My Circuit</Button>
       </div>
       {feedback && (
-        <div className="mb-4 p-3 rounded bg-blue-50 border border-blue-200 text-blue-800 font-semibold">
+        <div className="mb-4 p-3 rounded bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 text-blue-800 dark:text-blue-200 font-semibold">
           {feedback}
         </div>
       )}
       {/* Header */}
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">
+        <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
           ⚡ Circuit Simulator ⚡
         </h2>
-        <p className="text-gray-600 text-lg">
+        <p className="text-gray-600 dark:text-gray-300 text-lg">
           Let's build some circuits and watch the magic happen! Don't worry - you can't break anything here! 😊
         </p>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Component Palette */}
-        <Card className="bg-white/90 backdrop-blur-sm border-purple-200">
+        <Card className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-purple-200 dark:border-purple-700">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2 text-purple-600">
+            <CardTitle className="flex items-center space-x-2 text-purple-600 dark:text-purple-400">
               <Lightbulb className="h-5 w-5" />
               <span>Components</span>
             </CardTitle>
@@ -105,16 +105,16 @@ const CircuitSimulator = () => {
                 key={component.id}
                 className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
                   selectedComponent === component.id
-                    ? 'border-purple-400 bg-purple-50'
-                    : 'border-gray-200 hover:border-purple-300'
+                    ? 'border-purple-400 bg-purple-50 dark:bg-purple-900/20'
+                    : 'border-gray-200 dark:border-gray-600 hover:border-purple-300 dark:hover:border-purple-500'
                 }`}
                 onClick={() => setSelectedComponent(component.id)}
               >
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">{component.icon}</span>
                   <div>
-                    <div className="font-medium text-gray-800">{component.name}</div>
-                    <div className="text-sm text-gray-600">{component.description}</div>
+                    <div className="font-medium text-gray-800 dark:text-white">{component.name}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">{component.description}</div>
                   </div>
                 </div>
               </div>
@@ -123,10 +123,10 @@ const CircuitSimulator = () => {
         </Card>
 
         {/* Circuit Canvas */}
-        <Card className="lg:col-span-2 bg-white/90 backdrop-blur-sm border-blue-200">
+        <Card className="lg:col-span-2 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-blue-200 dark:border-blue-700">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 text-blue-600">
+              <div className="flex items-center space-x-2 text-blue-600 dark:text-blue-400">
                 <Zap className="h-5 w-5" />
                 <span>Circuit Canvas</span>
               </div>
@@ -150,19 +150,19 @@ const CircuitSimulator = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="relative h-64 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
+            <div className="relative h-64 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center">
               {/* Simple Circuit Visualization */}
               <div className="relative">
                 {/* Battery */}
                 <div className="flex items-center space-x-4">
                   <div className="flex flex-col items-center">
                     <Battery className="h-8 w-8 text-green-600" />
-                    <span className="text-xs text-gray-600 mt-1">9V Battery</span>
+                    <span className="text-xs text-gray-600 dark:text-gray-300 mt-1">9V Battery</span>
                   </div>
                   
                   {/* Wire with Current Flow Animation */}
                   <div className="relative">
-                    <div className="w-32 h-1 bg-gray-400 rounded"></div>
+                    <div className="w-32 h-1 bg-gray-400 dark:bg-gray-500 rounded"></div>
                     {isRunning && (
                       <div className="absolute top-0 left-0 w-4 h-1 bg-yellow-400 rounded animate-pulse"></div>
                     )}
@@ -173,7 +173,7 @@ const CircuitSimulator = () => {
                     <div className="w-8 h-8 bg-orange-400 rounded flex items-center justify-center">
                       {components.find(c => c.id === selectedComponent)?.icon}
                     </div>
-                    <span className="text-xs text-gray-600 mt-1">
+                    <span className="text-xs text-gray-600 dark:text-gray-300 mt-1">
                       {components.find(c => c.id === selectedComponent)?.name}
                     </span>
                   </div>

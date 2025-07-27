@@ -604,35 +604,12 @@ void loop() {
         <div className="w-full md:w-72 flex-shrink-0">
           <ProfileCard user={user} streak={streak} xp={xp} level={level} badges={badges} />
           <Leaderboard leaderboard={leaderboard} />
-          <div className="flex justify-center mt-6">
-            <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
-          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const DarkModeToggle = ({ darkMode, setDarkMode }) => (
-  <button
-    aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-    className="ml-4 p-2 rounded-full hover:bg-purple-100 transition focus:outline-none focus:ring-2 focus:ring-purple-400"
-    onClick={() => {
-      setDarkMode((prev) => {
-        const newMode = !prev;
-        if (newMode) {
-          document.documentElement.classList.add('dark');
-          localStorage.setItem('theme', 'dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-          localStorage.setItem('theme', 'light');
-        }
-        return newMode;
-      });
-    }}
-  >
-    {darkMode ? <Sun /> : <Moon />}
-  </button>
-);
+
 
 export default EmbeddedSystemsChallenges;
