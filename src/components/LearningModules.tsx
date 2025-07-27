@@ -100,7 +100,7 @@ const arduinoDays: ArduinoDay[] = [
       '---\n' +
       '\n' +
       '## ⭐ **Why Choose Arduino?**\n' +
-      '> 💡 Arduino’s popularity stems from several key advantages:\n' +
+      "> 💡 Arduino's popularity stems from several key advantages:\n" +
       '\n' +
       '- **Simplicity** — Designed for beginners, it simplifies interaction with hardware and code\n' +
       '- **Affordability** — Arduino boards are cost-effective and perfect for students and hobbyists\n' +
@@ -234,6 +234,111 @@ const arduinoDays: ArduinoDay[] = [
       '### 🧪 Example 2: Arduino Reading a Character from Your Computer\n' +
       '```\nvoid setup() {\n  Serial.begin(9600); // Start serial communication\n}\n\nvoid loop() {\n  if (Serial.available() > 0) { // Check if data is available\n    char incomingChar = Serial.read();        // Read the oldest character\n    Serial.print("I received: ");             // Print a message\n    Serial.println(incomingChar);             // Print the character received\n  }\n}\n```\n',
     questions: []
+  },
+  {
+    day: '4',
+    title: 'Variables and Data Types',
+    summary: "Learn how to store, manage, and manipulate values in Arduino with variables and data types. This is the foundation of any logic you'll write!",
+    tags: ['Beginner', 'Variables', 'Data Types', 'Memory', 'Arduino'],
+    image: '/pic4.png',
+    content:
+      '# 🧠 **Variables and Data Types**\n' +
+      '\n' +
+      '## 💡 **What Are Variables?**\n' +
+      'Variables are containers that store data values in your Arduino programs. Think of them as labeled boxes where you can keep different types of information. Each variable has a name and can hold one piece of data at a time.\n' +
+      '\n' +
+      '## 💡 **Why Do We Need Variables?**\n' +
+      '- Store sensor readings\n' +
+      '- Keep track of pin numbers\n' +
+      '- Save calculation results\n' +
+      '- Store temporary values during program execution\n' +
+      '\n' +
+      '## 💡 **Variable Declaration Syntax**\n' +
+      '\n' +
+      '`dataType variableName = value;`\n' +
+      '\n' +
+      '### 📝 **Basic Rules for Variable Names**\n' +
+      '- Must start with a letter or underscore\n' +
+      '- Can contain letters, numbers, and underscores\n' +
+      '- Cannot contain spaces or special characters\n' +
+      '- Case sensitive (`myVar` and `myvar` are different)\n' +
+      '- Cannot use Arduino reserved words\n' +
+      '\n' +
+      '## 💡 **Arduino Data Types**\n' +
+      '\n' +
+      '**🔢 int (Integer)**\n' +
+      'Stores whole numbers from -32,768 to 32,767. Used for counting, pin numbers, simple calculations.\n' +
+      '```arduino\n' +
+      'int ledPin = 13;\n' +
+      'int sensorValue = 1023;\n' +
+      'int temperature = 25;\n' +
+      '```\n' +
+      '\n' +
+      '**🌡️ float (Floating Point)**\n' +
+      'Stores decimal numbers with precision up to 6–7 digits. Used for measurements and percentages.\n' +
+      '```arduino\n' +
+      'float voltage = 3.14;\n' +
+      'float temperature = 23.5;\n' +
+      'float percentage = 87.6;\n' +
+      '```\n' +
+      '\n' +
+      '**🔤 char (Character)**\n' +
+      'Stores a single character or small integer (-128 to 127).\n' +
+      '```arduino\n' +
+      "char grade = 'A';\n" +
+      "char symbol = '*';\n" +
+      'char smallNumber = 100;\n' +
+      '```\n' +
+      '\n' +
+      '**🔘 bool (Boolean)**\n' +
+      'Stores `true` or `false`. Used for on/off states, flags.\n' +
+      '```arduino\n' +
+      'bool ledState = true;\n' +
+      'bool buttonPressed = false;\n' +
+      'bool systemReady = true;\n' +
+      '```\n' +
+      '\n' +
+      '**🔢 long (Long Integer)**\n' +
+      'Stores large whole numbers (-2,147,483,648 to 2,147,483,647).\n' +
+      '```arduino\n' +
+      'long milliseconds = 1000000;\n' +
+      'long distance = 384400;\n' +
+      'long counter = 50000;\n' +
+      '```\n' +
+      '\n' +
+      '**🧮 byte (Byte)**\n' +
+      'Stores small numbers (0 to 255). Memory efficient.\n' +
+      '```arduino\n' +
+      'byte brightness = 255;\n' +
+      'byte pwmValue = 128;\n' +
+      'byte arrayIndex = 10;\n' +
+      '```\n' +
+      '\n' +
+      '## 💡 **Examples**\n' +
+      '\n' +
+      '### **🔍 Sensor Data Storage**\n' +
+      '```arduino\n' +
+      'int lightSensor = 512;\n' +
+      'float voltage = 2.5;\n' +
+      'bool dayTime = true;\n' +
+      '```\n' +
+      '\n' +
+      '### **💡 LED Control**\n' +
+      '```arduino\n' +
+      'int redPin = 9;\n' +
+      'int greenPin = 10;\n' +
+      'byte redBrightness = 200;\n' +
+      'byte greenBrightness = 50;\n' +
+      '```\n' +
+      '\n' +
+      '### **🌡️ Temperature Monitoring**\n' +
+      '```arduino\n' +
+      'float currentTemp = 22.7;\n' +
+      'float maxTemp = 30.0;\n' +
+      'bool overheated = false;\n' +
+      '```\n',
+  
+    questions: [],
   },
   {
     day: '5',
@@ -527,6 +632,433 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   ],
   questions: [],
 },
+
+  {
+    day: '6',
+    title: 'Control Structures in Arduino',
+    summary: 'Understand how control structures like if, else, else if, and switch help Arduino make decisions. Learn their syntax, logic flow, and use cases with real code examples like temperature monitoring, sensor range checks, and pattern display.',
+    tags: ['Control Structures', 'Decision Making', 'Arduino Programming', 'Beginner'],
+    image: '/pic6.png',
+    content:
+      '# 🧠 **Control Structures**\n' +
+      '\n' +
+      '## 💡 **What Are Control Structures?**\n' +
+      'Control structures are programming tools that allow your Arduino to make decisions based on conditions.\n' +
+      'Instead of executing code line by line, control structures let you choose which parts of code to run\n' +
+      'based on sensor readings, user input, or calculated values.\n' +
+      '\n' +
+      '## 💡 **Why Control Structures Matter?**\n' +
+      '- Make your Arduino respond to different situations.\n' +
+      '- Create interactive and smart behaviors.\n' +
+      '- Handle multiple scenarios automatically.\n' +
+      '- Build logic based decision systems.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔹 **The `if` Statement**\n' +
+      'Executes code only when a specific condition is true.\n' +
+      '\n' +
+      '### **Syntax**\n' +
+      '```arduino\n' +
+      'if (condition) {\n' +
+      '  // Code to execute when condition is true\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### **Examples**\n' +
+      '**Basic if statement**\n' +
+      '```arduino\n' +
+      'int temperature = 30;\n' +
+      'if (temperature > 25) {\n' +
+      '  Serial.println("Temperature is high");\n' +
+      '}\n' +
+      '```\n' +
+      '**If with multiple statements**\n' +
+      '```arduino\n' +
+      'int sensorValue = 800;\n' +
+      'if (sensorValue > 500) {\n' +
+      '  Serial.println("High reading detected");\n' +
+      '  Serial.println("Warning: Sensor value exceeded threshold");\n' +
+      '}\n' +
+      '```\n' +
+      '**If with complex condition**\n' +
+      '```arduino\n' +
+      'float voltage = 4.5;\n' +
+      'bool systemReady = true;\n' +
+      'if ((voltage >= 3.0) && systemReady) {\n' +
+      '  Serial.println("System can power on");\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔸 **The `else` Statement**\n' +
+      'Provides an alternative when the `if` condition is false.\n' +
+      '\n' +
+      '### **Syntax**\n' +
+      '```arduino\n' +
+      'if (condition) {\n' +
+      '  // Code when condition is true\n' +
+      '} else {\n' +
+      '  // Code when condition is false\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### **Examples**\n' +
+      '**Basic if-else**\n' +
+      '```arduino\n' +
+      'int lightLevel = 300;\n' +
+      'if (lightLevel < 400) {\n' +
+      '  Serial.println("It\'s dark - need light");\n' +
+      '} else {\n' +
+      '  Serial.println("It\'s bright - no light needed");\n' +
+      '}\n' +
+      '```\n' +
+      '**If-else with calculation**\n' +
+      '```arduino\n' +
+      'int batteryVoltage = 3200;  // in millivolts\n' +
+      'if (batteryVoltage >= 3700) {\n' +
+      '  Serial.println("Battery Good");\n' +
+      '} else {\n' +
+      '  Serial.println("Battery Low");\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔹 **The `else if` Statement**\n' +
+      'Used to check multiple conditions sequentially.\n' +
+      '\n' +
+      '### **Syntax**\n' +
+      '```arduino\n' +
+      'if (condition1) {\n' +
+      '  // Code for condition1\n' +
+      '} else if (condition2) {\n' +
+      '  // Code for condition2\n' +
+      '} else {\n' +
+      '  // Code for no condition is true\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### **Examples**\n' +
+      '**Multiple Temperature Ranges**\n' +
+      '```arduino\n' +
+      'float temp = 22.5;\n' +
+      'if (temp < 15.0) {\n' +
+      '  Serial.println("Cold");\n' +
+      '} else if (temp < 25.0) {\n' +
+      '  Serial.println("Comfortable");\n' +
+      '} else if (temp < 35.0) {\n' +
+      '  Serial.println("Warm");\n' +
+      '} else {\n' +
+      '  Serial.println("Hot");\n' +
+      '}\n' +
+      '```\n' +
+      '**Sensor Range Classification**\n' +
+      '```arduino\n' +
+      'int sensorReading = 650;\n' +
+      'if (sensorReading < 200) {\n' +
+      '  Serial.println("Very Low");\n' +
+      '} else if (sensorReading < 500) {\n' +
+      '  Serial.println("Low");\n' +
+      '} else if (sensorReading < 800) {\n' +
+      '  Serial.println("Medium");\n' +
+      '} else {\n' +
+      '  Serial.println("High");\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🎚️ **The `switch` Statement**\n' +
+      'Use when checking a variable against multiple specific values.\n' +
+      '\n' +
+      '### **Syntax**\n' +
+      '```arduino\n' +
+      'switch (variable) {\n' +
+      '  case value1:\n' +
+      '    // Code for value1\n' +
+      '    break;\n' +
+      '  case value2:\n' +
+      '    // Code for value2\n' +
+      '    break;\n' +
+      '  default:\n' +
+      '    // Code if no match\n' +
+      '    break;\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### **Examples**\n' +
+      '**Display Pattern Messages**\n' +
+      '```arduino\n' +
+      'int pattern = 2;\n' +
+      'switch (pattern) {\n' +
+      '  case 1:\n' +
+      '    Serial.println("Pattern 1: Single Light");\n' +
+      '    break;\n' +
+      '  case 2:\n' +
+      '    Serial.println("Pattern 2: Double Light");\n' +
+      '    break;\n' +
+      '  case 3:\n' +
+      '    Serial.println("Pattern 3: All OFF");\n' +
+      '    break;\n' +
+      '  default:\n' +
+      '    Serial.println("Unknown pattern");\n' +
+      '    break;\n' +
+      '}\n' +
+      '```\n' +
+      '**System Mode Selection**\n' +
+      '```arduino\n' +
+      "char systemMode = 'M';\n" +
+      'switch (systemMode) {\n' +
+      "  case 'L':\n" +
+      '    Serial.println("Low Power Mode Selected");\n' +
+      '    break;\n' +
+      "  case 'M':\n" +
+      '    Serial.println("Medium Power Mode Selected");\n' +
+      '    break;\n' +
+      "  case 'H':\n" +
+      '    Serial.println("High Power Mode Selected");\n' +
+      '    break;\n' +
+      "  case 'S':\n" +
+      '    Serial.println("System Off Mode Selected");\n' +
+      '    break;\n' +
+      '  default:\n' +
+      '    Serial.println("Invalid mode setting");\n' +
+      '    break;\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## ✅ **When to Use Which Control Statement**\n' +
+      '\n' +
+      '- **Use `if`:**\n' +
+      '  - Simple true/false decisions.\n' +
+      '  - Single condition checking.\n' +
+      '  - Range comparisons (`>`, `<`, `>=`, `<=`).\n' +
+      '\n' +
+      '- **Use `if else`:**\n' +
+      '  - Two possible outcomes.\n' +
+      '  - Binary decisions (on/off, yes/no).\n' +
+      '\n' +
+      '- **Use `if else if`:**\n' +
+      '  - Multiple range checks.\n' +
+      '  - Sequential condition testing.\n' +
+      '  - Overlapping ranges.\n' +
+      '\n' +
+      '- **Use `switch`:**\n' +
+      '  - Comparing against exact values.\n' +
+      '  - Multiple discrete options.\n' +
+      '  - Menu-like selections.\n' +
+      '  - Character or integer matching.\n',
+    questions: [],
+  },
+  {
+    day: '7',
+    title: 'Loops in Arduino',
+    summary: 'Understand how loops help repeat tasks in Arduino without writing code over and over. Explore `for`, `while`, and `do while` loops with real world examples like counters, retry attempts, and automation tasks. Perfect for controlling hardware behavior efficiently.',
+    tags: ['Loops', 'Iteration', 'Control Flow', 'Arduino Programming', 'Beginner'],
+    image: '/pic7.png',
+    content:
+      '# 🔁 **Loops**\n' +
+      '\n' +
+      'Loops are fundamental programming structures that allow your Arduino to repeat a block of code multiple times. They are incredibly powerful for tasks that involve repetition, which is very common in interactive electronics.\n' +
+      '\n' +
+      '## 💡 **Why Use Loops?**\n' +
+      '- **Efficiency** – Avoid writing repetitive code, making your program shorter and easier to manage.\n' +
+      '- **Automation** – Perform actions many times without manual intervention.\n' +
+      '- **Dynamic Behavior** – Handle situations where you don\'t know how many times a task needs to repeat.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔢 **Types of Loops**\n' +
+      'Arduino supports three types of loops:\n' +
+      '- `for`\n' +
+      '- `while`\n' +
+      '- `do while`\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔄 **for Loop**\n' +
+      'Use when you know how many times to repeat the code.\n' +
+      '\n' +
+      '### **Syntax**\n' +
+      '```arduino\n' +
+      'for (initialization; condition; increment/decrement) {\n' +
+      '  // Code to be repeated\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### **Steps**\n' +
+      '1. Initialization – Run once (e.g., `int i = 0;`).\n' +
+      '2. Condition – Checked before each run (e.g., `i < 5`).\n' +
+      '3. Evaluation – Runs the code block.\n' +
+      '4. Increment – After each loop, increase or decrease counter.\n' +
+      '\n' +
+      '### **Example**\n' +
+      '```arduino\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("Starting for loop...");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  for (int i = 0; i < 5; i++) {\n' +
+      '    Serial.print("Count: ");\n' +
+      '    Serial.println(i);\n' +
+      '  }\n' +
+      '  Serial.println("For loop finished!");\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔁 **while Loop**\n' +
+      'Use when the number of repetitions is unknown. Runs as long as the condition is true.\n' +
+      '\n' +
+      '### **Syntax**\n' +
+      '```arduino\n' +
+      'while (condition) {\n' +
+      '  // Code to be repeated\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### **Example**\n' +
+      '```arduino\n' +
+      'int currentCount = 0;\n' +
+      'const int MAX_COUNT = 3;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("Starting while loop...");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  currentCount = 0;\n' +
+      '  while (currentCount < MAX_COUNT) {\n' +
+      '    Serial.print("Current while count: ");\n' +
+      '    Serial.println(currentCount);\n' +
+      '    currentCount = currentCount + 1;\n' +
+      '  }\n' +
+      '  Serial.println("While loop finished!");\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔂 **do while Loop**\n' +
+      'Runs the loop at least once before checking the condition.\n' +
+      '\n' +
+      '### **Syntax**\n' +
+      '```arduino\n' +
+      'do {\n' +
+      '  // Code to be repeated\n' +
+      '} while (condition);\n' +
+      '```\n',
+      questions: [],
+  },
+  
+  {
+    day: '8',
+    title: 'Functions in Arduino',
+    summary: 'Learn how to organize and reuse your code with Arduino functions. Understand the purpose of built in and custom functions, how to define and call them, and explore examples using `void`, parameters, and return values. Boost clarity, modularity, and debugging efficiency in your projects.',
+    tags: ['Functions', 'Code Structure', 'Reusability', 'Arduino Programming', 'Beginner'],
+    image: '/pic8.png',
+    content:
+      '# 🧩 **Functions**\n' +
+      '\n' +
+      '## 💡 **What are Functions?**\n' +
+      'Think of a function like a reusable tool for a specific task. Instead of repeating code, you define it once and call it whenever needed.\n' +
+      '\n' +
+      '`void setup()`, `void loop()`, `Serial.print()`, and `Serial.println()` are all functions!\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔍 **Why Use Functions?**\n' +
+      '- **Organization** – Split large programs into manageable pieces.\n' +
+      '- **Reusability** – Call the same logic multiple times.\n' +
+      '- **Debugging** – Easier to isolate and fix problems.\n' +
+      '- **Modularity** – Build flexible, clean, and adaptable code.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## ✏️ **Defining Your Own Functions**\n' +
+      '```arduino\n' +
+      'returnType functionName(parameter1Type parameter1Name, ...) {\n' +
+      '  // Code to execute\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### Components:\n' +
+      '- `returnType`: What data (if any) is returned (`void`, `int`, `float`, `char`, etc.)\n' +
+      '- `functionName`: Describes the task (e.g., `calculateSum`, `printMessage`)\n' +
+      '- `parameters`: Inputs (optional) for use inside the function\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🧪 **Examples**\n' +
+      '\n' +
+      '### ✅ A Simple Function Without Return\n' +
+      '```arduino\n' +
+      'void printWelcomeMessage() {\n' +
+      '  Serial.println("--- Welcome to CircuitCode! ---");\n' +
+      '  Serial.println("Starting program...");\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### ✅ A Function That Takes an Argument (No Return)\n' +
+      '```arduino\n' +
+      'void greetByName(char initial) {\n' +
+      '  Serial.print("Hello, ");\n' +
+      '  Serial.print(initial);\n' +
+      '  Serial.println("!");\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### ✅ A Function That Takes Arguments and Returns a Value\n' +
+      '```arduino\n' +
+      'float calculateAverage(int num1, int num2, int num3) {\n' +
+      '  float sum = num1 + num2 + num3;\n' +
+      '  float average = sum / 3.0;\n' +
+      '  return average;\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 📞 **Calling Your Functions**\n' +
+      'Use function names followed by `()` to execute them.\n' +
+      '\n' +
+      '### 🛠️ Example: Function Definitions + Calls\n' +
+      '```arduino\n' +
+      'void printWelcomeMessage() {\n' +
+      '  Serial.println("--- Welcome to CircuitCode! ---");\n' +
+      '  Serial.println("Starting program...");\n' +
+      '}\n' +
+      '\n' +
+      'float calculateAverage(int num1, int num2, int num3) {\n' +
+      '  float sum = num1 + num2 + num3;\n' +
+      '  float average = sum / 3.0;\n' +
+      '  return average;\n' +
+      '}\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  float avgScore = calculateAverage(50, 80, 90);\n' +
+      '  Serial.print("Average score: ");\n' +
+      '  Serial.println(avgScore);\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  Serial.println("Looping and printing a message...");\n' +
+      '  printWelcomeMessage();\n' +
+      '}\n' +
+      '```\n',
+      questions: [],
+  },
+  
+  
 ];
 
 // Add quiz for Day 2 
@@ -966,13 +1498,13 @@ function ArduinoDayCard({ day, title, summary, tags, image, onClick }: {
 
 const arduinoOverview = {
   title: 'Arduino Overview',
-  summary: 'Start your journey with Arduino! Learn what Arduino is, why it’s popular, and how this course is structured.',
+  summary: "Start your journey with Arduino! Learn what Arduino is, why it's popular, and how this course is structured.",
   tags: ['Overview', 'Getting Started'],
   image: '../public/pic1.png',
   content:
     '# Welcome to Arduino!\n\n' +
     'Arduino is an open-source electronics platform based on easy-to-use hardware and software. ' +
-    'It’s intended for anyone making interactive projects. This course will guide you through the basics and beyond.\n\n' +
+    "It's intended for anyone making interactive projects. This course will guide you through the basics and beyond.\n\n" +
     '---\n\n' +
     'Click on a day to start learning specific topics!'
 };
