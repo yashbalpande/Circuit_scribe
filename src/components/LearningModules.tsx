@@ -22,6 +22,7 @@ const courses = [
 type ArduinoDay = {
   day: string;
   title: string;
+  code: string;
   summary: string;
   tags: string[];
   image: string;
@@ -34,6 +35,16 @@ const arduinoDays: ArduinoDay[] = [
   {
     day: '1',
     title: 'What is Arduino?',
+    code: 'void setup() {\n' +
+      '  pinMode(13, OUTPUT);\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  digitalWrite(13, HIGH);\n' +
+      '  delay(1000);\n' +
+      '  digitalWrite(13, LOW);\n' +
+      '  delay(1000);\n' +
+      '}',
     summary: 'Discover what Arduino is, why it is popular, and what you can build with it. Learn about the basics of the platform and its community.',
     tags: ['Beginner', 'Introduction', 'Open Source', 'Physical Computing'],
     image: '/pic1.png',
@@ -124,6 +135,16 @@ const arduinoDays: ArduinoDay[] = [
  {
     day: '2',
     title: 'Arduino Board Anatomy',
+    code: 'void setup() {\n' +
+      '  pinMode(13, OUTPUT);\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  digitalWrite(13, HIGH);\n' +
+      '  delay(1000);\n' +
+      '  digitalWrite(13, LOW);\n' +
+      '  delay(1000);\n' +
+      '}',
     summary: 'Explore the key components of an Arduino board and understand the function of each part, from the microcontroller to the power pins.',
     tags: ['Hardware', 'Board Anatomy', 'Components', 'Beginner'],
     image: '/pic2.png',
@@ -182,6 +203,14 @@ const arduinoDays: ArduinoDay[] = [
   {
     day: '3',
     title: 'Serial Communication Basics',
+    code: 'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  Serial.println("Hello, Arduino!");\n' +
+      '  delay(1000);\n' +
+      '}',
     summary: 'Learn how Arduino communicates with your computer and other devices using serial communication. Understand key commands and see practical examples.',
     tags: ['Serial', 'Communication', 'Debugging', 'Beginner'],
     image: '/pic3.png',
@@ -236,37 +265,47 @@ const arduinoDays: ArduinoDay[] = [
     questions: []
   },
   {
-    day: '4',
-    title: 'Variables and Data Types',
-    summary: "Learn how to store, manage, and manipulate values in Arduino with variables and data types. This is the foundation of any logic you'll write!",
-    tags: ['Beginner', 'Variables', 'Data Types', 'Memory', 'Arduino'],
-    image: '/pic4.png',
-    content:
+     
+      day: '4',
+      title: 'Variables and Data Types',
+      code: 'void setup() {\n' +
+        '  Serial.begin(9600);\n' +
+        '}\n' +
+        '\n' +
+        'void loop() {\n' +
+        '  Serial.println("Hello, Arduino!");\n' +
+        '  delay(1000);\n' +
+        '}',
+      summary: 'Learn how to store, manage, and manipulate values in Arduino with variables and data types. This is the foundation of any logic you’ll write!',
+      tags: ['Beginner', 'Variables', 'Data Types', 'Memory', 'Arduino'],
+      image: '/pic4.png',
+      content:
+        
       '# 🧠 **Variables and Data Types**\n' +
       '\n' +
       '## 💡 **What Are Variables?**\n' +
       'Variables are containers that store data values in your Arduino programs. Think of them as labeled boxes where you can keep different types of information. Each variable has a name and can hold one piece of data at a time.\n' +
       '\n' +
       '## 💡 **Why Do We Need Variables?**\n' +
-      '- Store sensor readings\n' +
-      '- Keep track of pin numbers\n' +
-      '- Save calculation results\n' +
-      '- Store temporary values during program execution\n' +
+      '- •Store sensor readings\n' +
+      '- •Keep track of pin numbers\n' +
+      '- •Save calculation results\n' +
+      '- •Store temporary values during program execution\n' +
       '\n' +
       '## 💡 **Variable Declaration Syntax**\n' +
       '\n' +
       '`dataType variableName = value;`\n' +
       '\n' +
       '### 📝 **Basic Rules for Variable Names**\n' +
-      '- Must start with a letter or underscore\n' +
-      '- Can contain letters, numbers, and underscores\n' +
-      '- Cannot contain spaces or special characters\n' +
-      '- Case sensitive (`myVar` and `myvar` are different)\n' +
-      '- Cannot use Arduino reserved words\n' +
+      '- •Must start with a letter or underscore\n' +
+      '- •Can contain letters, numbers, and underscores\n' +
+      '- •Cannot contain spaces or special characters\n' +
+      '- •Case sensitive *myVar* and *myvar* are different\n' +
+      '- •Cannot use Arduino reserved words\n' +
       '\n' +
-      '## 💡 **Arduino Data Types**\n' +
+      '## 💡 **Arduino Data Types:**\n' +
       '\n' +
-      '**🔢 int (Integer)**\n' +
+      '**🔢 int (Integer):**\n' +
       'Stores whole numbers from -32,768 to 32,767. Used for counting, pin numbers, simple calculations.\n' +
       '```arduino\n' +
       'int ledPin = 13;\n' +
@@ -274,7 +313,7 @@ const arduinoDays: ArduinoDay[] = [
       'int temperature = 25;\n' +
       '```\n' +
       '\n' +
-      '**🌡️ float (Floating Point)**\n' +
+      '**🌡️ float (Floating Point):**\n' +
       'Stores decimal numbers with precision up to 6–7 digits. Used for measurements and percentages.\n' +
       '```arduino\n' +
       'float voltage = 3.14;\n' +
@@ -282,7 +321,7 @@ const arduinoDays: ArduinoDay[] = [
       'float percentage = 87.6;\n' +
       '```\n' +
       '\n' +
-      '**🔤 char (Character)**\n' +
+      '**🔤 char (Character):**\n' +
       'Stores a single character or small integer (-128 to 127).\n' +
       '```arduino\n' +
       "char grade = 'A';\n" +
@@ -290,15 +329,15 @@ const arduinoDays: ArduinoDay[] = [
       'char smallNumber = 100;\n' +
       '```\n' +
       '\n' +
-      '**🔘 bool (Boolean)**\n' +
-      'Stores `true` or `false`. Used for on/off states, flags.\n' +
+      '**🔘 bool (Boolean):**\n' +
+      'Stores true or false. Used for on/off states, flags.\n' +
       '```arduino\n' +
       'bool ledState = true;\n' +
       'bool buttonPressed = false;\n' +
       'bool systemReady = true;\n' +
       '```\n' +
       '\n' +
-      '**🔢 long (Long Integer)**\n' +
+      '**🔢 long (Long Integer):**\n' +
       'Stores large whole numbers (-2,147,483,648 to 2,147,483,647).\n' +
       '```arduino\n' +
       'long milliseconds = 1000000;\n' +
@@ -306,7 +345,7 @@ const arduinoDays: ArduinoDay[] = [
       'long counter = 50000;\n' +
       '```\n' +
       '\n' +
-      '**🧮 byte (Byte)**\n' +
+      '**🧮 byte (Byte):**\n' +
       'Stores small numbers (0 to 255). Memory efficient.\n' +
       '```arduino\n' +
       'byte brightness = 255;\n' +
@@ -314,35 +353,44 @@ const arduinoDays: ArduinoDay[] = [
       'byte arrayIndex = 10;\n' +
       '```\n' +
       '\n' +
-      '## 💡 **Examples**\n' +
+      '## **💡Examples**\n' +
       '\n' +
       '### **🔍 Sensor Data Storage**\n' +
       '```arduino\n' +
-      'int lightSensor = 512;\n' +
-      'float voltage = 2.5;\n' +
-      'bool dayTime = true;\n' +
+      'int lightSensor = 512; // Light sensor reading\n' +
+      'float voltage = 2.5; // Calculated voltage\n' +
+      'bool dayTime = true; // Is it day or night?\n' +
       '```\n' +
       '\n' +
       '### **💡 LED Control**\n' +
       '```arduino\n' +
-      'int redPin = 9;\n' +
-      'int greenPin = 10;\n' +
-      'byte redBrightness = 200;\n' +
-      'byte greenBrightness = 50;\n' +
+      'int redPin = 9; // Red LED pin\n' +
+      'int greenPin = 10; // Green LED pin\n' +
+      'byte redBrightness = 200; // Red LED brightness\n' +
+      'byte greenBrightness = 50; // Green LED brightness\n' +
       '```\n' +
       '\n' +
       '### **🌡️ Temperature Monitoring**\n' +
       '```arduino\n' +
-      'float currentTemp = 22.7;\n' +
-      'float maxTemp = 30.0;\n' +
-      'bool overheated = false;\n' +
+      'float currentTemp = 22.7; // Current temperature\n' +
+      'float maxTemp = 30.0; // Maximum allowed temperature\n' +
+      'bool overheated = false; // Temperature status\n' +
       '```\n',
+    
+      questions: [],
+    },
   
-    questions: [],
-  },
   {
     day: '5',
     title: 'Operators in Arduino',
+    code: 'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  Serial.println("Hello, Arduino!");\n' +
+      '  delay(1000);\n' +
+      '}',
     summary:
       'Learn how operators work in Arduino to perform calculations, make comparisons, and control logic. Includes examples for arithmetic, comparison, and logical operators.',
     tags: ['Operators', 'Logic', 'Arduino Programming', 'Beginner'],
@@ -636,6 +684,14 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   {
     day: '6',
     title: 'Control Structures in Arduino',
+    code: 'void setup() {\n' +
+    '  Serial.begin(9600);\n' +
+    '}\n' +
+    '\n' +
+    'void loop() {\n' +
+    '  Serial.println("Hello, Arduino!");\n' +
+    '  delay(1000);\n' +
+    '}',
     summary: 'Understand how control structures like if, else, else if, and switch help Arduino make decisions. Learn their syntax, logic flow, and use cases with real code examples like temperature monitoring, sensor range checks, and pattern display.',
     tags: ['Control Structures', 'Decision Making', 'Arduino Programming', 'Beginner'],
     image: '/pic6.png',
@@ -857,6 +913,14 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   {
     day: '7',
     title: 'Loops in Arduino',
+    code: 'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  Serial.println("Hello, Arduino!");\n' +
+      '  delay(1000);\n' +
+    '}',
     summary: 'Understand how loops help repeat tasks in Arduino without writing code over and over. Explore `for`, `while`, and `do while` loops with real world examples like counters, retry attempts, and automation tasks. Perfect for controlling hardware behavior efficiently.',
     tags: ['Loops', 'Iteration', 'Control Flow', 'Arduino Programming', 'Beginner'],
     image: '/pic7.png',
@@ -962,6 +1026,14 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   {
     day: '8',
     title: 'Functions in Arduino',
+    code: 'void setup() {\n' +
+    '  Serial.begin(9600);\n' +
+    '}\n' +
+    '\n' +
+    'void loop() {\n' +
+    '  Serial.println("Hello, Arduino!");\n' +
+    '  delay(1000);\n' +
+    '}',
     summary: 'Learn how to organize and reuse your code with Arduino functions. Understand the purpose of built in and custom functions, how to define and call them, and explore examples using `void`, parameters, and return values. Boost clarity, modularity, and debugging efficiency in your projects.',
     tags: ['Functions', 'Code Structure', 'Reusability', 'Arduino Programming', 'Beginner'],
     image: '/pic8.png',
@@ -1060,6 +1132,14 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   {
     day: '9',
     title: 'Digital Pins in Arduino',
+    code: 'void setup() {\n' +
+    '  Serial.begin(9600);\n' +
+    '}\n' +
+    '\n' +
+    'void loop() {\n' +
+    '  Serial.println("Hello, Arduino!");\n' +
+    '  delay(1000);\n' +
+    '}',
     summary: 'Understand how digital pins work on an Arduino board. Learn how to configure pins as INPUT or OUTPUT, use functions like pinMode, digitalWrite, and digitalRead, and see how to blink an LED using digital signals.',
     tags: ['Digital Pins', 'Input Output', 'Arduino Programming', 'Beginner'],
     image: '/pic9.png',
@@ -1141,6 +1221,14 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   {
     day: '10',
     title: 'Pull-up and Pull-down Resistors in Arduino',
+    code: 'void setup() {\n' +
+    '  Serial.begin(9600);\n' +
+    '}\n' +
+    '\n' +
+    'void loop() {\n' +
+    '  Serial.println("Hello, Arduino!");\n' +
+    '  delay(1000);\n' +
+    '}',
     summary: 'Understand how floating pins behave and how pull-up or pull-down resistors help stabilize digital input. Learn how to use INPUT_PULLUP for reliable button reading.',
     tags: ['Digital Input', 'Pull-up', 'Pull-down', 'Arduino', 'Beginner'],
     image: '/pic10.png',
@@ -1199,6 +1287,14 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   {
     day: '11',
     title: 'Debouncing Techniques',
+    code: 'void setup() {\n' +
+    '  Serial.begin(9600);\n' +
+    '}\n' +
+    '\n' +
+    'void loop() {\n' +
+    '  Serial.println("Hello, Arduino!");\n' +
+    '  delay(1000);\n' +
+    '}',
     summary: 'Understand what button bounce is, why it causes false triggers in Arduino, and how to fix it using software debounce methods like delay(). Learn the role of mechanical bounce and how to reliably detect button presses.',
     tags: ['Debounce', 'Digital Input', 'Buttons', 'Arduino', 'Beginner'],
     image: '/pic11.png',
@@ -1263,6 +1359,14 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   {
     day: '12',
     title: 'Digital Logic Gates',
+    code: 'void setup() {\n' +
+    '  Serial.begin(9600);\n' +
+    '}\n' +
+    '\n' +
+    'void loop() {\n' +
+    '  Serial.println("Hello, Arduino!");\n' +
+    '  delay(1000);\n' +
+    '}',
     summary: 'Learn how to simulate logic gates like AND, OR, NOT, and XOR in Arduino using basic digital input pins and conditional statements. Includes truth tables and practical code examples.',
     tags: ['Logic Gates', 'Digital Logic', 'Arduino Programming', 'AND OR NOT XOR'],
     image: '/pic12.png',
@@ -1448,6 +1552,14 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   {
     day: '13',
     title: 'Shift Registers',
+    code: 'void setup() {\n' +
+    '  Serial.begin(9600);\n' +
+    '}\n' +
+    '\n' +
+    'void loop() {\n' +
+    '  Serial.println("Hello, Arduino!");\n' +
+    '  delay(1000);\n' +
+    '}',
     summary: 'Learn how to expand Arduino outputs using shift registers like 74HC595. Understand the shiftOut() function, pin roles (Data, Clock, Latch), and how to control multiple outputs with just 3 pins.',
     tags: ['Shift Register', '74HC595', 'shiftOut', 'Arduino Output Expansion'],
     image: '/pic13.png',
@@ -1504,6 +1616,14 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   {
     day: '14',
     title: 'Analog Pins in Arduino',
+    code: 'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  Serial.println("Hello, Arduino!");\n' +
+      '  delay(1000);\n' +
+      '}',
     summary: 'Learn the difference between analog and digital signals, how Arduino reads analog input using analogRead(), and how to use sensors like potentiometers, LDRs, and thermistors through voltage dividers.',
     tags: ['Analog Pins', 'ADC', 'analogRead', 'Sensors', 'Voltage Divider'],
     image: '/pic14.png',
@@ -1600,7 +1720,15 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   {
     day: '15',
     title: 'PWM and ADC Resolution',
-    summary: 'Understand how PWM simulates analog output using digital pins and how ADC resolution determines the precision of analog input readings. Learn to use analogWrite and calculate voltage per ADC step.',
+    code: 'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  Serial.println("Hello, Arduino!");\n' +
+      '  delay(1000);\n' +
+    '}',
+      summary: 'Understand how PWM simulates analog output using digital pins and how ADC resolution determines the precision of analog input readings. Learn to use analogWrite and calculate voltage per ADC step.',
     tags: ['PWM', 'ADC', 'analogWrite', 'analogRead', 'Resolution'],
     image: '/pic15.png',
     content:
@@ -1722,7 +1850,15 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   },
   {
     day: "16",
-    title: "External Voltage References",
+    title: "External Voltage References", 
+    code: 'void setup() {\n' +
+    '  Serial.begin(9600);\n' +
+    '}\n' +
+    '\n' +
+    'void loop() {\n' +
+    '  Serial.println("Hello, Arduino!");\n' +
+    '  delay(1000);\n' +
+    '}',
     summary: "Learn how to improve ADC accuracy in Arduino by changing the reference voltage using analogReference(). Understand DEFAULT, INTERNAL, INTERNAL1V1, INTERNAL2V56, and EXTERNAL reference options, and when to use each for your sensor setup.",
     tags: ["ADC", "Voltage Reference", "analogReference", "INTERNAL1V1", "EXTERNAL"],
     image: "/pic16.png",
@@ -1999,7 +2135,1214 @@ arduinoDays[2].quiz = [
     answer: 1,
   },
 ];
+
+// Add quiz for Day 4
+arduinoDays[3].quiz = [
+   
+      {
+        question: '1. What is the main purpose of variables in Arduino?',
+        options: [
+          'To make the code longer',
+          'To display graphics',
+          'To store and manage data values',
+          'To increase execution speed',
+        ],
+        answer: 2,
+      },
+      {
+        question: '2. Which of the following is a correct variable declaration in Arduino?',
+        options: [
+          'int temperature = 25',
+          'int 3value = 30;',
+          'float-temp = 2.5;',
+          'char symbol = *;',
+        ],
+        answer: 0,
+      },
+      {
+        question: '3. What is the valid range of the int data type in Arduino?',
+        options: [
+          '-128 to 127',
+          '0 to 255',
+          '-32,768 to 32,767',
+          '-2,147,483,648 to 2,147,483,647',
+        ],
+        answer: 2,
+      },
+      {
+        question: '4. Which data type should you use to store a true or false value?',
+        options: [
+          'char',
+          'int',
+          'float',
+          'bool',
+        ],
+        answer: 3,
+      },
+      {
+        question: '5. Which variable name is not allowed in Arduino?',
+        options: [
+          '_tempValue',
+          'ledPin9',
+          '2sensor',
+          'motor_speed',
+        ],
+        answer: 2,
+      },
+      {
+        question: '6. What data type is best suited for PWM values between 0 and 255?',
+        options: [
+          'int',
+          'long',
+          'byte',
+          'float',
+        ],
+        answer: 2,
+      },
+      {
+        question: '7. Which data type would be best to store the value 3.1416?',
+        options: [
+          'int',
+          'float',
+          'char',
+          'long',
+        ],
+        answer: 1,
+      },
+      {
+        question: '8. How many bytes does a bool typically use in Arduino?',
+        options: [
+          '0',
+          '1',
+          '2',
+          '4',
+        ],
+        answer: 1,
+      },
+      {
+        question: '9. Which keyword is used to store a single character like \'A\'?',
+        options: [
+          'string',
+          'char',
+          'byte',
+          'word',
+        ],
+        answer: 1,
+      },
+      {
+        question: '10. Which of the following is a correct use of a long variable?',
+        options: [
+          'long voltage = 3.3;',
+          'long name = "sensor";',
+          'long counter = 100000;',
+          'long isReady = true;',
+        ],
+        answer: 2,
+      },
+    ];
+    arduinoDays[4].quiz = [
+      
+  {
+    question: '1. What is the result of 15 % 4?',
+    options: ['3', '4', '3.75', '0'],
+    answer: 0,
+  },
+  {
+    question: '2. Which operator checks if two values are NOT equal?',
+    options: ['==', '!=', '<>', '><'],
+    answer: 1,
+  },
+  {
+    question: '3. What does the expression (true && false) evaluate to?',
+    options: ['true', 'false', '1', '0'],
+    answer: 1,
+  },
+  {
+    question: '4. What is the result of 7 / 2 when using integer division?',
+    options: ['3.5', '3', '4', '2'],
+    answer: 1,
+  },
+  {
+    question: '5. Which logical operator returns true when at least one condition is true?',
+    options: ['&&', '||', '!', '=='],
+    answer: 1,
+  },
+  {
+    question: `6. Snippet 1:\n\n\`\`\`cpp
+void setup() {
+  Serial.begin(9600);
+  int a = 12;
+  int b = 5;
+  int sum = a + b;
+  int difference = a - b;
+  int product = a * b;
+  int quotient = a / b;
+  int remainder = a % b;
+  Serial.print("Sum: ");
+  Serial.println(sum);
+  Serial.print("Remainder: ");
+  Serial.println(remainder);
+}
+void loop() {}
+\`\`\`\n\nWhat will be printed for the remainder?`,
+    options: ['2', '2.4', '7', '0'],
+    answer: 0,
+  },
+  {
+    question: '7. What will be printed for "Too hot" in Snippet 2?',
+    options: ['true', 'false', '1', '28.5'],
+    answer: 0,
+  },
+  {
+    question: '8. What will be printed for "Engine can start" in Snippet 3?',
+    options: ['true', 'false', 'Door closed', 'Error'],
+    answer: 1,
+  },
+  {
+    question: '9. What will be printed for "Valid voltage" in Snippet 4?',
+    options: ['true', 'false', '4.8', '1'],
+    answer: 0,
+  },
+  {
+    question: '10. What will be the PWM Value in Snippet 5?',
+    options: ['60', '153', '255', '100'],
+    answer: 1,
+  },
+];
+
+  arduinoDays[5].quiz = [
+      {
+        question: '1. What happens when an if condition is false?',
+        options: [
+          'The program stops',
+          'The code inside the if block is skipped',
+          'An error occurs',
+          'The code runs anyway',
+        ],
+        answer: 1,
+      },
+      {
+        question: '2. Which statement provides an alternative when an if condition is false?',
+        options: ['elif', 'else', 'otherwise', 'alternate'],
+        answer: 1,
+      },
+      {
+        question: '3. In a switch statement, what does the break statement do?',
+        options: [
+          'Stops the entire program',
+          'Exits the switch statement',
+          'Restarts the switch',
+          'Creates an error',
+        ],
+        answer: 1,
+      },
+      {
+        question:
+          '4. Which control structure is best for checking if a temperature is above 25°C?',
+        options: ['switch', 'if', 'while', 'case'],
+        answer: 1,
+      },
+      {
+        question:
+          '5. What is the purpose of the default case in a switch statement?',
+        options: [
+          "It's required for all switch statements",
+          "It handles values that don't match any case",
+          'It runs first before other cases',
+          'It stops the switch statement',
+        ],
+        answer: 1,
+      },
+      {
+        question: `6. Snippet 1:\n\n\`\`\`cpp
+    void setup() {
+      Serial.begin(9600);
+      int sensorValue = 600;
+      if (sensorValue > 500) {
+        Serial.println("Sensor value is high");
+      }
+      Serial.println("Setup complete");
+    }
+    void loop() {}
+    \`\`\`\n\nWhat will be printed to the serial monitor?`,
+        options: [
+          'Only "Setup complete"',
+          'Only "Sensor value is high"',
+          'Both messages',
+          'Nothing',
+        ],
+        answer: 2,
+      },
+      {
+        question: `7. Snippet 2:\n\n\`\`\`cpp
+    void setup() {
+      Serial.begin(9600);
+      float batteryVoltage = 3.2;
+      if (batteryVoltage >= 3.5) {
+        Serial.println("Battery OK");
+      } else {
+        Serial.println("Battery Low");
+      }
+    }
+    void loop() {}
+    \`\`\`\n\nWhich message will be printed?`,
+        options: ['"Battery OK"', '"Battery Low"', 'Both messages', 'No message'],
+        answer: 1,
+      },
+      {
+        question: `8. Snippet 3:\n\n\`\`\`cpp
+    void setup() {
+      Serial.begin(9600);
+      int score = 85;
+      if (score >= 90) {
+        Serial.println("Grade A");
+      } else if (score >= 80) {
+        Serial.println("Grade B");
+      } else if (score >= 70) {
+        Serial.println("Grade C");
+      } else {
+        Serial.println("Grade F");
+      }
+    }
+    void loop() {}
+    \`\`\`\n\nWhat grade will be printed?`,
+        options: ['Grade A', 'Grade B', 'Grade C', 'Grade F'],
+        answer: 1,
+      },
+      {
+        question: `9. Snippet 4:\n\n\`\`\`cpp
+    void setup() {
+      Serial.begin(9600);
+      int mode = 3;
+      switch (mode) {
+        case 1:
+          Serial.println("Mode: Manual");
+          break;
+        case 2:
+          Serial.println("Mode: Automatic");
+          break;
+        case 3:
+          Serial.println("Mode: Sleep");
+          break;
+        default:
+          Serial.println("Mode: Unknown");
+          break;
+      }
+    }
+    void loop() {}
+    \`\`\`\n\nWhat will be printed?`,
+        options: ['Mode: Manual', 'Mode: Automatic', 'Mode: Sleep', 'Mode: Unknown'],
+        answer: 1,
+      },
+    ];
+
+    arduinoDays[6].quiz = [
+      
+        {
+          question: '1. What is the main benefit of using functions in your code?',
+          options: [
+            'A. To make the code run faster on the Arduino.',
+            'B. To store secret data securely.',
+            'C. To organize code into reusable blocks and improve readability.',
+            'D. To connect the Arduino to the internet directly.',
+          ],
+          answer: 2,
+        },
+        {
+          question: '2. If a function definition starts with "void", what does this mean?',
+          options: [
+            'A. The function takes no arguments.',
+            'B. The function will run only once.',
+            'C. The function does not return any value.',
+            'D. The function is empty and does nothing.',
+          ],
+          answer: 2,
+        },
+        {
+          question: '3. What are num1 and num2 in the function definition int addNumbers(int num1, int num2)?',
+          options: [
+            'A. Return values.',
+            'B. Local variables that can only be used outside the function.',
+            'C. Arguments or parameters that the function expects as input.',
+            'D. Global variables accessible anywhere.',
+          ],
+          answer: 2,
+        },
+        {
+          question: '4. Which of these is the correct way to call a function named showMessage that takes no arguments and returns no value?',
+          options: [
+            'A. showMessage;',
+            'B. call showMessage();',
+            'C. showMessage();',
+            'D. void showMessage;',
+          ],
+          answer: 2,
+        },
+        {
+          question: '5. If a function is designed to return a number with a decimal point, what would be an appropriate returnType?',
+          options: [
+            'A. int',
+            'B. char',
+            'C. float',
+            'D. bool',
+          ],
+          answer: 2,
+        },
+        {
+          question: '6. What will be printed by this code?\n\nvoid setup() {\n  Serial.begin(9600);\n  int a = 12;\n  int b = 5;\n  int sum = a + b;\n  int remainder = a % b;\n  Serial.print("Sum: ");\n  Serial.println(sum);\n  Serial.print("Remainder: ");\n  Serial.println(remainder);\n}\n\nvoid loop() {}',
+          options: [
+            'A. Sum: 17, Remainder: 2',
+            'B. Sum: 17, Remainder: 0',
+            'C. Sum: 7, Remainder: 2',
+            'D. Sum: 17, Remainder: 1',
+          ],
+          answer: 0,
+        },
+        {
+          question: '7. Which data type should you use to store a true or false value?',
+          options: [
+            'A. char',
+            'B. int',
+            'C. float',
+            'D. bool',
+          ],
+          answer: 3,
+        },
+        {
+          question: '8. Which variable name is NOT allowed in Arduino?',
+          options: [
+            'A. _tempValue',
+            'B. ledPin9',
+            'C. 2sensor',
+            'D. motor_speed',
+          ],
+          answer: 2,
+        },
+        {
+          question: '9. What is the valid range of the int data type in Arduino?',
+          options: [
+            'A. -128 to 127',
+            'B. 0 to 255',
+            'C. -32,768 to 32,767',
+            'D. -2,147,483,648 to 2,147,483,647',
+          ],
+          answer: 2,
+        },
+        {
+          question: '10. Which of the following is a correct variable declaration in Arduino?',
+          options: [
+            'A. int temperature = 25',
+            'B. int 3value = 30;',
+            'C. float-temp = 2.5;',
+            'D. char symbol = *;',
+          ],
+          answer: 0,
+        },
+      ];
+
+    arduinoDays[7].quiz = [
+      {
+        question: '1. What is the main benefit of using functions in your code?',
+        options: [
+          'A. To make the code run faster on the Arduino.',
+          'B. To store secret data securely.',
+          'C. To organize code into reusable blocks and improve readability.',
+          'D. To connect the Arduino to the internet directly.',
+        ],
+        answer: 2,
+      },
+      {
+        question: '2. If a function definition starts with void, what does this mean?',
+        options: [
+          'A. The function takes no arguments.',
+          'B. The function will run only once.',
+          'C. The function does not return any value.',
+          'D. The function is empty and does nothing.',
+        ],
+        answer: 2,
+      },
+      {
+        question: '3. What are num1 and num2 in the function definition int addNumbers(int num1, int num2)?',
+        options: [
+          'A. Return values.',
+          'B. Local variables that can only be used outside the function.',
+          'C. Arguments or parameters that the function expects as input.',
+          'D. Global variables accessible anywhere.',
+        ],
+        answer: 2,
+      },
+      {
+        question: '4. Which of these is the correct way to call a function named showMessage that takes no arguments and returns no value?',
+        options: [
+          'A. showMessage;',
+          'B. call showMessage();',
+          'C. showMessage();',
+          'D. void showMessage;',
+        ],
+        answer: 2,
+      },
+      {
+        question: '5. If a function is designed to return a number with a decimal point, what would be an appropriate returnType?',
+        options: [
+          'A. int',
+          'B. char',
+          'C. float',
+          'D. bool',
+        ],
+        answer: 2,
+      },
+      {
+        question: '6. What will be the output on the serial monitor when this code runs?\n\nvoid displayInfo() {\n  Serial.println("CircuitCode Tutorial");\n  Serial.println("Learning Functions");\n}\nvoid setup() {\n  Serial.begin(9600);\n  displayInfo();\n}\nvoid loop() {}',
+        options: [
+          'A. "CircuitCode Tutorial" followed by "Learning Functions" once.',
+          'B. "CircuitCode Tutorial" followed by "Learning Functions" repeatedly.',
+          'C. An error because the function is called incorrectly.',
+          'D. Nothing will be printed.',
+        ],
+        answer: 0,
+      },
+      {
+        question: '7. What value will be printed to the serial monitor for "Sum is:"?\n\nint addNumbers(int a, int b) {\n  int sum = a + b;\n  return sum;\n}\nvoid setup() {\n  Serial.begin(9600);\n  int result = addNumbers(7, 3);\n  Serial.print("Sum is: ");\n  Serial.println(result);\n}\nvoid loop() {}',
+        options: [
+          'A. Sum is: 7',
+          'B. Sum is: 3',
+          'C. Sum is: 10',
+          'D. Sum is: an error',
+        ],
+        answer: 2,
+      },
+      {
+        question: '8. How many times will "Repeat message." be printed to the serial monitor?\n\nvoid printRepeatedly(int count) {\n  for (int i = 0; i < count; i++) {\n    Serial.println("Repeat message.");\n  }\n}\nvoid setup() {\n  Serial.begin(9600);\n  printRepeatedly(2);\n}\nvoid loop() {}',
+        options: [
+          'A. 0 times.',
+          'B. 1 time.',
+          'C. 2 times.',
+          'D. Infinitely.',
+        ],
+        answer: 2,
+      },
+      {
+        question: '9. What type of value is expected to be passed into the calculateDifference function?\n\nfloat calculateDifference(float val1, float val2) {\n  float diff = val1 - val2;\n  return diff;\n}\nvoid setup() {\n  Serial.begin(9600);\n  float diffResult = calculateDifference(15.5, 7.2);\n  Serial.print("Difference: ");\n  Serial.println(diffResult);\n}\nvoid loop() {}',
+        options: [
+          'A. Two integers.',
+          'B. Two floating-point numbers.',
+          'C. Two characters.',
+          'D. One integer and one float.',
+        ],
+        answer: 1,
+      },
+      {
+        question: '10. What character will be printed to the serial monitor by this code?\n\nchar getFirstCharacter(char letter1, char letter2) {\n  if (letter1 < letter2) {\n    return letter1;\n  } else {\n    return letter2;\n  }\n}\nvoid setup() {\n  Serial.begin(9600);\n  char resultChar = getFirstCharacter(\'Z\', \'A\');\n  Serial.print("The first char is: ");\n  Serial.println(resultChar);\n}\nvoid loop() {}',
+        options: [
+          'A. Z',
+          'B. A',
+          'C. Nothing, there\'s an error.',
+          'D. A random character.',
+        ],
+        answer: 1,
+      }
+    ];
+
+    arduinoDays[8].quiz = [
+      
+      
+          {
+            "question": "1. What are the two basic states a digital pin can represent?",
+            "options": [
+              "A. Analog and Digital",
+              "B. High and Low",
+              "C. Fast and Slow",
+              "D. Red and Green"
+            ],
+            "answer": 1
+          },
+          {
+            "question": "2. Which function is used to tell the Arduino whether a digital pin will be used for sending signals or receiving signals?",
+            "options": [
+              "A. digitalWrite()",
+              "B. digitalRead()",
+              "C. pinMode()",
+              "D. Serial.begin()"
+            ],
+            "answer": 2
+          },
+          {
+            "question": "3. If you want to control an LED (turn it ON or OFF) using a digital pin, what mode should that pin be set to?",
+            "options": [
+              "A. INPUT",
+              "B. OUTPUT",
+              "C. ANALOG",
+              "D. PULLUP"
+            ],
+            "answer": 1
+          },
+          {
+            "question": "4. Which function is used to send a HIGH or LOW signal from an OUTPUT configured digital pin?",
+            "options": [
+              "A. digitalRead()",
+              "B. pinMode()",
+              "C. digitalWrite()",
+              "D. readPin()"
+            ],
+            "answer": 2
+          },
+          {
+            "question": "5. What value does digitalRead() return when a digital input pin detects a \"HIGH\" signal?",
+            "options": [
+              "A. 0",
+              "B. 1",
+              "C. -1",
+              "D. false"
+            ],
+            "answer": 1
+          },
+          {
+            "question": "6. What will an LED connected to digital pin 5 do if this code is uploaded?\n\ncpp\nvoid setup() {\n  pinMode(5, OUTPUT);\n}\nvoid loop() {\n  digitalWrite(5, HIGH);\n  delay(500);\n  digitalWrite(5, LOW);\n  delay(500);\n}\n",
+            "options": [
+              "A. It will stay off.",
+              "B. It will stay on constantly.",
+              "C. It will blink on and off every 0.5 seconds.",
+              "D. It will only turn on once and then stay off."
+            ],
+            "answer": 2
+          },
+          {
+            "question": "7. What kind of values would you expect buttonState to hold in this code?\n\ncpp\nint buttonPin = 2;\nint buttonState = 0;\nvoid setup() {\n  pinMode(buttonPin, INPUT);\n  Serial.begin(9600);\n}\nvoid loop() {\n  buttonState = digitalRead(buttonPin);\n  Serial.print(\"Button state: \");\n  Serial.println(buttonState);\n  delay(100);\n}\n",
+            "options": [
+              "A. Numbers like 0 to 1023.",
+              "B. Only HIGH (or 1) or LOW (or 0).",
+              "C. Text like \"Pressed\" or \"Not Pressed\".",
+              "D. Negative numbers."
+            ],
+            "answer": 1
+          },
+          {
+            "question": "8. Is pin A0 being used as an analog or digital pin in this code?\n\ncpp\nvoid setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  int sensorPin = 0; // Pin A0 used as digital pin\n  pinMode(sensorPin, INPUT);\n  int reading = digitalRead(sensorPin);\n  Serial.print(\"Digital reading from A0: \");\n  Serial.println(reading);\n  delay(200);\n}\n",
+            "options": [
+              "A. Analog, because it's labeled A0.",
+              "B. Digital, because digitalRead() is used.",
+              "C. Both analog and digital at the same time.",
+              "D. Neither, the code has an error."
+            ],
+            "answer": 1
+          },
+          {
+            "question": "9. What is the total duration of one full blink cycle (LED on and off) in milliseconds before \"Blink!\" is printed?\n\ncpp\nconst int LED_PIN = 7;\nconst int SHORT_DELAY = 100;\nconst int LONG_DELAY = 500;\nvoid setup() {\n  pinMode(LED_PIN, OUTPUT);\n  Serial.begin(9600);\n}\nvoid loop() {\n  digitalWrite(LED_PIN, HIGH);\n  delay(SHORT_DELAY);\n  digitalWrite(LED_PIN, LOW);\n  delay(LONG_DELAY);\n  Serial.println(\"Blink!\");\n}\n",
+            "options": [
+              "A. 100 milliseconds",
+              "B. 500 milliseconds",
+              "C. 600 milliseconds",
+              "D. 1000 milliseconds"
+            ],
+            "answer": 2
+          },
+          {
+            "question": "10. What is a functional issue with the loop() function in this code?\n\ncpp\nvoid setup() {\n  pinMode(10, INPUT);\n  pinMode(11, OUTPUT);\n}\nvoid loop() {\n  digitalWrite(10, HIGH);\n  digitalRead(11);\n  delay(100);\n}\n",
+            "options": [
+              "A. digitalWrite(10, HIGH) will not affect an external component and digitalRead(11) will not provide meaningful input from an output pin.",
+              "B. The code will cause the Arduino to crash.",
+              "C. It will make both pins continuously blink.",
+              "D. It will correctly read from pin 10 and write to pin 11."
+            ],
+            "answer": 0
+          }
+        
+
+    ]; 
+    arduinoDays[10].quiz = [
+      
+        {
+          "question": "What is 'button bounce'?",
+          "options": [
+            "a) The sound a button makes when pressed.",
+            "b) The rapid, unstable electrical connections when a mechanical button is pressed or released.",
+            "c) A special type of spring inside a button.",
+            "d) The speed at which a button reacts."
+          ],
+          "answer": 1
+        },
+        {
+          "question": "Why is button bounce a problem for fast microcontrollers like Arduino?",
+          "options": [
+            "a) The Arduino cannot handle any electrical signals.",
+            "b) The Arduino reads the rapid fluctuations as multiple distinct events.",
+            "c) It drains the Arduino's battery too quickly.",
+            "d) It causes the Arduino to overheat."
+          ],
+          "answer": 1
+        },
+        {
+          "question": "What is the main goal of 'debouncing'?",
+          "options": [
+            "a) To make buttons glow brighter.",
+            "b) To filter out unstable electrical signals from mechanical contacts.",
+            "c) To connect multiple buttons to one pin.",
+            "d) To make the button physically softer to press."
+          ],
+          "answer": 1
+        },
+        {
+          "question": "If you use software debouncing with delay(), what does the delay() primarily achieve?",
+          "options": [
+            "a) It makes the button press feel smoother.",
+            "b) It waits for the electrical contacts to stabilize after an initial change.",
+            "c) It sends a signal back to the button.",
+            "d) It saves power."
+          ],
+          "answer": 1
+        },
+        {
+          "question": "What is a common time period (in milliseconds) after which button bounce usually settles?",
+          "options": [
+            "a) 1-5 ms",
+            "b) 20-50 ms",
+            "c) 100-200 ms",
+            "d) 1000 ms (1 second)"
+          ],
+          "answer": 1
+        },
+        {
+          "question": "Snippet 1: What is the purpose of delay(50); after 'Pressed!' is printed?",
+          "code": "const int BUTTON = 2;\nint buttonState;\nvoid setup() {\n  pinMode(BUTTON, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  buttonState = digitalRead(BUTTON);\n  if (buttonState == LOW) {\n    Serial.println(\"Pressed!\");\n    delay(50);\n  }\n}",
+          "options": [
+            "a) To make the LED blink.",
+            "b) To wait for the button contacts to stabilize after a press.",
+            "c) To make the serial monitor faster.",
+            "d) To count the number of presses."
+          ],
+          "answer": 1
+        },
+        {
+          "question": "Snippet 2: If the button is pressed and then released quickly (within 50ms), how many times will 'Button state is now: 0' appear?",
+          "code": "int buttonPin = 3;\nint lastKnownState = HIGH;\nlong lastTimeStateChanged = 0;\nlong debounceDuration = 100;\nvoid setup() {\n  pinMode(buttonPin, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  int currentState = digitalRead(buttonPin);\n  if (currentState != lastKnownState) {\n    lastTimeStateChanged = millis();\n  }\n  if ((millis() - lastTimeStateChanged) > debounceDuration) {\n    if (currentState != lastKnownState) {\n      Serial.print(\"Button state is now: \");\n      Serial.println(currentState);\n      lastKnownState = currentState;\n    }\n  }\n}",
+          "options": [
+            "a) Zero times.",
+            "b) One time.",
+            "c) Two times.",
+            "d) Many times (due to bounce)."
+          ],
+          "answer": 0
+        },
+        {
+          "question": "Snippet 3: What happens to lastInteractionTime every time the button's stable state changes after the debounce delay?",
+          "code": "const int TOGGLE_BUTTON = 4;\nint pressCount = 0;\nint previousReading = HIGH;\nlong lastInteractionTime = 0;\nlong DEBOUNCE = 75;\nvoid setup() {\n  pinMode(TOGGLE_BUTTON, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  int currentReading = digitalRead(TOGGLE_BUTTON);\n  if (currentReading != previousReading && (millis() - lastInteractionTime) > DEBOUNCE) {\n    if (currentReading == LOW) {\n      pressCount++;\n      Serial.print(\"Presses: \");\n      Serial.println(pressCount);\n    }\n    lastInteractionTime = millis();\n    previousReading = currentReading;\n  }\n}",
+          "options": [
+            "a) It always resets to 0.",
+            "b) It is set to the current millis() value.",
+            "c) It remains unchanged.",
+            "d) It decreases by DEBOUNCE."
+          ],
+          "answer": 1
+        },
+        {
+          "question": "Snippet 4: Why might 'Confirmed Press!' be printed multiple times for a single long button press?",
+          "code": "const int TEST_BUTTON = 5;\nlong lastChangeMillis = 0;\nlong debouncePeriod = 20;\nvoid setup() {\n  pinMode(TEST_BUTTON, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  if (digitalRead(TEST_BUTTON) == LOW) {\n    if ((millis() - lastChangeMillis) > debouncePeriod) {\n      Serial.println(\"Confirmed Press!\");\n      lastChangeMillis = millis();\n    }\n  } else {\n    lastChangeMillis = millis();\n  }\n  delay(10);\n}",
+          "options": [
+            "a) Because the delay(10) is too short.",
+            "b) Because lastChangeMillis is updated when the button is released, allowing repeated prints during a long press.",
+            "c) Because the debouncePeriod is too long.",
+            "d) Because the serial monitor is too fast."
+          ],
+          "answer": 1
+        },
+        {
+          "question": "Snippet 5: If a simple push button is connected to pin 8 and GND (without resistor), and the button is not pressed, what will happen?",
+          "code": "void setup() {\n  Serial.begin(9600);\n  pinMode(8, INPUT);\n}\nvoid loop() {\n  int pinState = digitalRead(8);\n  Serial.print(\"Pin 8 state: \");\n  Serial.println(pinState);\n  delay(10);\n}",
+          "options": [
+            "a) It will consistently print 'Pin 8 state: 1'.",
+            "b) It will consistently print 'Pin 8 state: 0'.",
+            "c) It will likely print a mix of '0' and '1' due to the pin floating.",
+            "d) An error will occur."
+          ],
+          "answer": 2
+        }
+      
+      
+    ];
+
+    arduinoDays[11].quiz = [
+      
+        {
+          "question": "An AND gate produces a HIGH output only if:",
+          "options": ["All inputs are LOW", "At least one input is HIGH", "All inputs are HIGH", "Only one input is HIGH"],
+          "answer": 2
+        },
+        {
+          "question": "If an OR gate has two inputs, one LOW and one HIGH, what will its output be?",
+          "options": ["LOW", "HIGH", "Floating", "Undefined"],
+          "answer": 1
+        },
+        {
+          "question": "A NOT gate takes how many inputs?",
+          "options": ["Zero", "One", "Two", "Any number"],
+          "answer": 1
+        },
+        {
+          "question": "Which logic gate's output is HIGH if its inputs are different (HIGH and LOW, or LOW and HIGH), but LOW if they are the same?",
+          "options": ["AND", "OR", "NOT", "XOR"],
+          "answer": 3
+        },
+        {
+          "question": "In Arduino code, which operator typically represents the logical AND operation?",
+          "options": ["+", "&&", "||", "!"],
+          "answer": 1
+        },
+        {
+          "question": "What logic gate's behavior is simulated by this code?\n\n```cpp\nconst int INPUT1 = 2;\nconst int INPUT2 = 3;\nconst int LED = 13;\nvoid setup() {\n  pinMode(INPUT1, INPUT);\n  pinMode(INPUT2, INPUT);\n  pinMode(LED, OUTPUT);\n}\nvoid loop() {\n  int val1 = digitalRead(INPUT1);\n  int val2 = digitalRead(INPUT2);\n  if (val1 == HIGH && val2 == HIGH) {\n    digitalWrite(LED, HIGH);\n  } else {\n    digitalWrite(LED, LOW);\n  }\n}\n```",
+          "options": ["OR gate", "AND gate", "NOT gate", "XOR gate"],
+          "answer": 1
+        },
+        {
+          "question": "What logic gate's behavior is simulated by the condition if (!buttonAPressed)?\n\n```cpp\nconst int BUTTON_A = 4;\nconst int LED_PIN = 13;\nvoid setup() {\n  pinMode(BUTTON_A, INPUT_PULLUP);\n  pinMode(LED_PIN, OUTPUT);\n}\nvoid loop() {\n  bool buttonAPressed = (digitalRead(BUTTON_A) == LOW);\n  if (!buttonAPressed) {\n    digitalWrite(LED_PIN, HIGH);\n  } else {\n    digitalWrite(LED_PIN, LOW);\n  }\n}\n```",
+          "options": ["AND gate", "OR gate", "NOT gate", "XOR gate"],
+          "answer": 2
+        },
+        {
+          "question": "Under what conditions will the ALARM_LIGHT turn HIGH in this code?\n\n```cpp\nconst int SENSOR_X = 5;\nconst int SENSOR_Y = 6;\nconst int ALARM_LIGHT = 13;\nvoid setup() {\n  pinMode(SENSOR_X, INPUT);\n  pinMode(SENSOR_Y, INPUT);\n  pinMode(ALARM_LIGHT, OUTPUT);\n}\nvoid loop() {\n  int readingX = digitalRead(SENSOR_X);\n  int readingY = digitalRead(SENSOR_Y);\n  if (readingX == HIGH || readingY == HIGH) {\n    digitalWrite(ALARM_LIGHT, HIGH);\n  } else {\n    digitalWrite(ALARM_LIGHT, LOW);\n  }\n}\n```",
+          "options": ["Only if both SENSOR_X and SENSOR_Y are HIGH", "If either SENSOR_X or SENSOR_Y (or both) are HIGH", "Only if both SENSOR_X and SENSOR_Y are LOW", "Never, the code is faulty"],
+          "answer": 1
+        },
+        {
+          "question": "If IN1 is LOW (active) and IN2 is LOW (active), what will be the state of OUT_LED?\n\n```cpp\nconst int IN1 = 7;\nconst int IN2 = 8;\nconst int OUT_LED = 13;\nvoid setup() {\n  pinMode(IN1, INPUT_PULLUP);\n  pinMode(IN2, INPUT_PULLUP);\n  pinMode(OUT_LED, OUTPUT);\n}\nvoid loop() {\n  bool active1 = (digitalRead(IN1) == LOW);\n  bool active2 = (digitalRead(IN2) == LOW);\n  if (active1 != active2) {\n    digitalWrite(OUT_LED, HIGH);\n  } else {\n    digitalWrite(OUT_LED, LOW);\n  }\n}\n```",
+          "options": ["HIGH", "LOW", "Blinking", "Random"],
+          "answer": 1
+        },
+        {
+          "question": "What will this code continuously print to the serial monitor?\n\n```cpp\nvoid setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  bool conditionA = true;\n  bool conditionB = false;\n  if (conditionA && conditionB) {\n    Serial.println(\"Both true\");\n  } else {\n    Serial.println(\"At least one false\");\n  }\n  delay(1000);\n}\n```",
+          "options": ["\"Both true\"", "\"At least one false\"", "\"Both true\" and \"At least one false\" alternately", "Nothing"],
+          "answer": 1
+        }
+            
+    ];
+
+    arduinoDays[12].quiz = [
+      
+        {
+          "question": "What is the primary benefit of using a shift register like the 74HC595 with Arduino?",
+          "options": [
+            "It makes the Arduino run faster.",
+            "It increases the number of available digital input/output pins.",
+            "It provides Wi-Fi connectivity.",
+            "It adds more memory to the Arduino."
+          ],
+          "answer": 1
+        },
+        {
+          "question": "A Serial-In, Parallel-Out shift register receives data:",
+          "options": [
+            "All at once, simultaneously.",
+            "One bit after another.",
+            "Through an analog signal.",
+            "Via a wireless connection."
+          ],
+          "answer": 1
+        },
+        {
+          "question": "Which of the following is NOT one of the three main control pins for a 74HC595 shift register from an Arduino?",
+          "options": [
+            "Data Pin",
+            "Clock Pin",
+            "Latch Pin",
+            "Analog Input Pin"
+          ],
+          "answer": 3
+        },
+        {
+          "question": "What does the latchPin (ST_CP) on a 74HC595 typically do?",
+          "options": [
+            "It sends data to the Arduino.",
+            "It shifts the data bits internally.",
+            "It tells the shift register to display the received data on its outputs.",
+            "It resets the shift register."
+          ],
+          "answer": 2
+        },
+        {
+          "question": "If you want to turn on only the first LED (connected to Q0) of a 74HC595, which byte value would you send using shiftOut() (assuming LSBFIRST)?",
+          "options": [
+            "B00000000 (0)",
+            "B10000000 (128)",
+            "B00000001 (1)",
+            "B11111111 (255)"
+          ],
+          "answer": 2
+        },
+        {
+          "question": "If LEDs are connected to Q0, Q1, etc., what pattern will you observe from the LEDs?\n\n```cpp\nconst int dsPin = 2;\nconst int stcpPin = 3;\nconst int shcpPin = 4;\nvoid setup() {\n  pinMode(dsPin, OUTPUT);\n  pinMode(stcpPin, OUTPUT);\n  pinMode(shcpPin, OUTPUT);\n}\nvoid loop() {\n  digitalWrite(stcpPin, LOW);\n  shiftOut(dsPin, shcpPin, LSBFIRST, 1);\n  digitalWrite(stcpPin, HIGH);\n  delay(500);\n  digitalWrite(stcpPin, LOW);\n  shiftOut(dsPin, shcpPin, LSBFIRST, 2);\n  digitalWrite(stcpPin, HIGH);\n  delay(500);\n}```",
+          "options": [
+            "All LEDs turn ON, then all OFF.",
+            "The first LED turns ON, then the second LED turns ON, alternating.",
+            "The first LED turns ON, then the second LED turns ON, then the first turns OFF.",
+            "The first LED turns ON, then the second turns ON, with only one LED on at a time."
+          ],
+          "answer": 3
+        },
+        {
+          "question": "If LEDs are connected to Q0 (LSB) through Q7 (MSB), and MSBFIRST is used, what will be the state of Q7 when B10101010 is sent?\n\n```cpp\nconst int myData = 5;\nconst int myLatch = 6;\nconst int myClock = 7;\nvoid setup() {\n  pinMode(myData, OUTPUT);\n  pinMode(myLatch, OUTPUT);\n  pinMode(myClock, OUTPUT);\n}\nvoid loop() {\n  digitalWrite(myLatch, LOW);\n  shiftOut(myData, myClock, MSBFIRST, B10101010);\n  digitalWrite(myLatch, HIGH);\n  delay(1000);\n  digitalWrite(myLatch, LOW);\n  shiftOut(myData, myClock, MSBFIRST, B01010101);\n  digitalWrite(myLatch, HIGH);\n  delay(1000);\n}```",
+          "options": [
+            "ON",
+            "OFF",
+            "Blinking",
+            "Cannot be determined"
+          ],
+          "answer": 0
+        },
+        {
+          "question": "How many distinct patterns will be displayed on the 8 LEDs connected to the shift register in one full run of the for loop?\n\n```cpp\nconst int DATA_PIN = 2;\nconst int LATCH_PIN = 3;\nconst int CLOCK_PIN = 4;\nvoid setup() {\n  pinMode(DATA_PIN, OUTPUT);\n  pinMode(LATCH_PIN, OUTPUT);\n  pinMode(CLOCK_PIN, OUTPUT);\n}\nvoid loop() {\n  for (int i = 0; i < 256; i++) {\n    digitalWrite(LATCH_PIN, LOW);\n    shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, i);\n    digitalWrite(LATCH_PIN, HIGH);\n    delay(10);\n  }\n}```",
+          "options": [
+            "8",
+            "255",
+            "256",
+            "10"
+          ],
+          "answer": 2
+        },
+        {
+          "question": "If the shiftOut() function call is missing from loop(), what will happen to the LEDs connected to the shift register?\n\n```cpp\nconst int DATA = 2;\nconst int LATCH = 3;\nconst int CLOCK = 4;\nvoid setup() {\n  pinMode(DATA, OUTPUT);\n  pinMode(LATCH, OUTPUT);\n  pinMode(CLOCK, OUTPUT);\n}\nvoid loop() {\n  digitalWrite(LATCH, LOW);\n  digitalWrite(LATCH, HIGH);\n  delay(1000);\n}```",
+          "options": [
+            "They will all turn ON.",
+            "They will all turn OFF.",
+            "They will display a random pattern.",
+            "They will retain their previous state, or be off if no data was ever sent."
+          ],
+          "answer": 3
+        },
+        {
+          "question": "How many Arduino digital pins are used to control the 8 LEDs via the shift register in this code?\n\n```cpp\nconst int dataPinSR = 2;\nconst int latchPinSR = 3;\nconst int clockPinSR = 4;\nvoid updateLEDs(byte ledPattern) {\n  digitalWrite(latchPinSR, LOW);\n  shiftOut(dataPinSR, clockPinSR, LSBFIRST, ledPattern);\n  digitalWrite(latchPinSR, HIGH);\n}\nvoid setup() {\n  pinMode(dataPinSR, OUTPUT);\n  pinMode(latchPinSR, OUTPUT);\n  pinMode(clockPinSR, OUTPUT);\n  updateLEDs(0);\n}\nvoid loop() {\n  updateLEDs(B00001111);\n  delay(500);\n  updateLEDs(B11110000);\n  delay(500);\n}```",
+          "options": [
+            "1",
+            "3",
+            "8",
+            "11"
+          ],
+          "answer": 1
+        }
+      
+    ];        
+    arduinoDays[13].quiz = [
+      {
+          "question": "Which type of signal has a continuous range of values, like temperature or light intensity?",
+          "options": {
+            "0": "Digital signal",
+            "1": "Binary signal",
+            "2": "Analog signal",
+            "3": "Discrete signal"
+          },
+          "answer": 2
+        },
+        {
+          "question": "What is the purpose of an Analog-to-Digital Converter (ADC) in an Arduino?",
+          "options": {
+            "0": "To make digital pins turn on and off faster.",
+            "1": "To convert digital signals into analog voltages.",
+            "2": "To convert continuous analog voltages into discrete digital numbers.",
+            "3": "To communicate wirelessly."
+          },
+          "answer": 2
+        },
+        {
+          "question": "What is the typical range of integer values returned by analogRead() on most standard Arduino boards (like Uno)?",
+          "options": {
+            "0": "0 to 1",
+            "1": "0 to 255",
+            "2": "0 to 1023",
+            "3": "-512 to 511"
+          },
+          "answer": 2
+        },
+        {
+          "question": "Which function is used to read a voltage from an analog input pin?",
+          "options": {
+            "0": "digitalRead()",
+            "1": "pinMode()",
+            "2": "analogRead()",
+            "3": "readAnalog()"
+          },
+          "answer": 2
+        },
+        {
+          "question": "What voltage does an analogRead() value of 1023 typically correspond to on an Arduino board?",
+          "options": {
+            "0": "0 Volts",
+            "1": "1 Volts",
+            "2": "3.3 Volts",
+            "3": "5 Volts (or the reference voltage)"
+          },
+          "answer": 3
+        },
+        {
+          "question": "What kind of values (for rawValue) would you expect to see printed if a variable voltage source (0-5V) is connected to A1?",
+          "code": "const int ANALOG_INPUT_PIN = A1;\nint rawValue;\nvoid setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  rawValue = analogRead(ANALOG_INPUT_PIN);\n  Serial.print(\"Raw: \");\n  Serial.println(rawValue);\n  delay(50);\n}",
+          "options": {
+            "0": "Only 0 or 1.",
+            "1": "Numbers between 0 and 255.",
+            "2": "Numbers between 0 and 1023.",
+            "3": "Text like \"High\" or \"Low\"."
+          },
+          "answer": 2
+        },
+        {
+          "question": "If the light sensor connected to A0 is in a very dim room, what would you most likely see printed to the serial monitor?",
+          "code": "const int LIGHT_SENSOR_PIN = A0;\nint lightLevel;\nvoid setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  lightLevel = analogRead(LIGHT_SENSOR_PIN);\n  if (lightLevel > 500) {\n    Serial.println(\"It's bright!\");\n  } else {\n    Serial.println(\"It's dark.\");\n  }\n  delay(200);\n}",
+          "options": {
+            "0": "\"It's bright!\" repeatedly.",
+            "1": "\"It's dark.\" repeatedly.",
+            "2": "Both messages alternate.",
+            "3": "Nothing, an error will occur."
+          },
+          "answer": 1
+        },
+        {
+          "question": "Is a pinMode() call strictly necessary for analogPin (A2) to be used with analogRead()?",
+          "code": "void setup() {\n  Serial.begin(9600);\n  int analogPin = A2;\n}\nvoid loop() {\n  int value = analogRead(analogPin);\n  Serial.print(\"Value: \");\n  Serial.println(value);\n  delay(100);\n}",
+          "options": {
+            "0": "Yes, it must be set to INPUT.",
+            "1": "Yes, it must be set to OUTPUT.",
+            "2": "No, analog input pins are automatically configured for analogRead().",
+            "3": "Only if you want to use it for digital I/O."
+          },
+          "answer": 2
+        },
+        {
+          "question": "If the tempRaw value read from A3 is 511, what approximate temperature (in C) would be printed to the serial monitor based on the given scaling?",
+          "code": "const int TEMP_SENSOR_PIN = A3;\nint tempRaw;\nvoid setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  tempRaw = analogRead(TEMP_SENSOR_PIN);\n  float temperatureC = (tempRaw / 1023.0) * 100.0;\n  Serial.print(\"Temperature: \");\n  Serial.print(temperatureC);\n  Serial.println(\" C\");\n  delay(500);\n}",
+          "options": {
+            "0": "0 C",
+            "1": "25 C",
+            "2": "50 C",
+            "3": "100 C"
+          },
+          "answer": 2
+        },
+        {
+          "question": "What will this code continuously do?",
+          "code": "void setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  int valueA0 = analogRead(A0);\n  int valueA1 = analogRead(A1);\n  Serial.print(\"A0: \");\n  Serial.print(valueA0);\n  Serial.print(\" A1: \");\n  Serial.println(valueA1);\n  delay(200);\n}",
+          "options": {
+            "0": "Read a digital value from A0 and an analog value from A1.",
+            "1": "Read analog values from both A0 and A1 and print them.",
+            "2": "Only print \"A0: A1:\".",
+            "3": "Cause an error because two analog pins are read in one loop."
+          },
+          "answer": 1
+        }
+     
+    ];
+
+    arduinoDays[14].quiz = [
   
+        {
+          "question": "If an LED is connected to a PWM-capable pin, and you set its duty cycle to 50%, how will it appear to your eyes?",
+          "options": {
+            "0": "Completely OFF.",
+            "1": "Completely ON.",
+            "2": "Half as bright.",
+            "3": "Rapidly flickering."
+          },
+          "answer": 2
+        },
+        {
+          "question": "What is the range of values you can use in the value parameter of the analogWrite(pin, value) function?",
+          "options": {
+            "0": "0 to 1",
+            "1": "0 to 100",
+            "2": "0 to 255",
+            "3": "0 to 1023"
+          },
+          "answer": 2
+        },
+        {
+          "question": "What is the \"voltage per step\" (or LSB voltage) of an ADC?",
+          "options": {
+            "0": "The maximum voltage input.",
+            "1": "The minimum voltage input.",
+            "2": "The smallest voltage change the ADC can detect.",
+            "3": "The total range of voltages."
+          },
+          "answer": 2
+        },
+        {
+          "question": "If an ADC has 8 bits of resolution and a reference voltage of 5V, what is the number of total steps?",
+          "options": {
+            "0": "8",
+            "1": "64",
+            "2": "256 (28)",
+            "3": "1024"
+          },
+          "answer": 2
+        },
+        {
+          "question": "A higher ADC resolution generally means:",
+          "options": {
+            "0": "Faster conversion speed.",
+            "1": "Less precise readings.",
+            "2": "More precise readings, detecting finer voltage changes.",
+            "3": "The need for fewer analog pins."
+          },
+          "answer": 2
+        },
+        {
+          "question": "What is the smallest voltage change (approximately) this system can detect and show as a change in calculatedVoltage if sensorRaw changes by 1 unit?",
+          "code": "const float V_REF = 5.0;\nconst int MAX_ADC_VALUE = 1023;\nvoid setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  int sensorRaw = analogRead(A0);\n  float calculatedVoltage = (sensorRaw * V_REF) / MAX_ADC_VALUE;\n  Serial.print(\"Voltage: \");\n  Serial.println(calculatedVoltage, 4);\n  delay(100);\n}",
+          "options": {
+            "0": "5 Volts",
+            "1": "1 Volt",
+            "2": "0.0049 Volts (4.9 mV)",
+            "3": "0.0001 Volts"
+          },
+          "answer": 2
+        },
+        {
+          "question": "What value will be printed for \"Number of Steps:\"?",
+          "code": "const int ANALOG_INPUT = A1;\nconst int BIT_RESOLUTION = 10;\nconst float VOLT_RANGE = 5.0;\nvoid setup() {\n  Serial.begin(9600);\n  int numSteps = 1 << BIT_RESOLUTION;\n  Serial.print(\"Number of Steps: \");\n  Serial.println(numSteps);\n}\nvoid loop() {}",
+          "options": {
+            "0": "10",
+            "1": "256",
+            "2": "512",
+            "3": "1024"
+          },
+          "answer": 3
+        },
+        {
+          "question": "Is pin 10 typically a PWM-capable pin on an Arduino Uno?",
+          "code": "void setup() {\n  Serial.begin(9600);\n  // Missing pinMode for pin 10 (not needed for analogWrite, but good to note)\n}\nvoid loop() {\n  analogWrite(10, 200); // Set PWM on pin 10\n  Serial.println(\"PWM set to 200.\");\n  delay(500);\n}",
+          "options": {
+            "0": "No, it's a digital input only.",
+            "1": "Yes, it's usually marked with a tilde (~).",
+            "2": "Only if connected to an analog sensor.",
+            "3": "Yes, but only for digitalWrite."
+          },
+          "answer": 1
+        },
+        {
+          "question": "If a passive buzzer (controlled by PWM) is connected to BUZZER_PIN, what would you observe?",
+          "code": "const int BUZZER_PIN = 3;\nint toneValue = 150;\nvoid setup() {\n  pinMode(BUZZER_PIN, OUTPUT);\n  Serial.begin(9600);\n}\nvoid loop() {\n  analogWrite(BUZZER_PIN, toneValue);\n  Serial.println(\"Buzzing...\");\n  delay(1000);\n  analogWrite(BUZZER_PIN, 0);\n  delay(1000);\n}",
+          "options": {
+            "0": "A continuous high-pitched tone.",
+            "1": "A buzzing sound that turns on for 1 second, then off for 1 second.",
+            "2": "No sound, as toneValue is not a frequency.",
+            "3": "Only \"Buzzing...\" printed on serial, no sound."
+          },
+          "answer": 1
+        },
+        {
+          "question": "How many times will analogWrite(11, val); be called within one full execution of the for loop (from 0 to 255, incrementing by 5)?",
+          "code": "void setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  for (int val = 0; val <= 255; val += 5) {\n    analogWrite(11, val);\n    delay(20);\n  }\n  delay(1000);\n}",
+          "options": {
+            "0": "255 times",
+            "1": "51 times (255 / 5 = 51)",
+            "2": "52 times (0, 5, 10, ... 250, 255)",
+            "3": "1 time"
+          },
+          "answer": 2
+        }
+      
+      
+    ];
+
+    arduinoDays[15].quiz = [
+      
+        {
+          "question": "What is the 'reference voltage' in the context of analogRead()?",
+          "options": [
+            "The voltage supplied to the GND pin.",
+            "The voltage that corresponds to the 0 reading of the ADC.",
+            "The maximum voltage that corresponds to the 1023 reading of the ADC.",
+            "The voltage used to power external LEDs."
+          ],
+          "answer": 2
+        },
+        {
+          "question": "What is the default analog reference used by an Arduino Uno?",
+          "options": [
+            "Internal 1.1V",
+            "Internal 2.56V",
+            "The 5V operating voltage (Vcc)",
+            "External reference from the AREF pin"
+          ],
+          "answer": 2
+        },
+        {
+          "question": "If you want to read a very small voltage (e.g., from 0V to 1V) with higher precision using an Arduino Uno, which analogReference() option would be most suitable?",
+          "options": [
+            "DEFAULT",
+            "INTERNAL1V1",
+            "EXTERNAL (without providing an external reference)",
+            "INTERNAL2V56"
+          ],
+          "answer": 1
+        },
+        {
+          "question": "Which Arduino pin is used to provide a custom external voltage reference when analogReference(EXTERNAL) is selected?",
+          "options": [
+            "GND",
+            "5V",
+            "AREF",
+            "A0"
+          ],
+          "answer": 2
+        },
+        {
+          "question": "What is the maximum safe voltage you should apply to the AREF pin when using analogReference(EXTERNAL)?",
+          "options": [
+            "3.3V",
+            "5V",
+            "12V",
+            "Any voltage below 20V"
+          ],
+          "answer": 1
+        },
+        {
+          "question": "If a sensor outputs 2.0V to SENSOR_PIN and analogReference(INTERNAL) is set, what value will analogRead return?",
+          "options": [
+            "0",
+            "511",
+            "1023",
+            "200"
+          ],
+          "answer": 2
+        },
+        {
+          "question": "If the actual voltage on SENSOR_PIN is 0.2V and analogReference(DEFAULT) is set, what message will be printed?",
+          "options": [
+            "Voltage is low.",
+            "Voltage is fine.",
+            "An error will occur.",
+            "Nothing."
+          ],
+          "answer": 0
+        },
+        {
+          "question": "If no analogReference() is called, what is the default voltage used by analogRead on an Arduino Uno?",
+          "options": [
+            "1.1V",
+            "2.56V",
+            "The 5V operating voltage of the Uno.",
+            "3.3V"
+          ],
+          "answer": 2
+        },
+        {
+          "question": "If a stable 1.0V signal is applied to A3 and AREF is set to 2.0V externally, what will the converted voltage be?",
+          "options": [
+            "0.5V",
+            "1.0V",
+            "2.0V",
+            "4.0V"
+          ],
+          "answer": 1
+        },
+        {
+          "question": "If analogReference(INTERNAL) is used and a sensor outputs 3.0V to A4, what would analogRead(A4) likely return?",
+          "options": [
+            "0",
+            "Roughly 300 (scaled for 1.1V range)",
+            "1023",
+            "An error"
+          ],
+          "answer": 2
+        }
+      
+    ];   
 // Add a Quiz component for single-select questions
 const arduinoQuizQuestions = [
   {
@@ -2536,7 +3879,7 @@ const CoursePage = () => {
           <h3 className="text-2xl font-bold text-white mb-2">Arduino Programming</h3>
           <p className="text-white/90 mb-4">Learn Arduino from basics to advanced projects. 5-day structured course with hands-on exercises.</p>
           <div className="flex items-center justify-between">
-            <span className="text-white/80 text-sm">5 modules</span>
+            <span className="text-white/80 text-sm">16 modules</span>
             <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">Beginner</span>
           </div>
         </div>
@@ -2552,16 +3895,7 @@ const CoursePage = () => {
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-xl p-6 opacity-60">
-          <div className="text-4xl mb-4">🌐</div>
-          <h3 className="text-2xl font-bold text-gray-300 mb-2">IoT Development</h3>
-          <p className="text-gray-400 mb-4">Internet of Things and connected device programming.</p>
-          <div className="flex items-center justify-between">
-            <span className="text-gray-400 text-sm">Coming Soon</span>
-            <span className="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm font-medium">Intermediate</span>
-          </div>
-        </div>
-      </div>
+            </div>
     </div>
   );
 };
