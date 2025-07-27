@@ -22,7 +22,7 @@ const courses = [
 type ArduinoDay = {
   day: string;
   title: string;
-  code: string;
+  
   summary: string;
   tags: string[];
   image: string;
@@ -35,16 +35,7 @@ const arduinoDays: ArduinoDay[] = [
   {
     day: '1',
     title: 'What is Arduino?',
-    code: 'void setup() {\n' +
-      '  pinMode(13, OUTPUT);\n' +
-      '}\n' +
-      '\n' +
-      'void loop() {\n' +
-      '  digitalWrite(13, HIGH);\n' +
-      '  delay(1000);\n' +
-      '  digitalWrite(13, LOW);\n' +
-      '  delay(1000);\n' +
-      '}',
+    
     summary: 'Discover what Arduino is, why it is popular, and what you can build with it. Learn about the basics of the platform and its community.',
     tags: ['Beginner', 'Introduction', 'Open Source', 'Physical Computing'],
     image: '/pic1.png',
@@ -135,16 +126,7 @@ const arduinoDays: ArduinoDay[] = [
  {
     day: '2',
     title: 'Arduino Board Anatomy',
-    code: 'void setup() {\n' +
-      '  pinMode(13, OUTPUT);\n' +
-      '}\n' +
-      '\n' +
-      'void loop() {\n' +
-      '  digitalWrite(13, HIGH);\n' +
-      '  delay(1000);\n' +
-      '  digitalWrite(13, LOW);\n' +
-      '  delay(1000);\n' +
-      '}',
+    
     summary: 'Explore the key components of an Arduino board and understand the function of each part, from the microcontroller to the power pins.',
     tags: ['Hardware', 'Board Anatomy', 'Components', 'Beginner'],
     image: '/pic2.png',
@@ -203,14 +185,7 @@ const arduinoDays: ArduinoDay[] = [
   {
     day: '3',
     title: 'Serial Communication Basics',
-    code: 'void setup() {\n' +
-      '  Serial.begin(9600);\n' +
-      '}\n' +
-      '\n' +
-      'void loop() {\n' +
-      '  Serial.println("Hello, Arduino!");\n' +
-      '  delay(1000);\n' +
-      '}',
+    
     summary: 'Learn how Arduino communicates with your computer and other devices using serial communication. Understand key commands and see practical examples.',
     tags: ['Serial', 'Communication', 'Debugging', 'Beginner'],
     image: '/pic3.png',
@@ -268,14 +243,7 @@ const arduinoDays: ArduinoDay[] = [
      
       day: '4',
       title: 'Variables and Data Types',
-      code: 'void setup() {\n' +
-        '  Serial.begin(9600);\n' +
-        '}\n' +
-        '\n' +
-        'void loop() {\n' +
-        '  Serial.println("Hello, Arduino!");\n' +
-        '  delay(1000);\n' +
-        '}',
+      
       summary: 'Learn how to store, manage, and manipulate values in Arduino with variables and data types. This is the foundation of any logic you’ll write!',
       tags: ['Beginner', 'Variables', 'Data Types', 'Memory', 'Arduino'],
       image: '/pic4.png',
@@ -383,14 +351,7 @@ const arduinoDays: ArduinoDay[] = [
   {
     day: '5',
     title: 'Operators in Arduino',
-    code: 'void setup() {\n' +
-      '  Serial.begin(9600);\n' +
-      '}\n' +
-      '\n' +
-      'void loop() {\n' +
-      '  Serial.println("Hello, Arduino!");\n' +
-      '  delay(1000);\n' +
-      '}',
+    
     summary:
       'Learn how operators work in Arduino to perform calculations, make comparisons, and control logic. Includes examples for arithmetic, comparison, and logical operators.',
     tags: ['Operators', 'Logic', 'Arduino Programming', 'Beginner'],
@@ -681,246 +642,232 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
   questions: [],
 },
 
-  {
-    day: '6',
-    title: 'Control Structures in Arduino',
-    code: 'void setup() {\n' +
-    '  Serial.begin(9600);\n' +
-    '}\n' +
-    '\n' +
-    'void loop() {\n' +
-    '  Serial.println("Hello, Arduino!");\n' +
-    '  delay(1000);\n' +
-    '}',
-    summary: 'Understand how control structures like if, else, else if, and switch help Arduino make decisions. Learn their syntax, logic flow, and use cases with real code examples like temperature monitoring, sensor range checks, and pattern display.',
-    tags: ['Control Structures', 'Decision Making', 'Arduino Programming', 'Beginner'],
-    image: '/pic6.png',
-    content:
-      '# 🧠 **Control Structures**\n' +
-      '\n' +
-      '## 💡 **What Are Control Structures?**\n' +
-      'Control structures are programming tools that allow your Arduino to make decisions based on conditions.\n' +
-      'Instead of executing code line by line, control structures let you choose which parts of code to run\n' +
-      'based on sensor readings, user input, or calculated values.\n' +
-      '\n' +
-      '## 💡 **Why Control Structures Matter?**\n' +
-      '- Make your Arduino respond to different situations.\n' +
-      '- Create interactive and smart behaviors.\n' +
-      '- Handle multiple scenarios automatically.\n' +
-      '- Build logic based decision systems.\n' +
-      '\n' +
-      '---\n' +
-      '\n' +
-      '## 🔹 **The `if` Statement**\n' +
-      'Executes code only when a specific condition is true.\n' +
-      '\n' +
-      '### **Syntax**\n' +
-      '```arduino\n' +
-      'if (condition) {\n' +
-      '  // Code to execute when condition is true\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '### **Examples**\n' +
-      '**Basic if statement**\n' +
-      '```arduino\n' +
-      'int temperature = 30;\n' +
-      'if (temperature > 25) {\n' +
-      '  Serial.println("Temperature is high");\n' +
-      '}\n' +
-      '```\n' +
-      '**If with multiple statements**\n' +
-      '```arduino\n' +
-      'int sensorValue = 800;\n' +
-      'if (sensorValue > 500) {\n' +
-      '  Serial.println("High reading detected");\n' +
-      '  Serial.println("Warning: Sensor value exceeded threshold");\n' +
-      '}\n' +
-      '```\n' +
-      '**If with complex condition**\n' +
-      '```arduino\n' +
-      'float voltage = 4.5;\n' +
-      'bool systemReady = true;\n' +
-      'if ((voltage >= 3.0) && systemReady) {\n' +
-      '  Serial.println("System can power on");\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '---\n' +
-      '\n' +
-      '## 🔸 **The `else` Statement**\n' +
-      'Provides an alternative when the `if` condition is false.\n' +
-      '\n' +
-      '### **Syntax**\n' +
-      '```arduino\n' +
-      'if (condition) {\n' +
-      '  // Code when condition is true\n' +
-      '} else {\n' +
-      '  // Code when condition is false\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '### **Examples**\n' +
-      '**Basic if-else**\n' +
-      '```arduino\n' +
-      'int lightLevel = 300;\n' +
-      'if (lightLevel < 400) {\n' +
-      '  Serial.println("It\'s dark - need light");\n' +
-      '} else {\n' +
-      '  Serial.println("It\'s bright - no light needed");\n' +
-      '}\n' +
-      '```\n' +
-      '**If-else with calculation**\n' +
-      '```arduino\n' +
-      'int batteryVoltage = 3200;  // in millivolts\n' +
-      'if (batteryVoltage >= 3700) {\n' +
-      '  Serial.println("Battery Good");\n' +
-      '} else {\n' +
-      '  Serial.println("Battery Low");\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '---\n' +
-      '\n' +
-      '## 🔹 **The `else if` Statement**\n' +
-      'Used to check multiple conditions sequentially.\n' +
-      '\n' +
-      '### **Syntax**\n' +
-      '```arduino\n' +
-      'if (condition1) {\n' +
-      '  // Code for condition1\n' +
-      '} else if (condition2) {\n' +
-      '  // Code for condition2\n' +
-      '} else {\n' +
-      '  // Code for no condition is true\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '### **Examples**\n' +
-      '**Multiple Temperature Ranges**\n' +
-      '```arduino\n' +
-      'float temp = 22.5;\n' +
-      'if (temp < 15.0) {\n' +
-      '  Serial.println("Cold");\n' +
-      '} else if (temp < 25.0) {\n' +
-      '  Serial.println("Comfortable");\n' +
-      '} else if (temp < 35.0) {\n' +
-      '  Serial.println("Warm");\n' +
-      '} else {\n' +
-      '  Serial.println("Hot");\n' +
-      '}\n' +
-      '```\n' +
-      '**Sensor Range Classification**\n' +
-      '```arduino\n' +
-      'int sensorReading = 650;\n' +
-      'if (sensorReading < 200) {\n' +
-      '  Serial.println("Very Low");\n' +
-      '} else if (sensorReading < 500) {\n' +
-      '  Serial.println("Low");\n' +
-      '} else if (sensorReading < 800) {\n' +
-      '  Serial.println("Medium");\n' +
-      '} else {\n' +
-      '  Serial.println("High");\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '---\n' +
-      '\n' +
-      '## 🎚️ **The `switch` Statement**\n' +
-      'Use when checking a variable against multiple specific values.\n' +
-      '\n' +
-      '### **Syntax**\n' +
-      '```arduino\n' +
-      'switch (variable) {\n' +
-      '  case value1:\n' +
-      '    // Code for value1\n' +
-      '    break;\n' +
-      '  case value2:\n' +
-      '    // Code for value2\n' +
-      '    break;\n' +
-      '  default:\n' +
-      '    // Code if no match\n' +
-      '    break;\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '### **Examples**\n' +
-      '**Display Pattern Messages**\n' +
-      '```arduino\n' +
-      'int pattern = 2;\n' +
-      'switch (pattern) {\n' +
-      '  case 1:\n' +
-      '    Serial.println("Pattern 1: Single Light");\n' +
-      '    break;\n' +
-      '  case 2:\n' +
-      '    Serial.println("Pattern 2: Double Light");\n' +
-      '    break;\n' +
-      '  case 3:\n' +
-      '    Serial.println("Pattern 3: All OFF");\n' +
-      '    break;\n' +
-      '  default:\n' +
-      '    Serial.println("Unknown pattern");\n' +
-      '    break;\n' +
-      '}\n' +
-      '```\n' +
-      '**System Mode Selection**\n' +
-      '```arduino\n' +
-      "char systemMode = 'M';\n" +
-      'switch (systemMode) {\n' +
-      "  case 'L':\n" +
-      '    Serial.println("Low Power Mode Selected");\n' +
-      '    break;\n' +
-      "  case 'M':\n" +
-      '    Serial.println("Medium Power Mode Selected");\n' +
-      '    break;\n' +
-      "  case 'H':\n" +
-      '    Serial.println("High Power Mode Selected");\n' +
-      '    break;\n' +
-      "  case 'S':\n" +
-      '    Serial.println("System Off Mode Selected");\n' +
-      '    break;\n' +
-      '  default:\n' +
-      '    Serial.println("Invalid mode setting");\n' +
-      '    break;\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '---\n' +
-      '\n' +
-      '## ✅ **When to Use Which Control Statement**\n' +
-      '\n' +
-      '- **Use `if`:**\n' +
-      '  - Simple true/false decisions.\n' +
-      '  - Single condition checking.\n' +
-      '  - Range comparisons (`>`, `<`, `>=`, `<=`).\n' +
-      '\n' +
-      '- **Use `if else`:**\n' +
-      '  - Two possible outcomes.\n' +
-      '  - Binary decisions (on/off, yes/no).\n' +
-      '\n' +
-      '- **Use `if else if`:**\n' +
-      '  - Multiple range checks.\n' +
-      '  - Sequential condition testing.\n' +
-      '  - Overlapping ranges.\n' +
-      '\n' +
-      '- **Use `switch`:**\n' +
-      '  - Comparing against exact values.\n' +
-      '  - Multiple discrete options.\n' +
-      '  - Menu-like selections.\n' +
-      '  - Character or integer matching.\n',
-    questions: [],
+    {
+      day: '6',
+      title: 'Control Structures in Arduino',
+      summary: 'Understand how control structures like if, else, else if, and switch help Arduino make decisions. Learn their syntax, logic flow, and use cases with real code examples like temperature monitoring, sensor range checks, and pattern display.',
+      tags: ['Control Structures', 'Decision Making', 'Arduino Programming', 'Beginner'],
+      image: '/pic6.png',
+      content:
+        '# 🧠 **Control Structures**\n' +
+        '\n' +
+        '## 💡 **What Are Control Structures?**\n' +
+        'Control structures are programming tools that allow your Arduino to make decisions based on conditions.\n' +
+        'Instead of executing code line by line, control structures let you choose which parts of code to run\n' +
+        'based on sensor readings, user input, or calculated values.\n' +
+        '\n' +
+        '## 💡 **Why Control Structures Matter?**\n' +
+        '- • Make your Arduino respond to different situations.\n' +
+        '- • Create interactive and smart behaviors.\n' +
+        '- • Handle multiple scenarios automatically.\n' +
+        '- • Build logic based decision systems.\n' +
+        '\n' +
+        '---\n' +
+        '\n' +
+        '## 🔹 **The if Statement:**\n' +
+        'Executes code only when a specific condition is true.\n' +
+        '\n' +
+        '### **Syntax**\n' +
+        '```arduino\n' +
+        'if (condition) {\n' +
+        '  // Code to execute when condition is true\n' +
+        '}\n' +
+        '```\n' +
+        '\n' +
+        '### **Examples**\n' +
+        '**Basic if statement**\n' +
+        '```arduino\n' +
+        'int temperature = 30;\n' +
+        'if (temperature > 25) {\n' +
+        '  Serial.println("Temperature is high");\n' +
+        '}\n' +
+        '```\n' +
+        '**If with multiple statements**\n' +
+        '```arduino\n' +
+        'int sensorValue = 800;\n' +
+        'if (sensorValue > 500) {\n' +
+        '  Serial.println("High reading detected");\n' +
+        '  Serial.println("Warning: Sensor value exceeded threshold");\n' +
+        '}\n' +
+        '```\n' +
+        '**If with complex condition**\n' +
+        '```arduino\n' +
+        'float voltage = 4.5;\n' +
+        'bool systemReady = true;\n' +
+        'if ((voltage >= 3.0) && systemReady) {\n' +
+        '  Serial.println("System can power on");\n' +
+        '}\n' +
+        '```\n' +
+        '\n' +
+        '---\n' +
+        '\n' +
+        '## 🔸 **The else Statement:**\n' +
+        'Provides an alternative when the `if` condition is false.\n' +
+        '\n' +
+        '### **Syntax**\n' +
+        '```arduino\n' +
+        'if (condition) {\n' +
+        '  // Code when condition is true\n' +
+        '} else {\n' +
+        '  // Code when condition is false\n' +
+        '}\n' +
+        '```\n' +
+        '\n' +
+        '### **Examples**\n' +
+        '**Basic if-else**\n' +
+        '```arduino\n' +
+        'int lightLevel = 300;\n' +
+        'if (lightLevel < 400) {\n' +
+        '  Serial.println("It\'s dark - need light");\n' +
+        '} else {\n' +
+        '  Serial.println("It\'s bright - no light needed");\n' +
+        '}\n' +
+        '```\n' +
+        '**If-else with calculation**\n' +
+        '```arduino\n' +
+        'int batteryVoltage = 3200;  // in millivolts\n' +
+        'if (batteryVoltage >= 3700) {\n' +
+        '  Serial.println("Battery Good");\n' +
+        '} else {\n' +
+        '  Serial.println("Battery Low");\n' +
+        '}\n' +
+        '```\n' +
+        '\n' +
+        '---\n' +
+        '\n' +
+        '## 🔹 **The else if Statement:**\n' +
+        'Used to check multiple conditions sequentially.\n' +
+        '\n' +
+        '### **Syntax**\n' +
+        '```arduino\n' +
+        'if (condition1) {\n' +
+        '  // Code for condition1\n' +
+        '} else if (condition2) {\n' +
+        '  // Code for condition2\n' +
+        '} else {\n' +
+        '  // Code for no condition is true\n' +
+        '}\n' +
+        '```\n' +
+        '\n' +
+        '### **Examples**\n' +
+        '**Multiple Temperature Ranges**\n' +
+        '```arduino\n' +
+        'float temp = 22.5;\n' +
+        'if (temp < 15.0) {\n' +
+        '  Serial.println("Cold");\n' +
+        '} else if (temp < 25.0) {\n' +
+        '  Serial.println("Comfortable");\n' +
+        '} else if (temp < 35.0) {\n' +
+        '  Serial.println("Warm");\n' +
+        '} else {\n' +
+        '  Serial.println("Hot");\n' +
+        '}\n' +
+        '```\n' +
+        '**Sensor Range Classification**\n' +
+        '```arduino\n' +
+        'int sensorReading = 650;\n' +
+        'if (sensorReading < 200) {\n' +
+        '  Serial.println("Very Low");\n' +
+        '} else if (sensorReading < 500) {\n' +
+        '  Serial.println("Low");\n' +
+        '} else if (sensorReading < 800) {\n' +
+        '  Serial.println("Medium");\n' +
+        '} else {\n' +
+        '  Serial.println("High");\n' +
+        '}\n' +
+        '```\n' +
+        '\n' +
+        '---\n' +
+        '\n' +
+        '## 🎚️ **The switch Statement:**\n' +
+        'Use when checking a variable against multiple specific values.\n' +
+        '\n' +
+        '### **Syntax**\n' +
+        '```arduino\n' +
+        'switch (variable) {\n' +
+        '  case value1:\n' +
+        '    // Code for value1\n' +
+        '    break;\n' +
+        '  case value2:\n' +
+        '    // Code for value2\n' +
+        '    break;\n' +
+        '  default:\n' +
+        '    // Code if no match\n' +
+        '    break;\n' +
+        '}\n' +
+        '```\n' +
+        '\n' +
+        '### **Examples**\n' +
+        '**Display Pattern Messages**\n' +
+        '```arduino\n' +
+        'int pattern = 2;\n' +
+        'switch (pattern) {\n' +
+        '  case 1:\n' +
+        '    Serial.println("Pattern 1: Single Light");\n' +
+        '    break;\n' +
+        '  case 2:\n' +
+        '    Serial.println("Pattern 2: Double Light");\n' +
+        '    break;\n' +
+        '  case 3:\n' +
+        '    Serial.println("Pattern 3: All OFF");\n' +
+        '    break;\n' +
+        '  default:\n' +
+        '    Serial.println("Unknown pattern");\n' +
+        '    break;\n' +
+        '}\n' +
+        '```\n' +
+        '**System Mode Selection**\n' +
+        '```arduino\n' +
+        "char systemMode = 'M';\n" +
+        'switch (systemMode) {\n' +
+        "  case 'L':\n" +
+        '    Serial.println("Low Power Mode Selected");\n' +
+        '    break;\n' +
+        "  case 'M':\n" +
+        '    Serial.println("Medium Power Mode Selected");\n' +
+        '    break;\n' +
+        "  case 'H':\n" +
+        '    Serial.println("High Power Mode Selected");\n' +
+        '    break;\n' +
+        "  case 'S':\n" +
+        '    Serial.println("System Off Mode Selected");\n' +
+        '    break;\n' +
+        '  default:\n' +
+        '    Serial.println("Invalid mode setting");\n' +
+        '    break;\n' +
+        '}\n' +
+        '```\n' +
+        '\n' +
+        '---\n' +
+        '\n' +
+        '## ✅ **When to Use Which Control Statement**\n' +
+        '\n' +
+        '- **Use if:**\n' +
+        '  - • Simple true/false decisions.\n' +
+        '  - • Single condition checking.\n' +
+        '  - • Range comparisons (>, <, >=, <=).\n' +
+        '\n' +
+        '- **Use if else:**\n' +
+        '  - • Two possible outcomes.\n' +
+        '  - • Binary decisions (on/off, yes/no).\n' +
+        '\n' +
+        '- **Use if else if:**\n' +
+        '  - • Multiple range checks.\n' +
+        '  - • Sequential condition testing.\n' +
+        '  - • Overlapping ranges.\n' +
+        '\n' +
+        '- **Use switch:**\n' +
+        '  - • Comparing against exact values.\n' +
+        '  - • Multiple discrete options.\n' +
+        '  - • Menu-like selections.\n' +
+        '  - • Character or integer matching.\n',
+      questions: [],
+    
+    
   },
   {
     day: '7',
     title: 'Loops in Arduino',
-    code: 'void setup() {\n' +
-      '  Serial.begin(9600);\n' +
-      '}\n' +
-      '\n' +
-      'void loop() {\n' +
-      '  Serial.println("Hello, Arduino!");\n' +
-      '  delay(1000);\n' +
-    '}',
     summary: 'Understand how loops help repeat tasks in Arduino without writing code over and over. Explore `for`, `while`, and `do while` loops with real world examples like counters, retry attempts, and automation tasks. Perfect for controlling hardware behavior efficiently.',
     tags: ['Loops', 'Iteration', 'Control Flow', 'Arduino Programming', 'Beginner'],
     image: '/pic7.png',
@@ -930,17 +877,17 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       'Loops are fundamental programming structures that allow your Arduino to repeat a block of code multiple times. They are incredibly powerful for tasks that involve repetition, which is very common in interactive electronics.\n' +
       '\n' +
       '## 💡 **Why Use Loops?**\n' +
-      '- **Efficiency** – Avoid writing repetitive code, making your program shorter and easier to manage.\n' +
-      '- **Automation** – Perform actions many times without manual intervention.\n' +
-      '- **Dynamic Behavior** – Handle situations where you don\'t know how many times a task needs to repeat.\n' +
+      '- • **Efficiency** – Avoid writing repetitive code, making your program shorter and easier to manage.\n' +
+      '- • **Automation** – Perform actions many times without manual intervention.\n' +
+      '- • **Dynamic Behavior** – Handle situations where you don’t know how many times a task needs to repeat.\n' +
       '\n' +
       '---\n' +
       '\n' +
       '## 🔢 **Types of Loops**\n' +
       'Arduino supports three types of loops:\n' +
-      '- `for`\n' +
-      '- `while`\n' +
-      '- `do while`\n' +
+      '- • for\n' +
+      '- • while\n' +
+      '- • do while\n' +
       '\n' +
       '---\n' +
       '\n' +
@@ -955,10 +902,10 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '```\n' +
       '\n' +
       '### **Steps**\n' +
-      '1. Initialization – Run once (e.g., `int i = 0;`).\n' +
-      '2. Condition – Checked before each run (e.g., `i < 5`).\n' +
-      '3. Evaluation – Runs the code block.\n' +
-      '4. Increment – After each loop, increase or decrease counter.\n' +
+      '• 1. Initialization – Run once (e.g., int i = 0;).\n' +
+      '• 2. Condition – Checked before each run (e.g., i < 5).\n' +
+      '• 3. Evaluation – Runs the code block.\n' +
+      '• 4. Increment – After each loop, increase or decrease counter.\n' +
       '\n' +
       '### **Example**\n' +
       '```arduino\n' +
@@ -1019,127 +966,169 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       'do {\n' +
       '  // Code to be repeated\n' +
       '} while (condition);\n' +
+      '```\n' +
+      '\n' +
+      '### **Example**\n' +
+      '```arduino\n' +
+      'int attempt = 0;\n' +
+      'bool success = false;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("Starting do-while loop...");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  attempt = 0;\n' +
+      '  success = false;\n' +
+      '  do {\n' +
+      '    Serial.print("Attempt number: ");\n' +
+      '    Serial.println(attempt);\n' +
+      '    attempt = attempt + 1;\n' +
+      '    if (attempt >= 2) {\n' +
+      '      success = true;\n' +
+      '    }\n' +
+      '  } while (success == false && attempt < 5);\n' +
+      '  Serial.println("Do-while loop finished!");\n' +
+      '}\n' +
+      '```\n',
+      questions: [],
+  },
+  
+  
+  {
+    day: '7',
+    title: 'Loops in Arduino',
+    summary: 'Understand how loops help repeat tasks in Arduino without writing code over and over. Explore `for`, `while`, and `do while` loops with real world examples like counters, retry attempts, and automation tasks. Perfect for controlling hardware behavior efficiently.',
+    tags: ['Loops', 'Iteration', 'Control Flow', 'Arduino Programming', 'Beginner'],
+    image: '/pic7.png',
+    content:
+      '# 🔁 **Loops**\n' +
+      '\n' +
+      'Loops are fundamental programming structures that allow your Arduino to repeat a block of code multiple times. They are incredibly powerful for tasks that involve repetition, which is very common in interactive electronics.\n' +
+      '\n' +
+      '## 💡 **Why Use Loops?**\n' +
+      '- • **Efficiency** – Avoid writing repetitive code, making your program shorter and easier to manage.\n' +
+      '- • **Automation** – Perform actions many times without manual intervention.\n' +
+      '- • **Dynamic Behavior** – Handle situations where you don’t know how many times a task needs to repeat.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔢 **Types of Loops**\n' +
+      'Arduino supports three types of loops:\n' +
+      '- • for\n' +
+      '- • while\n' +
+      '- • do while\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔄 **for Loop**\n' +
+      'Use when you know how many times to repeat the code.\n' +
+      '\n' +
+      '### **Syntax**\n' +
+      '```arduino\n' +
+      'for (initialization; condition; increment/decrement) {\n' +
+      '  // Code to be repeated\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### **Steps**\n' +
+      '• 1. Initialization – Run once (e.g., int i = 0;).\n' +
+      '• 2. Condition – Checked before each run (e.g., i < 5).\n' +
+      '• 3. Evaluation – Runs the code block.\n' +
+      '• 4. Increment – After each loop, increase or decrease counter.\n' +
+      '\n' +
+      '### **Example**\n' +
+      '```arduino\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("Starting for loop...");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  for (int i = 0; i < 5; i++) {\n' +
+      '    Serial.print("Count: ");\n' +
+      '    Serial.println(i);\n' +
+      '  }\n' +
+      '  Serial.println("For loop finished!");\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔁 **while Loop**\n' +
+      'Use when the number of repetitions is unknown. Runs as long as the condition is true.\n' +
+      '\n' +
+      '### **Syntax**\n' +
+      '```arduino\n' +
+      'while (condition) {\n' +
+      '  // Code to be repeated\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### **Example**\n' +
+      '```arduino\n' +
+      'int currentCount = 0;\n' +
+      'const int MAX_COUNT = 3;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("Starting while loop...");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  currentCount = 0;\n' +
+      '  while (currentCount < MAX_COUNT) {\n' +
+      '    Serial.print("Current while count: ");\n' +
+      '    Serial.println(currentCount);\n' +
+      '    currentCount = currentCount + 1;\n' +
+      '  }\n' +
+      '  Serial.println("While loop finished!");\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔂 **do while Loop**\n' +
+      'Runs the loop at least once before checking the condition.\n' +
+      '\n' +
+      '### **Syntax**\n' +
+      '```arduino\n' +
+      'do {\n' +
+      '  // Code to be repeated\n' +
+      '} while (condition);\n' +
+      '```\n' +
+      '\n' +
+      '### **Example**\n' +
+      '```arduino\n' +
+      'int attempt = 0;\n' +
+      'bool success = false;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("Starting do-while loop...");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  attempt = 0;\n' +
+      '  success = false;\n' +
+      '  do {\n' +
+      '    Serial.print("Attempt number: ");\n' +
+      '    Serial.println(attempt);\n' +
+      '    attempt = attempt + 1;\n' +
+      '    if (attempt >= 2) {\n' +
+      '      success = true;\n' +
+      '    }\n' +
+      '  } while (success == false && attempt < 5);\n' +
+      '  Serial.println("Do-while loop finished!");\n' +
+      '}\n' +
       '```\n',
       questions: [],
   },
   
   {
-    day: '8',
-    title: 'Functions in Arduino',
-    code: 'void setup() {\n' +
-    '  Serial.begin(9600);\n' +
-    '}\n' +
-    '\n' +
-    'void loop() {\n' +
-    '  Serial.println("Hello, Arduino!");\n' +
-    '  delay(1000);\n' +
-    '}',
-    summary: 'Learn how to organize and reuse your code with Arduino functions. Understand the purpose of built in and custom functions, how to define and call them, and explore examples using `void`, parameters, and return values. Boost clarity, modularity, and debugging efficiency in your projects.',
-    tags: ['Functions', 'Code Structure', 'Reusability', 'Arduino Programming', 'Beginner'],
-    image: '/pic8.png',
-    content:
-      '# 🧩 **Functions**\n' +
-      '\n' +
-      '## 💡 **What are Functions?**\n' +
-      'Think of a function like a reusable tool for a specific task. Instead of repeating code, you define it once and call it whenever needed.\n' +
-      '\n' +
-      '`void setup()`, `void loop()`, `Serial.print()`, and `Serial.println()` are all functions!\n' +
-      '\n' +
-      '---\n' +
-      '\n' +
-      '## 🔍 **Why Use Functions?**\n' +
-      '- **Organization** – Split large programs into manageable pieces.\n' +
-      '- **Reusability** – Call the same logic multiple times.\n' +
-      '- **Debugging** – Easier to isolate and fix problems.\n' +
-      '- **Modularity** – Build flexible, clean, and adaptable code.\n' +
-      '\n' +
-      '---\n' +
-      '\n' +
-      '## ✏️ **Defining Your Own Functions**\n' +
-      '```arduino\n' +
-      'returnType functionName(parameter1Type parameter1Name, ...) {\n' +
-      '  // Code to execute\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '### Components:\n' +
-      '- `returnType`: What data (if any) is returned (`void`, `int`, `float`, `char`, etc.)\n' +
-      '- `functionName`: Describes the task (e.g., `calculateSum`, `printMessage`)\n' +
-      '- `parameters`: Inputs (optional) for use inside the function\n' +
-      '\n' +
-      '---\n' +
-      '\n' +
-      '## 🧪 **Examples**\n' +
-      '\n' +
-      '### ✅ A Simple Function Without Return\n' +
-      '```arduino\n' +
-      'void printWelcomeMessage() {\n' +
-      '  Serial.println("--- Welcome to CircuitCode! ---");\n' +
-      '  Serial.println("Starting program...");\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '### ✅ A Function That Takes an Argument (No Return)\n' +
-      '```arduino\n' +
-      'void greetByName(char initial) {\n' +
-      '  Serial.print("Hello, ");\n' +
-      '  Serial.print(initial);\n' +
-      '  Serial.println("!");\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '### ✅ A Function That Takes Arguments and Returns a Value\n' +
-      '```arduino\n' +
-      'float calculateAverage(int num1, int num2, int num3) {\n' +
-      '  float sum = num1 + num2 + num3;\n' +
-      '  float average = sum / 3.0;\n' +
-      '  return average;\n' +
-      '}\n' +
-      '```\n' +
-      '\n' +
-      '---\n' +
-      '\n' +
-      '## 📞 **Calling Your Functions**\n' +
-      'Use function names followed by `()` to execute them.\n' +
-      '\n' +
-      '### 🛠️ Example: Function Definitions + Calls\n' +
-      '```arduino\n' +
-      'void printWelcomeMessage() {\n' +
-      '  Serial.println("--- Welcome to CircuitCode! ---");\n' +
-      '  Serial.println("Starting program...");\n' +
-      '}\n' +
-      '\n' +
-      'float calculateAverage(int num1, int num2, int num3) {\n' +
-      '  float sum = num1 + num2 + num3;\n' +
-      '  float average = sum / 3.0;\n' +
-      '  return average;\n' +
-      '}\n' +
-      '\n' +
-      'void setup() {\n' +
-      '  Serial.begin(9600);\n' +
-      '  float avgScore = calculateAverage(50, 80, 90);\n' +
-      '  Serial.print("Average score: ");\n' +
-      '  Serial.println(avgScore);\n' +
-      '}\n' +
-      '\n' +
-      'void loop() {\n' +
-      '  Serial.println("Looping and printing a message...");\n' +
-      '  printWelcomeMessage();\n' +
-      '}\n' +
-      '```\n',
-      questions: [],
-  },
-  {
     day: '9',
     title: 'Digital Pins in Arduino',
-    code: 'void setup() {\n' +
-    '  Serial.begin(9600);\n' +
-    '}\n' +
-    '\n' +
-    'void loop() {\n' +
-    '  Serial.println("Hello, Arduino!");\n' +
-    '  delay(1000);\n' +
-    '}',
     summary: 'Understand how digital pins work on an Arduino board. Learn how to configure pins as INPUT or OUTPUT, use functions like pinMode, digitalWrite, and digitalRead, and see how to blink an LED using digital signals.',
     tags: ['Digital Pins', 'Input Output', 'Arduino Programming', 'Beginner'],
     image: '/pic9.png',
@@ -1147,11 +1136,11 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '# 🔌 **Digital Pins**\n' +
       '\n' +
       '## 💡 **What are Digital Pins?**\n' +
-      'Digital pins are the numbered pins (0 to 13) on your Arduino board. Even the analog pins (A0–A5) can be used as digital pins!\n' +
+      'Digital pins are the numbered pins (0 to 13) on your Arduino board. Even the analog pins (A0 to A5) can be used as digital pins!\n' +
       '\n' +
       '**States of a Digital Pin:**\n' +
-      '- `HIGH` → ON (Usually 5V)\n' +
-      '- `LOW` → OFF (0V or GND)\n' +
+      '- HIGH → ON (Usually 5V)\n' +
+      '- LOW → OFF (0V or GND)\n' +
       '\n' +
       '---\n' +
       '\n' +
@@ -1169,19 +1158,21 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '## ⚙️ **Key Functions**\n' +
       '\n' +
       '### 🔸 pinMode(pin, mode)\n' +
-      'Configures the pin as `INPUT` or `OUTPUT`\n' +
-      '- `pin`: pin number (e.g., 13)\n' +
-      '- `mode`: `INPUT` or `OUTPUT`\n' +
+      'Configures the pin as INPUT or OUTPUT\n' +
+      '- • pin: pin number (e.g., 13)\n' +
+      '- • mode: INPUT or OUTPUT\n' +
       '\n' +
       '```arduino\n' +
       'void setup() {\n' +
       '  pinMode(13, OUTPUT);  // Digital pin 13 sends signal\n' +
       '  pinMode(2, INPUT);    // Digital pin 2 listens for input\n' +
       '}\n' +
+      '```\n' +
       '\n' +
       '### 🔸 digitalWrite(pin, value)\n' +
       'Sends a signal from an OUTPUT pin.\n' +
-      '- `value`: `HIGH` (5V) or `LOW` (0V)\n' +
+      '- • pin: pin number (e.g., 13)\n' +
+      '- • value: HIGH (5V) or LOW (0V)\n' +
       '\n' +
       '```arduino\n' +
       'digitalWrite(13, HIGH);  // Turn pin 13 ON\n' +
@@ -1190,7 +1181,8 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '\n' +
       '### 🔸 digitalRead(pin)\n' +
       'Reads signal from an INPUT pin.\n' +
-      'Returns either `HIGH` or `LOW`\n' +
+      'Returns either HIGH or LOW\n' +
+      '- • pin: pin number (e.g., 13)\n' +
       '\n' +
       '```arduino\n' +
       'int buttonState = digitalRead(2);  // Read pin 2\n' +
@@ -1218,92 +1210,104 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '```\n',
       questions: [],
   },
+  
   {
-    day: '10',
-    title: 'Pull-up and Pull-down Resistors in Arduino',
-    code: 'void setup() {\n' +
-    '  Serial.begin(9600);\n' +
-    '}\n' +
-    '\n' +
-    'void loop() {\n' +
-    '  Serial.println("Hello, Arduino!");\n' +
-    '  delay(1000);\n' +
-    '}',
-    summary: 'Understand how floating pins behave and how pull-up or pull-down resistors help stabilize digital input. Learn how to use INPUT_PULLUP for reliable button reading.',
-    tags: ['Digital Input', 'Pull-up', 'Pull-down', 'Arduino', 'Beginner'],
-    image: '/pic10.png',
+    day: '9',
+    title: 'Digital Pins in Arduino',
+    summary: 'Understand how digital pins work on an Arduino board. Learn how to configure pins as INPUT or OUTPUT, use functions like pinMode, digitalWrite, and digitalRead, and see how to blink an LED using digital signals.',
+    tags: ['Digital Pins', 'Input Output', 'Arduino Programming', 'Beginner'],
+    image: '/pic9.png',
     content:
-      '# 🔌 **Pull-up and Pull-down Resistors**\n' +
+      '# 🔌 **Digital Pins**\n' +
       '\n' +
-      '## 🌀 **The "Floating Pin"**\n' +
-      'A digital input pin that\'s configured as `INPUT` but is not connected to any specific voltage through a component like a button is said to be **"floating."**\n' +
+      '## 💡 **What are Digital Pins?**\n' +
+      'Digital pins are the numbered pins (0 to 13) on your Arduino board. Even the analog pins (A0 to A5) can be used as digital pins!\n' +
       '\n' +
-      'A floating pin means that `digitalRead()` might return `HIGH` sometimes and `LOW` at other times, seemingly randomly, even if nothing is happening. This makes reliable input sensing impossible.\n' +
-      '\n' +
-      'To fix this, we need to **"pull"** the pin to a known state (`HIGH` or `LOW`) when the input device like a button isn\'t actively providing a signal. This is where **pull-up** and **pull-down** resistors come in.\n' +
-      '\n' +
-      '---\n' +
-      '\n' +
-      '## 🔼 **Pull-up Resistors**\n' +
-      '- Connect the input pin to **HIGH voltage (5V)** through a resistor.\n' +
-      '- When the button is **not pressed**, the resistor pulls the pin\'s voltage to **HIGH (5V)**.\n' +
-      '- When the button **is pressed**, it connects the pin directly to **GND**, so the pin reads **LOW**.\n' +
-      '\n' +
-      '## 🔽 **Pull-down Resistors**\n' +
-      '- Connect the input pin to **LOW voltage (GND)** through a resistor.\n' +
-      '- When the button is **not pressed**, the resistor pulls the pin\'s voltage to **LOW (0V)**.\n' +
-      '- When the button **is pressed**, it connects the pin directly to **HIGH (5V)**, so the pin reads **HIGH**.\n' +
+      '**States of a Digital Pin:**\n' +
+      '- HIGH → ON (Usually 5V)\n' +
+      '- LOW → OFF (0V or GND)\n' +
       '\n' +
       '---\n' +
       '\n' +
-      '## ⚙️ **INPUT_PULLUP**\n' +
-      '`pinMode(pin, INPUT_PULLUP);`\n' +
+      '## 🔧 **pinMode() – Set Pin Direction**\n' +
+      'Before using a digital pin, you must **define** whether it is for **input** (read) or **output** (write).\n' +
       '\n' +
-      '- When using `INPUT_PULLUP`, the pin will be **HIGH** when the button is not pressed.\n' +
-      '- A button press connects the pin to **GND**, resulting in a **LOW** reading.\n' +
+      '### 🟢 OUTPUT Mode\n' +
+      'Used to send a signal (like turning on an LED).\n' +
+      '\n' +
+      '### 🔵 INPUT Mode\n' +
+      'Used to read a signal (like checking if a button is pressed).\n' +
       '\n' +
       '---\n' +
       '\n' +
-      '## 💡 **Example: Using Internal Pull-up**\n' +
+      '## ⚙️ **Key Functions**\n' +
+      '\n' +
+      '### 🔸 pinMode(pin, mode)\n' +
+      'Configures the pin as INPUT or OUTPUT\n' +
+      '- • pin: pin number (e.g., 13)\n' +
+      '- • mode: INPUT or OUTPUT\n' +
+      '\n' +
       '```arduino\n' +
-      'const int switchPin = 5;    // Switch connected to digital pin 5\n' +
-      'const int ledPin = 13;      // Onboard LED\n' +
-      '\n' +
       'void setup() {\n' +
-      '  pinMode(switchPin, INPUT_PULLUP); // Enable pull-up resistor on pin 5\n' +
-      '  pinMode(ledPin, OUTPUT);\n' +
+      '  pinMode(13, OUTPUT);  // Digital pin 13 sends signal\n' +
+      '  pinMode(2, INPUT);    // Digital pin 2 listens for input\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### 🔸 digitalWrite(pin, value)\n' +
+      'Sends a signal from an OUTPUT pin.\n' +
+      '- • pin: pin number (e.g., 13)\n' +
+      '- • value: HIGH (5V) or LOW (0V)\n' +
+      '\n' +
+      '```arduino\n' +
+      'digitalWrite(13, HIGH);  // Turn pin 13 ON\n' +
+      'digitalWrite(13, LOW);   // Turn pin 13 OFF\n' +
+      '```\n' +
+      '\n' +
+      '### 🔸 digitalRead(pin)\n' +
+      'Reads signal from an INPUT pin.\n' +
+      'Returns either HIGH or LOW\n' +
+      '- • pin: pin number (e.g., 13)\n' +
+      '\n' +
+      '```arduino\n' +
+      'int buttonState = digitalRead(2);  // Read pin 2\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 **Example: LED Blinking with Serial Monitor**\n' +
+      '```arduino\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("LED Blinker Started!");\n' +
+      '  pinMode(13, OUTPUT);  // LED connected to pin 13\n' +
       '}\n' +
       '\n' +
       'void loop() {\n' +
-      '  if (digitalRead(switchPin) == LOW) { // Button pressed (circuit closed)\n' +
-      '    digitalWrite(ledPin, HIGH);   // Turn on LED\n' +
-      '  } else {\n' +
-      '    digitalWrite(ledPin, LOW);    // Turn off LED\n' +
-      '  }\n' +
+      '  digitalWrite(13, HIGH);  // Turn ON LED\n' +
+      '  Serial.println("LED is ON");\n' +
+      '  delay(500);\n' +
+      '  \n' +
+      '  digitalWrite(13, LOW);   // Turn OFF LED\n' +
+      '  Serial.println("LED is OFF");\n' +
+      '  delay(500);\n' +
       '}\n' +
       '```\n',
-    questions: [],
+      questions: [],
   },
+  
   {
     day: '11',
     title: 'Debouncing Techniques',
-    code: 'void setup() {\n' +
-    '  Serial.begin(9600);\n' +
-    '}\n' +
-    '\n' +
-    'void loop() {\n' +
-    '  Serial.println("Hello, Arduino!");\n' +
-    '  delay(1000);\n' +
-    '}',
     summary: 'Understand what button bounce is, why it causes false triggers in Arduino, and how to fix it using software debounce methods like delay(). Learn the role of mechanical bounce and how to reliably detect button presses.',
     tags: ['Debounce', 'Digital Input', 'Buttons', 'Arduino', 'Beginner'],
     image: '/pic11.png',
     content:
-      '# 🛑 Debouncing Techniques\n' +
+      '# 🛑 **Debouncing Techniques**\n' +
       '\n' +
       'Digital input pins allow Arduino to "read" or "sense" whether an electrical signal on that pin is HIGH (ON, usually 5V) or LOW (OFF, usually 0V). This is perfect for simple input devices like buttons and switches, which are either open or closed.\n' +
       '\n' +
-      '## 💡 How Buttons and Switches Work\n' +
+      '## 💡 **How Buttons and Switches Work**\n' +
       'A button or a simple switch acts like a gate for electricity.\n' +
       '\n' +
       '- When a button is not pressed (open), it breaks the connection, and no electricity flows through it.\n' +
@@ -1311,29 +1315,29 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '\n' +
       'By connecting a button to a digital input pin, your Arduino can detect when this connection is made or broken.\n' +
       '\n' +
-      '## 💡 What is Bounce?\n' +
+      '## 💡 **What is Bounce?**\n' +
       'When you press a mechanical button or flip a switch, the metal contacts inside don\'t connect or disconnect perfectly cleanly. Instead, they literally "bounce" against each other a few times before settling into a stable ON or OFF state.\n' +
       '\n' +
-      '## 💡 Why is Bounce a Problem for Arduino?\n' +
+      '## 💡 **Why is Bounce a Problem for Arduino?**\n' +
       'Arduino is incredibly fast. When it reads a digital pin, it samples the voltage thousands or millions of times per second. If a button "bounces" from LOW to HIGH and back several times within a few milliseconds (even if you only pressed it once), your Arduino will see each of those rapid changes as separate presses or releases.\n' +
       '\n' +
-      '**Example: you press a button once.**\n' +
+      '**Example:** you press a button once.\n' +
       '\n' +
-      '`Arduino sees: LOW, HIGH, LOW, HIGH, LOW, HIGH, LOW... then finally LOW stable.`\n' +
+      '**Arduino sees:** LOW, HIGH, LOW, HIGH, LOW, HIGH, LOW... then finally LOW stable.\n' +
       '\n' +
-      '**Result: Code might think you pressed the button three or four times, even though you only pressed it once.**\n' +
+      '**Result:** Code might think you pressed the button three or four times, even though you only pressed it once.\n' +
       '\n' +
-      '## 💡 Debouncing\n' +
+      '## 💡 **Debouncing**\n' +
       'Debouncing is the technique used to filter out these unwanted, rapid fluctuations caused by mechanical bounce, ensuring that a single physical press or release is registered as only one stable event.\n' +
       '\n' +
       'There are two main approaches:\n' +
       '- **Hardware Debouncing**: Adding physical components like capacitors and resistors to your circuit to smooth out the electrical signal before it even reaches the Arduino pin.\n' +
       '- **Software Debouncing**: Writing code that "waits out" the bounce period, ignoring any quick, unstable changes. This is often simpler for beginners and doesn\'t require extra components.\n' +
       '\n' +
-      '### 🕒 `delay()` Method\n' +
-      'Most button bounces settle within 20 to 50 milliseconds. So, adding a `delay(50)` after an initial button state change is a common and effective debouncing method for many applications.\n' +
+      '### 🕒 **delay() Method**\n' +
+      'Most button bounces settle within 20 to 50 milliseconds. So, adding a delay(50) after an initial button state change is a common and effective debouncing method for many applications.\n' +
       '\n' +
-      '### ✅ Example:\n' +
+      '### ✅ **Example:**\n' +
       '```arduino\n' +
       'const int buttonPin = 2;\n' +
       'const int ledPin = 13;\n' +
@@ -1353,89 +1357,81 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '    }\n' +
       '  }\n' +
       '}\n' +
-      '```\n',
+      '```\n',  
     questions: [],
   },
+  
   {
     day: '12',
     title: 'Digital Logic Gates',
-    code: 'void setup() {\n' +
-    '  Serial.begin(9600);\n' +
-    '}\n' +
-    '\n' +
-    'void loop() {\n' +
-    '  Serial.println("Hello, Arduino!");\n' +
-    '  delay(1000);\n' +
-    '}',
     summary: 'Learn how to simulate logic gates like AND, OR, NOT, and XOR in Arduino using basic digital input pins and conditional statements. Includes truth tables and practical code examples.',
     tags: ['Logic Gates', 'Digital Logic', 'Arduino Programming', 'AND OR NOT XOR'],
     image: '/pic12.png',
     content:
-      '# 🔢 Digital Logic Gates\n' +
+      '# 🔢 **Digital Logic Gates**\n' +
       '\n' +
       'Digital logic gates are the fundamental building blocks of all digital circuits. They take one or more digital inputs and produce a single digital output based on a specific logical rule.\n' +
       'Think of them as tiny decision makers. In Arduino programming, we don\'t usually wire up physical logic gate chips. Instead, we simulate their behavior using logical operations in our code.\n' +
       '\n' +
-      '## 💡 Basic Logic Gates\n' +
+      '## 💡 **Basic Logic Gates**\n' +
       '\n' +
-      '### AND Gate `&&`\n' +
+      '### **AND Gate &&**\n' +
       'The output is HIGH (true) ONLY IF ALL of its inputs are HIGH (true). Otherwise, the output is LOW (false).\n' +
       '\n' +
       '**Truth Table**\n' +
       '\n' +
-      '| Input A | Input B | Output (A AND B) |\n' +
-      '|---------|----------|------------------|\n' +
-      '| LOW (0) | LOW (0)  | LOW (0)          |\n' +
-      '| LOW (0) | HIGH (1) | LOW (0)          |\n' +
-      '| HIGH (1)| LOW (0)  | LOW (0)          |\n' +
-      '| HIGH (1)| HIGH (1) | HIGH (1)         |\n' +
+      '| Input A  | Input B  | Output (A AND B) |\n' +
+      '|----------|----------|------------------|\n' +
+      '| LOW (0)  | LOW (0)  | LOW (0)          |\n' +
+      '| LOW (0)  | HIGH (1) | LOW (0)          |\n' +
+      '| HIGH (1) | LOW (0)  | LOW (0)          |\n' +
+      '| HIGH (1) | HIGH (1) | HIGH (1)         |\n' +
       '\n' +
       '`if (inputA == HIGH && inputB == HIGH)`\n' +
       '\n' +
-      '### OR Gate `||`\n' +
+      '### **OR Gate ||**\n' +
       'The output is HIGH (true) If AT LEAST ONE of its inputs is HIGH (true). The output is LOW (false) only if ALL inputs are LOW.\n' +
       '\n' +
       '**Truth Table**\n' +
       '\n' +
-      '| Input A | Input B | Output (A OR B) |\n' +
-      '|---------|----------|-----------------|\n' +
-      '| LOW (0) | LOW (0)  | LOW (0)         |\n' +
-      '| LOW (0) | HIGH (1) | HIGH (1)        |\n' +
-      '| HIGH (1)| LOW (0)  | HIGH (1)        |\n' +
-      '| HIGH (1)| HIGH (1) | HIGH (1)        |\n' +
+      '| Input A  | Input B  | Output (A OR B) |\n' +
+      '|----------|----------|-----------------|\n' +
+      '| LOW (0)  | LOW (0)  | LOW (0)         |\n' +
+      '| LOW (0)  | HIGH (1) | HIGH (1)        |\n' +
+      '| HIGH (1) | LOW (0)  | HIGH (1)        |\n' +
+      '| HIGH (1) | HIGH (1) | HIGH (1)        |\n' +
       '\n' +
       '`if (inputA == HIGH || inputB == HIGH)`\n' +
       '\n' +
-      '### NOT Gate `!`\n' +
+      '### **NOT Gate !**\n' +
       'The output is the opposite of its single input. If the input is HIGH, the output is LOW. If the input is LOW, the output is HIGH.\n' +
       '\n' +
       '**Truth Table**\n' +
       '\n' +
-      '| Input A | Output (NOT A) |\n' +
-      '|---------|----------------|\n' +
-      '| LOW (0) | HIGH (1)       |\n' +
-      '| HIGH (1)| LOW (0)        |\n' +
+      '| Input A  | Output (NOT A) |\n' +
+      '|----------|----------------|\n' +
+      '| LOW (0)  | HIGH (1)       |\n' +
+      '| HIGH (1) | LOW (0)        |\n' +
       '\n' +
-      '`if (!inputA == HIGH)` is the same as `if (inputA == LOW)`\n' +
-      '`if (!isButtonPressed)` → if the button is NOT pressed\n' +
+      '`if (!inputA == HIGH)`\n' +
       '\n' +
-      '### XOR Gate `^`\n' +
+      '### **XOR Gate ^**\n' +
       'The output is HIGH (true) If ONLY ONE of its inputs is HIGH (true), but NOT if both are HIGH or both are LOW.\n' +
       '\n' +
       '**Truth Table**\n' +
       '\n' +
-      '| Input A | Input B | Output (A XOR B) |\n' +
-      '|---------|----------|------------------|\n' +
-      '| LOW (0) | LOW (0)  | LOW (0)          |\n' +
-      '| LOW (0) | HIGH (1) | HIGH (1)         |\n' +
-      '| HIGH (1)| LOW (0)  | HIGH (1)         |\n' +
-      '| HIGH (1)| HIGH (1) | LOW (0)          |\n' +
+      '| Input A  | Input B  | Output (A XOR B) |\n' +
+      '|----------|----------|------------------|\n' +
+      '| LOW (0)  | LOW (0)  | LOW (0)          |\n' +
+      '| LOW (0)  | HIGH (1) | HIGH (1)         |\n' +
+      '| HIGH (1) | LOW (0)  | HIGH (1)         |\n' +
+      '| HIGH (1) | HIGH (1) | LOW (0)          |\n' +
       '\n' +
-      '`if (inputA != inputB)` — `!=` is same as XOR\n' +
+      '`if (inputA != inputB)`\n' +
       '\n' +
-      '## 💻 Example\n' +
+      '## 💻 **Example**\n' +
       '\n' +
-      '### 💻 AND Gate\n' +
+      '### 💻 **AND Gate**\n' +
       '```arduino\n' +
       'const int INPUT_PIN_A = 2;\n' +
       'const int INPUT_PIN_B = 3;\n' +
@@ -1464,7 +1460,7 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '}\n' +
       '```\n' +
       '\n' +
-      '### 💻 OR Gate\n' +
+      '### 💻 **OR Gate**\n' +
       '```arduino\n' +
       'const int INPUT_PIN_A = 2;\n' +
       'const int INPUT_PIN_B = 3;\n' +
@@ -1493,7 +1489,7 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '}\n' +
       '```\n' +
       '\n' +
-      '### 💻 NOT Gate\n' +
+      '### 💻 **NOT Gate**\n' +
       '```arduino\n' +
       'const int INPUT_PIN_A = 2;\n' +
       'const int OUTPUT_LED_PIN = 13;\n' +
@@ -1519,7 +1515,7 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '}\n' +
       '```\n' +
       '\n' +
-      '### 💻 XOR Gate\n' +
+      '### 💻 **XOR Gate**\n' +
       '```arduino\n' +
       'const int INPUT_PIN_A = 2;\n' +
       'const int INPUT_PIN_B = 3;\n' +
@@ -1549,46 +1545,39 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '```\n',
       questions:[],
   },
+  
   {
     day: '13',
     title: 'Shift Registers',
-    code: 'void setup() {\n' +
-    '  Serial.begin(9600);\n' +
-    '}\n' +
-    '\n' +
-    'void loop() {\n' +
-    '  Serial.println("Hello, Arduino!");\n' +
-    '  delay(1000);\n' +
-    '}',
     summary: 'Learn how to expand Arduino outputs using shift registers like 74HC595. Understand the shiftOut() function, pin roles (Data, Clock, Latch), and how to control multiple outputs with just 3 pins.',
     tags: ['Shift Register', '74HC595', 'shiftOut', 'Arduino Output Expansion'],
     image: '/pic13.png',
     content:
-      '# 🧮 Shift Registers\n' +
+      '# 🧮 **Shift Registers**\n' +
       '\n' +
-      '## 💡 What is a Shift Register?\n' +
+      '## 💡 **What is a Shift Register?**\n' +
       'A shift register is a special type of integrated circuit (IC) or "chip" that allows you to control many output (or input) pins using a very small number of Arduino\'s digital pins. It essentially acts as a pin multiplier.\n' +
       '\n' +
       'The most common type of shift register for extending outputs is a Serial In, Parallel Out shift register, like the popular **74HC595**. This means you send data to it serially one bit after another, like sending letters in a word one at a time using a few Arduino pins, and the shift register then outputs that data in parallel all at once on many pins.\n' +
       '\n' +
-      '## 💡 The Problem: Limited Pins\n' +
+      '## 💡 **The Problem: Limited Pins**\n' +
       'Arduino Uno has about 14 digital I/O pins. If you need 8 LEDs, that\'s 8 pins. If you need 16, you\'re stuck! A shift register lets you control 8 LEDs using only 3 of your Arduino\'s pins. If you chain multiple shift registers together, you can control 16, 24, or even more LEDs with those same 3 Arduino pins!\n' +
       '\n' +
-      '## 🔁 shiftOut()\n' +
-      'Arduino provides a built in function called `shiftOut()` that makes working with shift registers much easier. It handles the details of pulsing the Data and Clock pins for you.\n' +
+      '## 🔁 **shiftOut()**\n' +
+      'Arduino provides a built in function called **shiftOut()** that makes working with shift registers much easier. It handles the details of pulsing the Data and Clock pins for you.\n' +
       '\n' +
       '**Syntax:**\n' +
       '`shiftOut(dataPin, clockPin, bitOrder, value)`\n' +
       '\n' +
-      '- `dataPin` → digital pin connected to the shift register\'s **Data** pin.\n' +
-      '- `clockPin` → digital pin connected to the shift register\'s **Clock** pin.\n' +
-      '- `bitOrder` → determines if the bits are sent **Least Significant Bit First** or **Most Significant Bit First**.\n' +
-      '- `value` → a byte that contains the 8 bits of data to send.\n' +
+      '- • **dataPin** → digital pin connected to the shift register\'s **Data** pin.\n' +
+      '- • **clockPin** → digital pin connected to the shift register\'s **Clock** pin.\n' +
+      '- • **bitOrder** → determines if the bits are sent **Least Significant Bit First** or **Most Significant Bit First**.\n' +
+      '- • **value** → a byte that contains the 8 bits of data to send.\n' +
       '\n' +
-      '### 🧷 Pin Explanation\n' +
-      '- **Data Pin (DS / SER):** Arduino sends data one bit at a time.\n' +
-      '- **Clock Pin (SH_CP / SRCLK):** Tells the register to shift in the next bit.\n' +
-      '- **Latch Pin (ST_CP / RCLK):** Goes HIGH then LOW to latch all 8 bits onto output pins at once.\n' +
+      '### 🧷 **Pin Explanation**\n' +
+      '- • **Data Pin (DS / SER):** Arduino sends data one bit at a time.\n' +
+      '- • **Clock Pin (SH_CP / SRCLK):** Tells the register to shift in the next bit.\n' +
+      '- • **Latch Pin (ST_CP / RCLK):** Goes HIGH then LOW to latch all 8 bits onto output pins at once.\n' +
       '\n' +
       '---\n' +
       '\n' +
@@ -1613,24 +1602,17 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '```\n',
       questions: [],
   },
+  
   {
     day: '14',
     title: 'Analog Pins in Arduino',
-    code: 'void setup() {\n' +
-      '  Serial.begin(9600);\n' +
-      '}\n' +
-      '\n' +
-      'void loop() {\n' +
-      '  Serial.println("Hello, Arduino!");\n' +
-      '  delay(1000);\n' +
-      '}',
     summary: 'Learn the difference between analog and digital signals, how Arduino reads analog input using analogRead(), and how to use sensors like potentiometers, LDRs, and thermistors through voltage dividers.',
     tags: ['Analog Pins', 'ADC', 'analogRead', 'Sensors', 'Voltage Divider'],
     image: '/pic14.png',
     content:
-      '# 🎛️ Analog Pins\n' +
+      '# 🎛️ **Analog Pins**\n' +
       '\n' +
-      '## 💡 Analog Signals and Digital Signals\n' +
+      '## 💡 **Analog Signals and Digital Signals**\n' +
       '- **Digital Signal:** Has only two distinct states (HIGH or LOW, 1 or 0). Think of a light switch (on or off).\n' +
       '- **Analog Signal:** Has a continuous range of values within a given span. Think of a dimmer switch (any brightness level from completely off to fully on).\n' +
       '\n' +
@@ -1638,14 +1620,14 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '\n' +
       '---\n' +
       '\n' +
-      '## 💡 Analog to Digital Conversion (ADC)\n' +
+      '## 💡 **Analog to Digital Conversion (ADC)**\n' +
       'Arduino\'s microcontroller is fundamentally a digital device. It only understands 1s and 0s. So, how can it understand a continuous analog signal? It uses a special built-in component called an **Analog to Digital Converter (ADC)**.\n' +
       '\n' +
       'Analog to Digital Conversion (ADC) is the process of taking a continuous analog voltage and converting it into a discrete digital number that the Arduino can process.\n' +
       '\n' +
       '---\n' +
       '\n' +
-      '## 🔌 Analog Input Pins\n' +
+      '## 🔌 **Analog Input Pins**\n' +
       'Arduino boards have dedicated analog input pins, usually labeled A0 through A5. These are the pins that are connected to the internal ADC.\n' +
       '\n' +
       '- **Do not use pinMode()** to set these pins as INPUT for analog readings.\n' +
@@ -1653,16 +1635,16 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '\n' +
       '---\n' +
       '\n' +
-      '## 🧪 analogRead() Function\n' +
+      '## 🧪 **analogRead() Function**\n' +
       '**Syntax:** `analogRead(pin)`\n' +
-      '- `pin`: the analog input pin (e.g., A0, A1, A5).\n' +
-      '- **Returns:** an integer value from 0 to 1023.\n' +
+      '- • **pin**: the analog input pin (e.g., A0, A1, A5).\n' +
+      '- • **Returns:** an integer value from 0 to 1023.\n' +
       '\n' +
       'The ADC is **10-bit**, meaning 2^10 = 1024 possible values.\n' +
       '\n' +
       '---\n' +
       '\n' +
-      '## 💡 Example 1: Basic Analog Reader\n' +
+      '## 💡 **Example: Basic Analog Reader**\n' +
       '```arduino\n' +
       'const int SENSOR_ANALOG_PIN = A0;\n' +
       '\n' +
@@ -1679,11 +1661,11 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '}\n' +
       '```\n' +
       '\n' +
-      'A **potentiometer** is a perfect starting point for analog input. It\'s essentially a variable resistor that acts like a voltage divider.\n' +
-      '\n'+
+      'A**potentiometer** is a perfect starting point for analog input. Its essentially a variable resistor that acts like a voltage divider.\n' +
+      '\n' +
       '---\n' +
       '\n' +
-      '## 💡 General Analog Sensors and Voltage Dividers\n' +
+      '## 💡 **General Analog Sensors and Voltage Dividers**\n' +
       'Many basic analog sensors like an **LDR (light)** or **thermistor (temperature)** are resistors whose resistance changes based on physical properties.\n' +
       '\n' +
       'To convert this into a readable voltage for Arduino, use a **voltage divider** circuit.\n' +
@@ -1695,7 +1677,7 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '\n' +
       '---\n' +
       '\n' +
-      '## 💡 Example 2: Voltage from Potentiometer\n' +
+      '## 💡 **Example: Voltage from Potentiometer**\n' +
       '```arduino\n' +
       'const int POT_PIN = A0;\n' +
       '\n' +
@@ -1717,46 +1699,41 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '```\n',
       questions: [],
   },
+  
   {
     day: '15',
     title: 'PWM and ADC Resolution',
-    code: 'void setup() {\n' +
-      '  Serial.begin(9600);\n' +
-      '}\n' +
-      '\n' +
-      'void loop() {\n' +
-      '  Serial.println("Hello, Arduino!");\n' +
-      '  delay(1000);\n' +
-    '}',
-      summary: 'Understand how PWM simulates analog output using digital pins and how ADC resolution determines the precision of analog input readings. Learn to use analogWrite and calculate voltage per ADC step.',
+    summary: 'Understand how PWM simulates analog output using digital pins and how ADC resolution determines the precision of analog input readings. Learn to use analogWrite and calculate voltage per ADC step.',
     tags: ['PWM', 'ADC', 'analogWrite', 'analogRead', 'Resolution'],
     image: '/pic15.png',
     content:
-      '# ⚡ PWM and ADC Resolution\n' +
+      '# ⚡ **PWM and ADC Resolution**\n' +
       '\n' +
       'Arduino\'s digital pins can only output 5V (HIGH) or 0V (LOW). They can\'t magically output 2.5V for half brightness. So, how do we get around this?\n' +
       '\n' +
-      '**Pulse Width Modulation (PWM)** is a clever trick to simulate analog behavior using a digital pin that can only be ON or OFF. Instead of providing a steady 2.5V, the Arduino rapidly turns the pin ON and OFF very quickly.\n' +
+      '**Pulse Width Modulation (PWM)**\n' +
+      '\n' +
+      'is a clever trick to simulate analog behavior using a digital pin that can only be ON or OFF. Instead of providing a steady 2.5V, the Arduino rapidly turns the pin ON and OFF very quickly.\n' +
       '\n' +
       '---\n' +
       '\n' +
-      '## 💡 PWM Pins\n' +
+      '## 💡 **PWM Pins**\n' +
       'Not all digital pins on Arduino board can do PWM. Only specific pins are capable of generating these rapid pulses.\n' +
       'On most Arduino Uno boards, these pins are usually marked with a tilde (~) symbol next to their number (e.g., ~3, ~5, ~6, ~9, ~10, ~11).\n' +
       '\n' +
       '---\n' +
       '\n' +
-      '## 💡 analogWrite() Function\n' +
+      '## 💡 **analogWrite() Function**\n' +
       '**Syntax:** `analogWrite(pin, value)`\n' +
-      '- `pin`: the PWM capable digital pin (e.g., 3, 5, 6, 9, 10, 11)\n' +
-      '- `value`: a number from 0 to 255 representing duty cycle:\n' +
-      '  - 0: The pin is always LOW (0% duty cycle, OFF)\n' +
-      '  - 255: The pin is always HIGH (100% duty cycle, fully ON)\n' +
-      '  - 127: The pin is HIGH for 50% of the time (half brightness)\n' +
+      '- • **pin**: the PWM capable digital pin (e.g., 3, 5, 6, 9, 10, 11)\n' +
+      '- • **value**: a number from 0 to 255 representing duty cycle:\n' +
+      '  •- 0: The pin is always LOW (0% duty cycle, OFF)\n' +
+      '  •- 255: The pin is always HIGH (100% duty cycle, fully ON)\n' +
+      '  •- 127: The pin is HIGH for 50% of the time (half brightness)\n' +
       '\n' +
       '---\n' +
       '\n' +
-      '## 💡 Example: PWM LED Brightness\n' +
+      '## 💡 **Example: PWM LED Brightness**\n' +
       '```arduino\n' +
       'const int LED_PWM_PIN = 9;\n' +
       'const int BRIGHTNESS_LEVEL = 127;\n' +
@@ -1784,7 +1761,7 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '\n' +
       '---\n' +
       '\n' +
-      '# 🎯 What is ADC Resolution?\n' +
+      '# 🎯 **What is ADC Resolution?**\n' +
       '\n' +
       '**Resolution** refers to the number of distinct levels or steps an ADC can distinguish within its full input voltage range.\n' +
       '\n' +
@@ -1794,27 +1771,27 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '\n' +
       '---\n' +
       '\n' +
-      '## 💡 Why Resolution Matters\n' +
-      '- **Precision:** 12-bit ADC → 4096 steps → finer voltage detail\n' +
-      '- **Sensor Choice:** Needed for sensors that change tiny voltages\n' +
-      '- **Noise:** Higher resolution reveals more electrical noise\n' +
+      '## 💡 **Why Resolution Matters**\n' +
+      '- • **Precision:** 12-bit ADC → 4096 steps → finer voltage detail\n' +
+      '- • **Sensor Choice:** Needed for sensors that change tiny voltages\n' +
+      '- • **Noise:** Higher resolution reveals more electrical noise\n' +
       '\n' +
       '---\n' +
       '\n' +
-      '## 💡 Bits of Resolution and Number of Steps\n' +
-      '- **10-bit ADC** = 2¹⁰ = **1024 steps** (values from 0 to 1023)\n' +
+      '## 💡** Bits of Resolution and Number of Steps**\n' +
+      '- 10-bit ADC = 2¹⁰ = **1024 steps** (values from 0 to 1023)\n' +
       '\n' +
       '---\n' +
       '\n' +
-      '## 💡 Voltage Per Step (LSB Voltage)\n' +
+      '## 💡 **Voltage Per Step (LSB Voltage)**\n' +
       '- **Formula:** `Voltage per Step = Reference Voltage / Number of Steps`\n' +
-      '- Arduino: `5V / 1024 = 0.00488V` or **4.88 mV/step**\n' +
+      '- Arduino: 5V / 1024 = 0.00488V or **4.88 mV/step**\n' +
       '\n' +
-      '**This means Arduino can only detect voltage changes of 4.88mV or more.**\n' +
+      'This means Arduino can only detect voltage changes of 4.88mV or more.\n' +
       '\n' +
       '---\n' +
       '\n' +
-      '## 💡 Example: ADC Resolution Monitor\n' +
+      '## 💡 **Example: ADC Resolution Monitor**\n' +
       '```arduino\n' +
       'const int SENSOR_PIN = A0;\n' +
       'const float REFERENCE_VOLTAGE = 5.0;\n' +
@@ -1848,35 +1825,28 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '```\n',
       questions: [],
   },
+  
   {
     day: "16",
-    title: "External Voltage References", 
-    code: 'void setup() {\n' +
-    '  Serial.begin(9600);\n' +
-    '}\n' +
-    '\n' +
-    'void loop() {\n' +
-    '  Serial.println("Hello, Arduino!");\n' +
-    '  delay(1000);\n' +
-    '}',
+    title: "External Voltage References",
     summary: "Learn how to improve ADC accuracy in Arduino by changing the reference voltage using analogReference(). Understand DEFAULT, INTERNAL, INTERNAL1V1, INTERNAL2V56, and EXTERNAL reference options, and when to use each for your sensor setup.",
     tags: ["ADC", "Voltage Reference", "analogReference", "INTERNAL1V1", "EXTERNAL"],
     image: "/pic16.png",
     content:
-      "# 🎯 External Voltage References\n\n" +
+      "# 🎯 **External Voltage References**\n\n" +
       "The reference voltage is the maximum voltage that your Arduino's ADC consider to be '1023'. Everything else is scaled proportionally. By default, your Arduino uses its operating voltage of 5V as this reference. But what if this 5V isn't perfectly stable, or if your sensor only outputs a very small voltage range? This is where understanding and choosing your voltage reference becomes important.\n\n" +
       "---\n\n" +
-      "## 💡 Changing the Reference with analogReference()\n" +
-      "You use the `analogReference()` function in your `void setup()` to select the reference.\n\n" +
+      "## 💡 **Changing the Reference with analogReference()**\n" +
+      "You use the **analogReference()** function in your **void setup()** to select the reference.\n\n" +
       "```arduino\n" +
       "analogReference(type)\n" +
       "// type = DEFAULT, INTERNAL, INTERNAL1V1, INTERNAL2V56, or EXTERNAL.\n" +
       "```\n\n" +
       "---\n\n" +
-      "## 💡 The Default Reference - DEFAULT\n" +
-      "`DEFAULT` uses the analog reference from your Arduino's power supply.\n" +
-      "- **Use case:** most common setting and works well for many applications.\n" +
-      "- **Limitation:** If your Arduino's 5V supply fluctuates, your analog readings might become slightly inaccurate.\n\n" +
+      "## 💡 **The Default Reference - DEFAULT**\n" +
+      "DEFAULT uses the analog reference from your Arduino's power supply.\n" +
+      "- • **Use case:** most common setting and works well for many applications.\n" +
+      "- • **Limitation:** If your Arduino's 5V supply fluctuates, your analog readings might become slightly inaccurate.\n\n" +
       "```arduino\n" +
       "void setup() {\n" +
       "  analogReference(DEFAULT);  // Uses board supply voltage (e.g., 5V)\n" +
@@ -1886,9 +1856,9 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       "}\n" +
       "```\n\n" +
       "---\n\n" +
-      "## 💡 Internal Voltage References - INTERNAL / INTERNAL1V1 / INTERNAL2V56\n" +
-      "`INTERNAL` or `INTERNAL1V1` uses a built-in **1.1V** reference. This is a very precise and stable 1.1V source. Ideal for measuring small voltages (0V to 1.1V) with higher effective resolution.\n\n" +
-      "- Example: If your sensor only outputs up to 1V, using the 1.1V reference means that 0 to 1V will be mapped across the full 0 to 1023 range, giving you more detail.\n\n" +
+      "## 💡 **Internal Voltage References - INTERNAL / INTERNAL1V1 / INTERNAL2V56**\n" +
+      "INTERNAL or INTERNAL1V1 uses a built in **1.1V** reference. This is a very precise and stable 1.1V source. Ideal for measuring small voltages (0V to 1.1V) with higher effective resolution.\n\n" +
+      "- **Example:** If your sensor only outputs up to 1V, using the 1.1V reference means that 0 to 1V will be mapped across the full 0 to 1023 range, giving you more detail.\n\n" +
       "```arduino\n" +
       "void setup() {\n" +
       "  analogReference(INTERNAL);  // or analogReference(INTERNAL1V1);\n" +
@@ -1897,7 +1867,7 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       "  int sensorValue = analogRead(A0); // Now, 1023 = 1.1V on A0\n" +
       "}\n" +
       "```\n\n" +
-      "`INTERNAL2V56` uses a built-in **2.56V** reference, similar to 1.1V, but for sensors outputting voltages up to 2.56V. (Only available on some boards like Arduino Mega)\n\n" +
+      "INTERNAL2V56 uses a built-in **2.56V** reference, similar to 1.1V, but for sensors outputting voltages up to 2.56V. (Only available on some boards like Arduino Mega)\n\n" +
       "```arduino\n" +
       "void setup() {\n" +
       "  analogReference(INTERNAL2V56);\n" +
@@ -1907,10 +1877,10 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       "}\n" +
       "```\n\n" +
       "---\n\n" +
-      "## 💡 External Voltage Reference - EXTERNAL\n" +
-      "`EXTERNAL` gives you the most control and precision. You can provide your own stable voltage source to a special pin on the Arduino called **AREF** (Analog Reference).\n\n" +
-      "- **Working:** You connect a precise, stable voltage source (e.g., voltage reference IC or stable power supply) to the AREF pin.\n" +
-      "- **Use case:** When you need the **highest precision**, or when your sensor's output range exactly matches a custom reference voltage you can provide.\n\n" +
+      "## 💡 **External Voltage Reference - EXTERNAL**\n" +
+      "EXTERNAL gives you the most control and precision. You can provide your own stable voltage source to a special pin on the Arduino called **AREF** (Analog Reference).\n\n" +
+      "- • **Working:** You connect a precise, stable voltage source (e.g., voltage reference IC or stable power supply) to the AREF pin.\n" +
+      "- • **Use case:** When you need the **highest precision**, or when your sensor's output range exactly matches a custom reference voltage you can provide.\n\n" +
       "```arduino\n" +
       "void setup() {\n" +
       "  analogReference(EXTERNAL);  // Uses the voltage you supply to AREF\n" +
@@ -1920,12 +1890,13 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       "}\n" +
       "```\n\n" +
       "---\n\n" +
-      "## 💡 When to Use Which Reference?\n\n" +
-      "- `DEFAULT`: Most common. Use for sensors that output across the full 0 to 5V range, or when slight fluctuations in 5V aren't critical.\n" +
-      "- `INTERNAL`: Use for sensors that output small voltages (e.g., 0V to 1V or 0V to 2.5V) and you want maximum precision.\n" +
-      "- `EXTERNAL`: Use when you have a custom, very precise, and stable voltage reference that exactly matches your sensor's output range for best accuracy.\n",
+      "## 💡 **When to Use Which Reference?**\n\n" +
+      "- • **DEFAULT**: Most common. Use for sensors that output across the full 0 to 5V range, or when slight fluctuations in 5V aren't critical.\n" +
+      "- • **INTERNAL**: Use for sensors that output small voltages (e.g., 0V to 1V or 0V to 2.5V) and you want maximum precision.\n" +
+      "- • **EXTERNAL**: Use when you have a custom, very precise, and stable voltage reference that exactly matches your sensor's output range for best accuracy.\n",
       questions: [],
   },
+  
     
   
 ];
@@ -3835,7 +3806,7 @@ const CoursePage = () => {
           
           {/* Arduino Content */}
           <div className="lg:col-span-3">
-            <h1 className="text-4xl font-bold mb-8 text-white flex items-center gap-2">
+            <h1 className="text-4xl font-bold mb-8 text-black flex items-center gap-2">
               ⚡ Arduino Learning Path
             </h1>
             <p className="text-brown-300 mb-8 text-lg">
@@ -3862,10 +3833,10 @@ const CoursePage = () => {
 
   return (
     <div className="max-w-6xl mx-auto py-10 px-5">
-      <h1 className="text-4xl font-bold mb-8 text-white flex items-center gap-2">
+      <h1 className="text-4xl font-bold mb-8 text-black flex items-center gap-2">
         🎓 Learning Courses
       </h1>
-      <p className="text-gray-300 mb-8 text-lg">
+      <p className="text-brown-300 mb-8 text-lg">
         Choose a course to start your learning journey. Track your progress, earn XP, and unlock achievements!
       </p>
       
