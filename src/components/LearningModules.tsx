@@ -1057,7 +1057,740 @@ bool systemStatus = powerOk && temperatureOk;  // Result: false
       '```\n',
       questions: [],
   },
-  
+  {
+    day: '9',
+    title: 'Digital Pins in Arduino',
+    summary: 'Understand how digital pins work on an Arduino board. Learn how to configure pins as INPUT or OUTPUT, use functions like pinMode, digitalWrite, and digitalRead, and see how to blink an LED using digital signals.',
+    tags: ['Digital Pins', 'Input Output', 'Arduino Programming', 'Beginner'],
+    image: '/pic9.png',
+    content:
+      '# 🔌 **Digital Pins**\n' +
+      '\n' +
+      '## 💡 **What are Digital Pins?**\n' +
+      'Digital pins are the numbered pins (0 to 13) on your Arduino board. Even the analog pins (A0–A5) can be used as digital pins!\n' +
+      '\n' +
+      '**States of a Digital Pin:**\n' +
+      '- `HIGH` → ON (Usually 5V)\n' +
+      '- `LOW` → OFF (0V or GND)\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔧 **pinMode() – Set Pin Direction**\n' +
+      'Before using a digital pin, you must **define** whether it is for **input** (read) or **output** (write).\n' +
+      '\n' +
+      '### 🟢 OUTPUT Mode\n' +
+      'Used to send a signal (like turning on an LED).\n' +
+      '\n' +
+      '### 🔵 INPUT Mode\n' +
+      'Used to read a signal (like checking if a button is pressed).\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## ⚙️ **Key Functions**\n' +
+      '\n' +
+      '### 🔸 pinMode(pin, mode)\n' +
+      'Configures the pin as `INPUT` or `OUTPUT`\n' +
+      '- `pin`: pin number (e.g., 13)\n' +
+      '- `mode`: `INPUT` or `OUTPUT`\n' +
+      '\n' +
+      '```arduino\n' +
+      'void setup() {\n' +
+      '  pinMode(13, OUTPUT);  // Digital pin 13 sends signal\n' +
+      '  pinMode(2, INPUT);    // Digital pin 2 listens for input\n' +
+      '}\n' +
+      '\n' +
+      '### 🔸 digitalWrite(pin, value)\n' +
+      'Sends a signal from an OUTPUT pin.\n' +
+      '- `value`: `HIGH` (5V) or `LOW` (0V)\n' +
+      '\n' +
+      '```arduino\n' +
+      'digitalWrite(13, HIGH);  // Turn pin 13 ON\n' +
+      'digitalWrite(13, LOW);   // Turn pin 13 OFF\n' +
+      '```\n' +
+      '\n' +
+      '### 🔸 digitalRead(pin)\n' +
+      'Reads signal from an INPUT pin.\n' +
+      'Returns either `HIGH` or `LOW`\n' +
+      '\n' +
+      '```arduino\n' +
+      'int buttonState = digitalRead(2);  // Read pin 2\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 **Example: LED Blinking with Serial Monitor**\n' +
+      '```arduino\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("LED Blinker Started!");\n' +
+      '  pinMode(13, OUTPUT);  // LED connected to pin 13\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  digitalWrite(13, HIGH);  // Turn ON LED\n' +
+      '  Serial.println("LED is ON");\n' +
+      '  delay(500);\n' +
+      '  \n' +
+      '  digitalWrite(13, LOW);   // Turn OFF LED\n' +
+      '  Serial.println("LED is OFF");\n' +
+      '  delay(500);\n' +
+      '}\n' +
+      '```\n',
+      questions: [],
+  },
+  {
+    day: '10',
+    title: 'Pull-up and Pull-down Resistors in Arduino',
+    summary: 'Understand how floating pins behave and how pull-up or pull-down resistors help stabilize digital input. Learn how to use INPUT_PULLUP for reliable button reading.',
+    tags: ['Digital Input', 'Pull-up', 'Pull-down', 'Arduino', 'Beginner'],
+    image: '/pic10.png',
+    content:
+      '# 🔌 **Pull-up and Pull-down Resistors**\n' +
+      '\n' +
+      '## 🌀 **The "Floating Pin"**\n' +
+      'A digital input pin that\'s configured as `INPUT` but is not connected to any specific voltage through a component like a button is said to be **"floating."**\n' +
+      '\n' +
+      'A floating pin means that `digitalRead()` might return `HIGH` sometimes and `LOW` at other times, seemingly randomly, even if nothing is happening. This makes reliable input sensing impossible.\n' +
+      '\n' +
+      'To fix this, we need to **"pull"** the pin to a known state (`HIGH` or `LOW`) when the input device like a button isn\'t actively providing a signal. This is where **pull-up** and **pull-down** resistors come in.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔼 **Pull-up Resistors**\n' +
+      '- Connect the input pin to **HIGH voltage (5V)** through a resistor.\n' +
+      '- When the button is **not pressed**, the resistor pulls the pin\'s voltage to **HIGH (5V)**.\n' +
+      '- When the button **is pressed**, it connects the pin directly to **GND**, so the pin reads **LOW**.\n' +
+      '\n' +
+      '## 🔽 **Pull-down Resistors**\n' +
+      '- Connect the input pin to **LOW voltage (GND)** through a resistor.\n' +
+      '- When the button is **not pressed**, the resistor pulls the pin\'s voltage to **LOW (0V)**.\n' +
+      '- When the button **is pressed**, it connects the pin directly to **HIGH (5V)**, so the pin reads **HIGH**.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## ⚙️ **INPUT_PULLUP**\n' +
+      '`pinMode(pin, INPUT_PULLUP);`\n' +
+      '\n' +
+      '- When using `INPUT_PULLUP`, the pin will be **HIGH** when the button is not pressed.\n' +
+      '- A button press connects the pin to **GND**, resulting in a **LOW** reading.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 **Example: Using Internal Pull-up**\n' +
+      '```arduino\n' +
+      'const int switchPin = 5;    // Switch connected to digital pin 5\n' +
+      'const int ledPin = 13;      // Onboard LED\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  pinMode(switchPin, INPUT_PULLUP); // Enable pull-up resistor on pin 5\n' +
+      '  pinMode(ledPin, OUTPUT);\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  if (digitalRead(switchPin) == LOW) { // Button pressed (circuit closed)\n' +
+      '    digitalWrite(ledPin, HIGH);   // Turn on LED\n' +
+      '  } else {\n' +
+      '    digitalWrite(ledPin, LOW);    // Turn off LED\n' +
+      '  }\n' +
+      '}\n' +
+      '```\n',
+    questions: [],
+  },
+  {
+    day: '11',
+    title: 'Debouncing Techniques',
+    summary: 'Understand what button bounce is, why it causes false triggers in Arduino, and how to fix it using software debounce methods like delay(). Learn the role of mechanical bounce and how to reliably detect button presses.',
+    tags: ['Debounce', 'Digital Input', 'Buttons', 'Arduino', 'Beginner'],
+    image: '/pic11.png',
+    content:
+      '# 🛑 Debouncing Techniques\n' +
+      '\n' +
+      'Digital input pins allow Arduino to "read" or "sense" whether an electrical signal on that pin is HIGH (ON, usually 5V) or LOW (OFF, usually 0V). This is perfect for simple input devices like buttons and switches, which are either open or closed.\n' +
+      '\n' +
+      '## 💡 How Buttons and Switches Work\n' +
+      'A button or a simple switch acts like a gate for electricity.\n' +
+      '\n' +
+      '- When a button is not pressed (open), it breaks the connection, and no electricity flows through it.\n' +
+      '- When a button is pressed (closed), it completes the connection, allowing electricity to flow.\n' +
+      '\n' +
+      'By connecting a button to a digital input pin, your Arduino can detect when this connection is made or broken.\n' +
+      '\n' +
+      '## 💡 What is Bounce?\n' +
+      'When you press a mechanical button or flip a switch, the metal contacts inside don\'t connect or disconnect perfectly cleanly. Instead, they literally "bounce" against each other a few times before settling into a stable ON or OFF state.\n' +
+      '\n' +
+      '## 💡 Why is Bounce a Problem for Arduino?\n' +
+      'Arduino is incredibly fast. When it reads a digital pin, it samples the voltage thousands or millions of times per second. If a button "bounces" from LOW to HIGH and back several times within a few milliseconds (even if you only pressed it once), your Arduino will see each of those rapid changes as separate presses or releases.\n' +
+      '\n' +
+      '**Example: you press a button once.**\n' +
+      '\n' +
+      '`Arduino sees: LOW, HIGH, LOW, HIGH, LOW, HIGH, LOW... then finally LOW stable.`\n' +
+      '\n' +
+      '**Result: Code might think you pressed the button three or four times, even though you only pressed it once.**\n' +
+      '\n' +
+      '## 💡 Debouncing\n' +
+      'Debouncing is the technique used to filter out these unwanted, rapid fluctuations caused by mechanical bounce, ensuring that a single physical press or release is registered as only one stable event.\n' +
+      '\n' +
+      'There are two main approaches:\n' +
+      '- **Hardware Debouncing**: Adding physical components like capacitors and resistors to your circuit to smooth out the electrical signal before it even reaches the Arduino pin.\n' +
+      '- **Software Debouncing**: Writing code that "waits out" the bounce period, ignoring any quick, unstable changes. This is often simpler for beginners and doesn\'t require extra components.\n' +
+      '\n' +
+      '### 🕒 `delay()` Method\n' +
+      'Most button bounces settle within 20 to 50 milliseconds. So, adding a `delay(50)` after an initial button state change is a common and effective debouncing method for many applications.\n' +
+      '\n' +
+      '### ✅ Example:\n' +
+      '```arduino\n' +
+      'const int buttonPin = 2;\n' +
+      'const int ledPin = 13;\n' +
+      'int buttonState = 0;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  pinMode(buttonPin, INPUT);\n' +
+      '  pinMode(ledPin, OUTPUT);\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  if (digitalRead(buttonPin) == LOW) {      // Button pressed (if using INPUT_PULLUP)\n' +
+      '    delay(50);                              // Debounce delay, typically 20-50ms\n' +
+      '    if (digitalRead(buttonPin) == LOW) {    // Still pressed after delay = valid press\n' +
+      '      digitalWrite(ledPin, !digitalRead(ledPin)); // Toggle LED\n' +
+      '      while (digitalRead(buttonPin) == LOW); // Wait for release (simple lockout)\n' +
+      '    }\n' +
+      '  }\n' +
+      '}\n' +
+      '```\n',
+    questions: [],
+  },
+  {
+    day: '12',
+    title: 'Digital Logic Gates',
+    summary: 'Learn how to simulate logic gates like AND, OR, NOT, and XOR in Arduino using basic digital input pins and conditional statements. Includes truth tables and practical code examples.',
+    tags: ['Logic Gates', 'Digital Logic', 'Arduino Programming', 'AND OR NOT XOR'],
+    image: '/pic12.png',
+    content:
+      '# 🔢 Digital Logic Gates\n' +
+      '\n' +
+      'Digital logic gates are the fundamental building blocks of all digital circuits. They take one or more digital inputs and produce a single digital output based on a specific logical rule.\n' +
+      'Think of them as tiny decision makers. In Arduino programming, we don\'t usually wire up physical logic gate chips. Instead, we simulate their behavior using logical operations in our code.\n' +
+      '\n' +
+      '## 💡 Basic Logic Gates\n' +
+      '\n' +
+      '### AND Gate `&&`\n' +
+      'The output is HIGH (true) ONLY IF ALL of its inputs are HIGH (true). Otherwise, the output is LOW (false).\n' +
+      '\n' +
+      '**Truth Table**\n' +
+      '\n' +
+      '| Input A | Input B | Output (A AND B) |\n' +
+      '|---------|----------|------------------|\n' +
+      '| LOW (0) | LOW (0)  | LOW (0)          |\n' +
+      '| LOW (0) | HIGH (1) | LOW (0)          |\n' +
+      '| HIGH (1)| LOW (0)  | LOW (0)          |\n' +
+      '| HIGH (1)| HIGH (1) | HIGH (1)         |\n' +
+      '\n' +
+      '`if (inputA == HIGH && inputB == HIGH)`\n' +
+      '\n' +
+      '### OR Gate `||`\n' +
+      'The output is HIGH (true) If AT LEAST ONE of its inputs is HIGH (true). The output is LOW (false) only if ALL inputs are LOW.\n' +
+      '\n' +
+      '**Truth Table**\n' +
+      '\n' +
+      '| Input A | Input B | Output (A OR B) |\n' +
+      '|---------|----------|-----------------|\n' +
+      '| LOW (0) | LOW (0)  | LOW (0)         |\n' +
+      '| LOW (0) | HIGH (1) | HIGH (1)        |\n' +
+      '| HIGH (1)| LOW (0)  | HIGH (1)        |\n' +
+      '| HIGH (1)| HIGH (1) | HIGH (1)        |\n' +
+      '\n' +
+      '`if (inputA == HIGH || inputB == HIGH)`\n' +
+      '\n' +
+      '### NOT Gate `!`\n' +
+      'The output is the opposite of its single input. If the input is HIGH, the output is LOW. If the input is LOW, the output is HIGH.\n' +
+      '\n' +
+      '**Truth Table**\n' +
+      '\n' +
+      '| Input A | Output (NOT A) |\n' +
+      '|---------|----------------|\n' +
+      '| LOW (0) | HIGH (1)       |\n' +
+      '| HIGH (1)| LOW (0)        |\n' +
+      '\n' +
+      '`if (!inputA == HIGH)` is the same as `if (inputA == LOW)`\n' +
+      '`if (!isButtonPressed)` → if the button is NOT pressed\n' +
+      '\n' +
+      '### XOR Gate `^`\n' +
+      'The output is HIGH (true) If ONLY ONE of its inputs is HIGH (true), but NOT if both are HIGH or both are LOW.\n' +
+      '\n' +
+      '**Truth Table**\n' +
+      '\n' +
+      '| Input A | Input B | Output (A XOR B) |\n' +
+      '|---------|----------|------------------|\n' +
+      '| LOW (0) | LOW (0)  | LOW (0)          |\n' +
+      '| LOW (0) | HIGH (1) | HIGH (1)         |\n' +
+      '| HIGH (1)| LOW (0)  | HIGH (1)         |\n' +
+      '| HIGH (1)| HIGH (1) | LOW (0)          |\n' +
+      '\n' +
+      '`if (inputA != inputB)` — `!=` is same as XOR\n' +
+      '\n' +
+      '## 💻 Example\n' +
+      '\n' +
+      '### 💻 AND Gate\n' +
+      '```arduino\n' +
+      'const int INPUT_PIN_A = 2;\n' +
+      'const int INPUT_PIN_B = 3;\n' +
+      'const int OUTPUT_LED_PIN = 13;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  pinMode(INPUT_PIN_A, INPUT_PULLUP);\n' +
+      '  pinMode(INPUT_PIN_B, INPUT_PULLUP);\n' +
+      '  pinMode(OUTPUT_LED_PIN, OUTPUT);\n' +
+      '  Serial.println("AND Gate Simulator Ready!");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  bool inputA_active = (digitalRead(INPUT_PIN_A) == LOW);\n' +
+      '  bool inputB_active = (digitalRead(INPUT_PIN_B) == LOW);\n' +
+      '\n' +
+      '  if (inputA_active && inputB_active) {\n' +
+      '    digitalWrite(OUTPUT_LED_PIN, HIGH);\n' +
+      '    Serial.println("AND Gate: Output HIGH");\n' +
+      '  } else {\n' +
+      '    digitalWrite(OUTPUT_LED_PIN, LOW);\n' +
+      '    Serial.println("AND Gate: Output LOW");\n' +
+      '  }\n' +
+      '  delay(1000);\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### 💻 OR Gate\n' +
+      '```arduino\n' +
+      'const int INPUT_PIN_A = 2;\n' +
+      'const int INPUT_PIN_B = 3;\n' +
+      'const int OUTPUT_LED_PIN = 13;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  pinMode(INPUT_PIN_A, INPUT_PULLUP);\n' +
+      '  pinMode(INPUT_PIN_B, INPUT_PULLUP);\n' +
+      '  pinMode(OUTPUT_LED_PIN, OUTPUT);\n' +
+      '  Serial.println("OR Gate Simulator Ready!");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  bool inputA_active = (digitalRead(INPUT_PIN_A) == LOW);\n' +
+      '  bool inputB_active = (digitalRead(INPUT_PIN_B) == LOW);\n' +
+      '\n' +
+      '  if (inputA_active || inputB_active) {\n' +
+      '    digitalWrite(OUTPUT_LED_PIN, HIGH);\n' +
+      '    Serial.println("OR Gate: Output HIGH");\n' +
+      '  } else {\n' +
+      '    digitalWrite(OUTPUT_LED_PIN, LOW);\n' +
+      '    Serial.println("OR Gate: Output LOW");\n' +
+      '  }\n' +
+      '  delay(1000);\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### 💻 NOT Gate\n' +
+      '```arduino\n' +
+      'const int INPUT_PIN_A = 2;\n' +
+      'const int OUTPUT_LED_PIN = 13;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  pinMode(INPUT_PIN_A, INPUT_PULLUP);\n' +
+      '  pinMode(OUTPUT_LED_PIN, OUTPUT);\n' +
+      '  Serial.println("NOT Gate Simulator Ready!");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  bool inputA_active = (digitalRead(INPUT_PIN_A) == LOW);\n' +
+      '\n' +
+      '  if (!inputA_active) {\n' +
+      '    digitalWrite(OUTPUT_LED_PIN, HIGH);\n' +
+      '    Serial.println("NOT Gate: Output HIGH");\n' +
+      '  } else {\n' +
+      '    digitalWrite(OUTPUT_LED_PIN, LOW);\n' +
+      '    Serial.println("NOT Gate: Output LOW");\n' +
+      '  }\n' +
+      '  delay(1000);\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '### 💻 XOR Gate\n' +
+      '```arduino\n' +
+      'const int INPUT_PIN_A = 2;\n' +
+      'const int INPUT_PIN_B = 3;\n' +
+      'const int OUTPUT_LED_PIN = 13;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  pinMode(INPUT_PIN_A, INPUT_PULLUP);\n' +
+      '  pinMode(INPUT_PIN_B, INPUT_PULLUP);\n' +
+      '  pinMode(OUTPUT_LED_PIN, OUTPUT);\n' +
+      '  Serial.println("XOR Gate Simulator Ready!");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  bool inputA_active = (digitalRead(INPUT_PIN_A) == LOW);\n' +
+      '  bool inputB_active = (digitalRead(INPUT_PIN_B) == LOW);\n' +
+      '\n' +
+      '  if (inputA_active != inputB_active) {\n' +
+      '    digitalWrite(OUTPUT_LED_PIN, HIGH);\n' +
+      '    Serial.println("XOR Gate: Output HIGH");\n' +
+      '  } else {\n' +
+      '    digitalWrite(OUTPUT_LED_PIN, LOW);\n' +
+      '    Serial.println("XOR Gate: Output LOW");\n' +
+      '  }\n' +
+      '  delay(1000);\n' +
+      '}\n' +
+      '```\n',
+      questions:[],
+  },
+  {
+    day: '13',
+    title: 'Shift Registers',
+    summary: 'Learn how to expand Arduino outputs using shift registers like 74HC595. Understand the shiftOut() function, pin roles (Data, Clock, Latch), and how to control multiple outputs with just 3 pins.',
+    tags: ['Shift Register', '74HC595', 'shiftOut', 'Arduino Output Expansion'],
+    image: '/pic13.png',
+    content:
+      '# 🧮 Shift Registers\n' +
+      '\n' +
+      '## 💡 What is a Shift Register?\n' +
+      'A shift register is a special type of integrated circuit (IC) or "chip" that allows you to control many output (or input) pins using a very small number of Arduino\'s digital pins. It essentially acts as a pin multiplier.\n' +
+      '\n' +
+      'The most common type of shift register for extending outputs is a Serial In, Parallel Out shift register, like the popular **74HC595**. This means you send data to it serially one bit after another, like sending letters in a word one at a time using a few Arduino pins, and the shift register then outputs that data in parallel all at once on many pins.\n' +
+      '\n' +
+      '## 💡 The Problem: Limited Pins\n' +
+      'Arduino Uno has about 14 digital I/O pins. If you need 8 LEDs, that\'s 8 pins. If you need 16, you\'re stuck! A shift register lets you control 8 LEDs using only 3 of your Arduino\'s pins. If you chain multiple shift registers together, you can control 16, 24, or even more LEDs with those same 3 Arduino pins!\n' +
+      '\n' +
+      '## 🔁 shiftOut()\n' +
+      'Arduino provides a built in function called `shiftOut()` that makes working with shift registers much easier. It handles the details of pulsing the Data and Clock pins for you.\n' +
+      '\n' +
+      '**Syntax:**\n' +
+      '`shiftOut(dataPin, clockPin, bitOrder, value)`\n' +
+      '\n' +
+      '- `dataPin` → digital pin connected to the shift register\'s **Data** pin.\n' +
+      '- `clockPin` → digital pin connected to the shift register\'s **Clock** pin.\n' +
+      '- `bitOrder` → determines if the bits are sent **Least Significant Bit First** or **Most Significant Bit First**.\n' +
+      '- `value` → a byte that contains the 8 bits of data to send.\n' +
+      '\n' +
+      '### 🧷 Pin Explanation\n' +
+      '- **Data Pin (DS / SER):** Arduino sends data one bit at a time.\n' +
+      '- **Clock Pin (SH_CP / SRCLK):** Tells the register to shift in the next bit.\n' +
+      '- **Latch Pin (ST_CP / RCLK):** Goes HIGH then LOW to latch all 8 bits onto output pins at once.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 Example\n' +
+      '```arduino\n' +
+      'int dataPin = 2;   // Connect to DS of 74HC595\n' +
+      'int clockPin = 3;  // Connect to SHCP of 74HC595\n' +
+      'int latchPin = 4;  // Connect to STCP of 74HC595\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  pinMode(dataPin, OUTPUT);\n' +
+      '  pinMode(clockPin, OUTPUT);\n' +
+      '  pinMode(latchPin, OUTPUT);\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  digitalWrite(latchPin, LOW);               // Prepare shift register\n' +
+      '  shiftOut(dataPin, clockPin, MSBFIRST, 42); // Send the value 42 (binary 00101010)\n' +
+      '  digitalWrite(latchPin, HIGH);              // Store shifted bits on output pins\n' +
+      '  delay(1000); // Wait a second\n' +
+      '}\n' +
+      '```\n',
+      questions: [],
+  },
+  {
+    day: '14',
+    title: 'Analog Pins in Arduino',
+    summary: 'Learn the difference between analog and digital signals, how Arduino reads analog input using analogRead(), and how to use sensors like potentiometers, LDRs, and thermistors through voltage dividers.',
+    tags: ['Analog Pins', 'ADC', 'analogRead', 'Sensors', 'Voltage Divider'],
+    image: '/pic14.png',
+    content:
+      '# 🎛️ Analog Pins\n' +
+      '\n' +
+      '## 💡 Analog Signals and Digital Signals\n' +
+      '- **Digital Signal:** Has only two distinct states (HIGH or LOW, 1 or 0). Think of a light switch (on or off).\n' +
+      '- **Analog Signal:** Has a continuous range of values within a given span. Think of a dimmer switch (any brightness level from completely off to fully on).\n' +
+      '\n' +
+      'Many real world phenomena, like temperature, light intensity, sound volume, and pressure, are analog in nature.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 Analog to Digital Conversion (ADC)\n' +
+      'Arduino\'s microcontroller is fundamentally a digital device. It only understands 1s and 0s. So, how can it understand a continuous analog signal? It uses a special built-in component called an **Analog to Digital Converter (ADC)**.\n' +
+      '\n' +
+      'Analog to Digital Conversion (ADC) is the process of taking a continuous analog voltage and converting it into a discrete digital number that the Arduino can process.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🔌 Analog Input Pins\n' +
+      'Arduino boards have dedicated analog input pins, usually labeled A0 through A5. These are the pins that are connected to the internal ADC.\n' +
+      '\n' +
+      '- **Do not use pinMode()** to set these pins as INPUT for analog readings.\n' +
+      '- These pins typically read voltage values between 0V and 5V (reference voltage).\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 🧪 analogRead() Function\n' +
+      '**Syntax:** `analogRead(pin)`\n' +
+      '- `pin`: the analog input pin (e.g., A0, A1, A5).\n' +
+      '- **Returns:** an integer value from 0 to 1023.\n' +
+      '\n' +
+      'The ADC is **10-bit**, meaning 2^10 = 1024 possible values.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 Example 1: Basic Analog Reader\n' +
+      '```arduino\n' +
+      'const int SENSOR_ANALOG_PIN = A0;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("Analog Reader Started!");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  int analogValue = analogRead(SENSOR_ANALOG_PIN);\n' +
+      '  Serial.print("Analog Reading (0-1023): ");\n' +
+      '  Serial.println(analogValue);\n' +
+      '  delay(100);\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      'A **potentiometer** is a perfect starting point for analog input. It\'s essentially a variable resistor that acts like a voltage divider.\n' +
+      '\n'+
+      '---\n' +
+      '\n' +
+      '## 💡 General Analog Sensors and Voltage Dividers\n' +
+      'Many basic analog sensors like an **LDR (light)** or **thermistor (temperature)** are resistors whose resistance changes based on physical properties.\n' +
+      '\n' +
+      'To convert this into a readable voltage for Arduino, use a **voltage divider** circuit.\n' +
+      '\n' +
+      'Arduino\'s analogRead gives a value from **0 to 1023**, which maps to **0V to 5V**.\n' +
+      '\n' +
+      '**Voltage Conversion:**\n' +
+      '`float voltage = (analogReadValue * 5.0) / 1023.0;`\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 Example 2: Voltage from Potentiometer\n' +
+      '```arduino\n' +
+      'const int POT_PIN = A0;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("Potentiometer Voltage Reader Started!");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  int rawValue = analogRead(POT_PIN);\n' +
+      '  float voltage = (rawValue * 5.0) / 1023.0;\n' +
+      '  Serial.print("Raw Value: ");\n' +
+      '  Serial.print(rawValue);\n' +
+      '  Serial.print(" | Voltage: ");\n' +
+      '  Serial.print(voltage);\n' +
+      '  Serial.println(" V");\n' +
+      '  delay(100);\n' +
+      '}\n' +
+      '```\n',
+      questions: [],
+  },
+  {
+    day: '15',
+    title: 'PWM and ADC Resolution',
+    summary: 'Understand how PWM simulates analog output using digital pins and how ADC resolution determines the precision of analog input readings. Learn to use analogWrite and calculate voltage per ADC step.',
+    tags: ['PWM', 'ADC', 'analogWrite', 'analogRead', 'Resolution'],
+    image: '/pic15.png',
+    content:
+      '# ⚡ PWM and ADC Resolution\n' +
+      '\n' +
+      'Arduino\'s digital pins can only output 5V (HIGH) or 0V (LOW). They can\'t magically output 2.5V for half brightness. So, how do we get around this?\n' +
+      '\n' +
+      '**Pulse Width Modulation (PWM)** is a clever trick to simulate analog behavior using a digital pin that can only be ON or OFF. Instead of providing a steady 2.5V, the Arduino rapidly turns the pin ON and OFF very quickly.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 PWM Pins\n' +
+      'Not all digital pins on Arduino board can do PWM. Only specific pins are capable of generating these rapid pulses.\n' +
+      'On most Arduino Uno boards, these pins are usually marked with a tilde (~) symbol next to their number (e.g., ~3, ~5, ~6, ~9, ~10, ~11).\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 analogWrite() Function\n' +
+      '**Syntax:** `analogWrite(pin, value)`\n' +
+      '- `pin`: the PWM capable digital pin (e.g., 3, 5, 6, 9, 10, 11)\n' +
+      '- `value`: a number from 0 to 255 representing duty cycle:\n' +
+      '  - 0: The pin is always LOW (0% duty cycle, OFF)\n' +
+      '  - 255: The pin is always HIGH (100% duty cycle, fully ON)\n' +
+      '  - 127: The pin is HIGH for 50% of the time (half brightness)\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 Example: PWM LED Brightness\n' +
+      '```arduino\n' +
+      'const int LED_PWM_PIN = 9;\n' +
+      'const int BRIGHTNESS_LEVEL = 127;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("LED Brightness Controller Started!");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  analogWrite(LED_PWM_PIN, BRIGHTNESS_LEVEL);\n' +
+      '  Serial.print("LED Brightness set to: ");\n' +
+      '  Serial.println(BRIGHTNESS_LEVEL);\n' +
+      '  delay(2000);\n' +
+      '\n' +
+      '  analogWrite(LED_PWM_PIN, 20);\n' +
+      '  Serial.println("LED Brightness set to: 20 (Dim)");\n' +
+      '  delay(2000);\n' +
+      '\n' +
+      '  analogWrite(LED_PWM_PIN, 255);\n' +
+      '  Serial.println("LED Brightness set to: 255 (Full)");\n' +
+      '  delay(2000);\n' +
+      '}\n' +
+      '```\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '# 🎯 What is ADC Resolution?\n' +
+      '\n' +
+      '**Resolution** refers to the number of distinct levels or steps an ADC can distinguish within its full input voltage range.\n' +
+      '\n' +
+      'Think of it like having a ruler: a ruler with millimeters has higher resolution than one with only centimeters.\n' +
+      '\n' +
+      'Arduino uses a 10-bit ADC.\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 Why Resolution Matters\n' +
+      '- **Precision:** 12-bit ADC → 4096 steps → finer voltage detail\n' +
+      '- **Sensor Choice:** Needed for sensors that change tiny voltages\n' +
+      '- **Noise:** Higher resolution reveals more electrical noise\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 Bits of Resolution and Number of Steps\n' +
+      '- **10-bit ADC** = 2¹⁰ = **1024 steps** (values from 0 to 1023)\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 Voltage Per Step (LSB Voltage)\n' +
+      '- **Formula:** `Voltage per Step = Reference Voltage / Number of Steps`\n' +
+      '- Arduino: `5V / 1024 = 0.00488V` or **4.88 mV/step**\n' +
+      '\n' +
+      '**This means Arduino can only detect voltage changes of 4.88mV or more.**\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 💡 Example: ADC Resolution Monitor\n' +
+      '```arduino\n' +
+      'const int SENSOR_PIN = A0;\n' +
+      'const float REFERENCE_VOLTAGE = 5.0;\n' +
+      'const int ADC_STEPS = 1024;\n' +
+      '\n' +
+      'void setup() {\n' +
+      '  Serial.begin(9600);\n' +
+      '  Serial.println("ADC Resolution Monitor Started!");\n' +
+      '  Serial.print("Reference Voltage: ");\n' +
+      '  Serial.print(REFERENCE_VOLTAGE);\n' +
+      '  Serial.println(" V");\n' +
+      '  Serial.print("ADC Steps: ");\n' +
+      '  Serial.println(ADC_STEPS);\n' +
+      '  float voltagePerStep = REFERENCE_VOLTAGE / ADC_STEPS;\n' +
+      '  Serial.print("Voltage per Step: ");\n' +
+      '  Serial.print(voltagePerStep, 4);\n' +
+      '  Serial.println(" V/step");\n' +
+      '  Serial.println("---");\n' +
+      '}\n' +
+      '\n' +
+      'void loop() {\n' +
+      '  int rawValue = analogRead(SENSOR_PIN);\n' +
+      '  float voltage = (rawValue * REFERENCE_VOLTAGE) / (ADC_STEPS - 1);\n' +
+      '  Serial.print("Raw: ");\n' +
+      '  Serial.print(rawValue);\n' +
+      '  Serial.print(" | Voltage: ");\n' +
+      '  Serial.print(voltage, 3);\n' +
+      '  Serial.println(" V");\n' +
+      '  delay(200);\n' +
+      '}\n' +
+      '```\n',
+      questions: [],
+  },
+  {
+    day: "16",
+    title: "External Voltage References",
+    summary: "Learn how to improve ADC accuracy in Arduino by changing the reference voltage using analogReference(). Understand DEFAULT, INTERNAL, INTERNAL1V1, INTERNAL2V56, and EXTERNAL reference options, and when to use each for your sensor setup.",
+    tags: ["ADC", "Voltage Reference", "analogReference", "INTERNAL1V1", "EXTERNAL"],
+    image: "/pic16.png",
+    content:
+      "# 🎯 External Voltage References\n\n" +
+      "The reference voltage is the maximum voltage that your Arduino's ADC consider to be '1023'. Everything else is scaled proportionally. By default, your Arduino uses its operating voltage of 5V as this reference. But what if this 5V isn't perfectly stable, or if your sensor only outputs a very small voltage range? This is where understanding and choosing your voltage reference becomes important.\n\n" +
+      "---\n\n" +
+      "## 💡 Changing the Reference with analogReference()\n" +
+      "You use the `analogReference()` function in your `void setup()` to select the reference.\n\n" +
+      "```arduino\n" +
+      "analogReference(type)\n" +
+      "// type = DEFAULT, INTERNAL, INTERNAL1V1, INTERNAL2V56, or EXTERNAL.\n" +
+      "```\n\n" +
+      "---\n\n" +
+      "## 💡 The Default Reference - DEFAULT\n" +
+      "`DEFAULT` uses the analog reference from your Arduino's power supply.\n" +
+      "- **Use case:** most common setting and works well for many applications.\n" +
+      "- **Limitation:** If your Arduino's 5V supply fluctuates, your analog readings might become slightly inaccurate.\n\n" +
+      "```arduino\n" +
+      "void setup() {\n" +
+      "  analogReference(DEFAULT);  // Uses board supply voltage (e.g., 5V)\n" +
+      "}\n" +
+      "void loop() {\n" +
+      "  int sensorValue = analogRead(A0); // Read analog value from pin A0\n" +
+      "}\n" +
+      "```\n\n" +
+      "---\n\n" +
+      "## 💡 Internal Voltage References - INTERNAL / INTERNAL1V1 / INTERNAL2V56\n" +
+      "`INTERNAL` or `INTERNAL1V1` uses a built-in **1.1V** reference. This is a very precise and stable 1.1V source. Ideal for measuring small voltages (0V to 1.1V) with higher effective resolution.\n\n" +
+      "- Example: If your sensor only outputs up to 1V, using the 1.1V reference means that 0 to 1V will be mapped across the full 0 to 1023 range, giving you more detail.\n\n" +
+      "```arduino\n" +
+      "void setup() {\n" +
+      "  analogReference(INTERNAL);  // or analogReference(INTERNAL1V1);\n" +
+      "}\n" +
+      "void loop() {\n" +
+      "  int sensorValue = analogRead(A0); // Now, 1023 = 1.1V on A0\n" +
+      "}\n" +
+      "```\n\n" +
+      "`INTERNAL2V56` uses a built-in **2.56V** reference, similar to 1.1V, but for sensors outputting voltages up to 2.56V. (Only available on some boards like Arduino Mega)\n\n" +
+      "```arduino\n" +
+      "void setup() {\n" +
+      "  analogReference(INTERNAL2V56);\n" +
+      "}\n" +
+      "void loop() {\n" +
+      "  int sensorValue = analogRead(A0); // Now, 1023 = 2.56V on A0\n" +
+      "}\n" +
+      "```\n\n" +
+      "---\n\n" +
+      "## 💡 External Voltage Reference - EXTERNAL\n" +
+      "`EXTERNAL` gives you the most control and precision. You can provide your own stable voltage source to a special pin on the Arduino called **AREF** (Analog Reference).\n\n" +
+      "- **Working:** You connect a precise, stable voltage source (e.g., voltage reference IC or stable power supply) to the AREF pin.\n" +
+      "- **Use case:** When you need the **highest precision**, or when your sensor's output range exactly matches a custom reference voltage you can provide.\n\n" +
+      "```arduino\n" +
+      "void setup() {\n" +
+      "  analogReference(EXTERNAL);  // Uses the voltage you supply to AREF\n" +
+      "}\n" +
+      "void loop() {\n" +
+      "  int sensorValue = analogRead(A0); // Now, 1023 = voltage on AREF pin\n" +
+      "}\n" +
+      "```\n\n" +
+      "---\n\n" +
+      "## 💡 When to Use Which Reference?\n\n" +
+      "- `DEFAULT`: Most common. Use for sensors that output across the full 0 to 5V range, or when slight fluctuations in 5V aren't critical.\n" +
+      "- `INTERNAL`: Use for sensors that output small voltages (e.g., 0V to 1V or 0V to 2.5V) and you want maximum precision.\n" +
+      "- `EXTERNAL`: Use when you have a custom, very precise, and stable voltage reference that exactly matches your sensor's output range for best accuracy.\n",
+      questions: [],
+  },
+    
   
 ];
 
