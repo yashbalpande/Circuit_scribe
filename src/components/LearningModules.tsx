@@ -885,6 +885,11 @@ function ArduinoQuiz() {
             {checked[idx] && (
               <div className={`mt-2 font-bold ${feedback[idx] === 'correct' ? 'text-green-400' : 'text-red-400'}`}>
                 {feedback[idx] === 'correct' ? 'Correct!' : 'Incorrect'}
+                {feedback[idx] === 'incorrect' && (
+                  <div className="mt-1 text-sm text-yellow-300">
+                    Correct answer: {arduinoQuizQuestions[idx].options[arduinoQuizQuestions[idx].answer]}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -1182,6 +1187,11 @@ function ArduinoQuizCustom({ questions, dayId }: { questions: Array<{ question: 
             {checked[idx] && (
               <div className={`mt-2 font-bold ${feedback[idx] === 'correct' ? 'text-green-400' : 'text-red-400'}`}>
                 {feedback[idx] === 'correct' ? 'Correct!' : 'Incorrect'}
+                {feedback[idx] === 'incorrect' && (
+                  <div className="mt-1 text-sm text-yellow-300">
+                    Correct answer: {questions[idx].options[questions[idx].answer]}
+                  </div>
+                )}
               </div>
             )}
         </div>
