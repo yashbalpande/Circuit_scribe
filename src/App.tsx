@@ -5,7 +5,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { FirebaseAuthProvider } from "./components/FirebaseAuthProvider";
-
+import CoursePage from "./components/LearningModules";
+<Route path="/src\components\LearningModules.tsx" element={<CoursePage />} />
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -16,7 +17,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<CoursePage />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
