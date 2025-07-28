@@ -2774,7 +2774,7 @@ void loop() {}
         },
         {
           "question": "Snippet 1: What is the purpose of delay(50); after 'Pressed!' is printed?",
-          "code": "const int BUTTON = 2;\nint buttonState;\nvoid setup() {\n  pinMode(BUTTON, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  buttonState = digitalRead(BUTTON);\n  if (buttonState == LOW) {\n    Serial.println(\"Pressed!\");\n    delay(50);\n  }\n}",
+          // "code": "const int BUTTON = 2;\nint buttonState;\nvoid setup() {\n  pinMode(BUTTON, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  buttonState = digitalRead(BUTTON);\n  if (buttonState == LOW) {\n    Serial.println(\"Pressed!\");\n    delay(50);\n  }\n}",
           "options": [
             "a) To make the LED blink.",
             "b) To wait for the button contacts to stabilize after a press.",
@@ -2785,7 +2785,7 @@ void loop() {}
         },
         {
           "question": "Snippet 2: If the button is pressed and then released quickly (within 50ms), how many times will 'Button state is now: 0' appear?",
-          "code": "int buttonPin = 3;\nint lastKnownState = HIGH;\nlong lastTimeStateChanged = 0;\nlong debounceDuration = 100;\nvoid setup() {\n  pinMode(buttonPin, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  int currentState = digitalRead(buttonPin);\n  if (currentState != lastKnownState) {\n    lastTimeStateChanged = millis();\n  }\n  if ((millis() - lastTimeStateChanged) > debounceDuration) {\n    if (currentState != lastKnownState) {\n      Serial.print(\"Button state is now: \");\n      Serial.println(currentState);\n      lastKnownState = currentState;\n    }\n  }\n}",
+          // "code": "int buttonPin = 3;\nint lastKnownState = HIGH;\nlong lastTimeStateChanged = 0;\nlong debounceDuration = 100;\nvoid setup() {\n  pinMode(buttonPin, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  int currentState = digitalRead(buttonPin);\n  if (currentState != lastKnownState) {\n    lastTimeStateChanged = millis();\n  }\n  if ((millis() - lastTimeStateChanged) > debounceDuration) {\n    if (currentState != lastKnownState) {\n      Serial.print(\"Button state is now: \");\n      Serial.println(currentState);\n      lastKnownState = currentState;\n    }\n  }\n}",
           "options": [
             "a) Zero times.",
             "b) One time.",
@@ -2796,7 +2796,7 @@ void loop() {}
         },
         {
           "question": "Snippet 3: What happens to lastInteractionTime every time the button's stable state changes after the debounce delay?",
-          "code": "const int TOGGLE_BUTTON = 4;\nint pressCount = 0;\nint previousReading = HIGH;\nlong lastInteractionTime = 0;\nlong DEBOUNCE = 75;\nvoid setup() {\n  pinMode(TOGGLE_BUTTON, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  int currentReading = digitalRead(TOGGLE_BUTTON);\n  if (currentReading != previousReading && (millis() - lastInteractionTime) > DEBOUNCE) {\n    if (currentReading == LOW) {\n      pressCount++;\n      Serial.print(\"Presses: \");\n      Serial.println(pressCount);\n    }\n    lastInteractionTime = millis();\n    previousReading = currentReading;\n  }\n}",
+          // "code": "const int TOGGLE_BUTTON = 4;\nint pressCount = 0;\nint previousReading = HIGH;\nlong lastInteractionTime = 0;\nlong DEBOUNCE = 75;\nvoid setup() {\n  pinMode(TOGGLE_BUTTON, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  int currentReading = digitalRead(TOGGLE_BUTTON);\n  if (currentReading != previousReading && (millis() - lastInteractionTime) > DEBOUNCE) {\n    if (currentReading == LOW) {\n      pressCount++;\n      Serial.print(\"Presses: \");\n      Serial.println(pressCount);\n    }\n    lastInteractionTime = millis();\n    previousReading = currentReading;\n  }\n}",
           "options": [
             "a) It always resets to 0.",
             "b) It is set to the current millis() value.",
@@ -2807,7 +2807,7 @@ void loop() {}
         },
         {
           "question": "Snippet 4: Why might 'Confirmed Press!' be printed multiple times for a single long button press?",
-          "code": "const int TEST_BUTTON = 5;\nlong lastChangeMillis = 0;\nlong debouncePeriod = 20;\nvoid setup() {\n  pinMode(TEST_BUTTON, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  if (digitalRead(TEST_BUTTON) == LOW) {\n    if ((millis() - lastChangeMillis) > debouncePeriod) {\n      Serial.println(\"Confirmed Press!\");\n      lastChangeMillis = millis();\n    }\n  } else {\n    lastChangeMillis = millis();\n  }\n  delay(10);\n}",
+          // "code": "const int TEST_BUTTON = 5;\nlong lastChangeMillis = 0;\nlong debouncePeriod = 20;\nvoid setup() {\n  pinMode(TEST_BUTTON, INPUT_PULLUP);\n  Serial.begin(9600);\n}\nvoid loop() {\n  if (digitalRead(TEST_BUTTON) == LOW) {\n    if ((millis() - lastChangeMillis) > debouncePeriod) {\n      Serial.println(\"Confirmed Press!\");\n      lastChangeMillis = millis();\n    }\n  } else {\n    lastChangeMillis = millis();\n  }\n  delay(10);\n}",
           "options": [
             "a) Because the delay(10) is too short.",
             "b) Because lastChangeMillis is updated when the button is released, allowing repeated prints during a long press.",
@@ -2818,7 +2818,7 @@ void loop() {}
         },
         {
           "question": "Snippet 5: If a simple push button is connected to pin 8 and GND (without resistor), and the button is not pressed, what will happen?",
-          "code": "void setup() {\n  Serial.begin(9600);\n  pinMode(8, INPUT);\n}\nvoid loop() {\n  int pinState = digitalRead(8);\n  Serial.print(\"Pin 8 state: \");\n  Serial.println(pinState);\n  delay(10);\n}",
+          // "code": "void setup() {\n  Serial.begin(9600);\n  pinMode(8, INPUT);\n}\nvoid loop() {\n  int pinState = digitalRead(8);\n  Serial.print(\"Pin 8 state: \");\n  Serial.println(pinState);\n  delay(10);\n}",
           "options": [
             "a) It will consistently print 'Pin 8 state: 1'.",
             "b) It will consistently print 'Pin 8 state: 0'.",
