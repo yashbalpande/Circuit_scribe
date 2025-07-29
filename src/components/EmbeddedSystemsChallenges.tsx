@@ -264,13 +264,13 @@ void loop() {
     setShowSolution((prev) => {
       const next = !prev;
       if (next && selectedChallenge) {
-        setPreviousUserCode(userCode); // Save current code before showing solution
+        setPreviousUserCode(userCode); 
         const challenge = challenges.find(c => c.id === selectedChallenge);
         if (challenge) {
           setUserCode(challenge.solution);
         }
       } else if (!next) {
-        setUserCode(previousUserCode); // Restore previous code when hiding solution
+        setUserCode(previousUserCode); 
       }
       return next;
     });
@@ -296,7 +296,7 @@ void loop() {
     }
   };
 
-  // Filter and search logic
+  
   const filteredChallenges = challenges.filter(c =>
     (filter === 'all' || c.difficulty === filter) &&
     (c.title.toLowerCase().includes(search.toLowerCase()) || c.description.toLowerCase().includes(search.toLowerCase()))
