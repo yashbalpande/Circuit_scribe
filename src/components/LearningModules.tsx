@@ -38,7 +38,7 @@ const arduinoDays: ArduinoDay[] = [
     
     summary: 'Discover what Arduino is, why it is popular, and what you can build with it. Learn about the basics of the platform and its community.',
     tags: ['Beginner', 'Introduction', 'Open Source', 'Physical Computing'],
-    image: '',
+    image: '/pic1.png',
     content:
       '# **What is Arduino?**\n' +
       '\n' +
