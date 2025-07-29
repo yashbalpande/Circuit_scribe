@@ -42,7 +42,7 @@ const arduinoDays: ArduinoDay[] = [
     content:
       '# **What is Arduino?**\n' +
       '\n' +
-      '![Arduino Uno board with icons showing possible projects like lights, robots, plant watering, and buttons](../public/pic1.png)\n' +
+      // '![Arduino Uno board with icons showing possible projects like lights, robots, plant watering, and buttons](../public/pic1.png)\n' +
       '\n' +
       '> 💡 **Arduino is an open source electronics platform designed for ease of use.**\n' +
       '\n' +
