@@ -426,7 +426,7 @@ void loop() {
                 ))}
               </ul>
             </section>
-            {challenge.code && (
+            {challenge.code&&(
               <section>
                 <h4 className="font-semibold text-indigo-700 mb-1 flex items-center gap-1">
                   <Code className="h-4 w-4" /> Example Code:
