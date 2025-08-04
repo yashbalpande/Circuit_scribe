@@ -264,13 +264,13 @@ void loop() {
     setShowSolution((prev) => {
       const next = !prev;
       if (next && selectedChallenge) {
-        setPreviousUserCode(userCode); 
+        setPreviousUserCode(userCode); // Save current code before showing solution
         const challenge = challenges.find(c => c.id === selectedChallenge);
         if (challenge) {
           setUserCode(challenge.solution);
         }
       } else if (!next) {
-        setUserCode(previousUserCode); 
+        setUserCode(previousUserCode); // Restore previous code when hiding solution
       }
       return next;
     });
@@ -296,7 +296,7 @@ void loop() {
     }
   };
 
-  
+  // Filter and search logic
   const filteredChallenges = challenges.filter(c =>
     (filter === 'all' || c.difficulty === filter) &&
     (c.title.toLowerCase().includes(search.toLowerCase()) || c.description.toLowerCase().includes(search.toLowerCase()))
@@ -426,7 +426,7 @@ void loop() {
                 ))}
               </ul>
             </section>
-            {challenge.code&&(
+            {challenge.code && (
               <section>
                 <h4 className="font-semibold text-indigo-700 mb-1 flex items-center gap-1">
                   <Code className="h-4 w-4" /> Example Code:

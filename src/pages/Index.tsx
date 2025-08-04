@@ -329,7 +329,6 @@ const Footer = () => (
   </footer>
 );
 
-// Placeholder components for sections
 const EmbeddedSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white dark:bg-gray-900 rounded-2xl shadow text-center text-xl text-gray-900 dark:text-white">Embedded Systems Content Coming Soon!</div>;
 const BlogSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white dark:bg-gray-900 rounded-2xl shadow text-center text-xl text-gray-900 dark:text-white">Blog Content Coming Soon!</div>;
 const SimulationsSection = () => <div className="max-w-6xl mx-auto mt-10 p-8 bg-white dark:bg-gray-900 rounded-2xl shadow text-center text-xl text-gray-900 dark:text-white">Simulations Content Coming Soon!</div>;
@@ -381,7 +380,7 @@ const Index = () => {
     setTimeout(() => setShowToast(false), 3000);
   };
 
-  // Placeholder email login/signup handlers
+  
   const handleEmailLogin = ({ email, password }) => {
     setToastMessage(`Welcome, ${email}! (Email login not yet implemented)`);
     setShowToast(true);
@@ -416,7 +415,7 @@ const Index = () => {
     }
   }, [darkMode]);
 
-  // Listen for system theme changes
+
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e) => {
