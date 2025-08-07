@@ -34,7 +34,7 @@ type ArduinoDay = {
 const arduinoDays: ArduinoDay[] = [
   {
     day: '1',
-    title: 'What is Arduino?',
+    title: 'What  is Arduino?',
     
     summary: 'Discover what Arduino is, why it is popular, and what you can build with it. Learn about the basics of the platform and its community.',
     tags: ['Beginner', 'Introduction', 'Open Source', 'Physical Computing'],
